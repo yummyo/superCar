@@ -1,10 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import index from '@/components/index'
-// import recommend from '@/components/page/recommend/recommend'
-// import changeCar from '@/components/page/changeCar/changeCar'
-// import market from '@/components/page/market/market'
-// import userCenter from '@/components/page/userCenter/userCenter'
 
 Vue.use(Router)
 const index = (resolve) => {
