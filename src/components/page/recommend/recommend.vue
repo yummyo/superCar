@@ -11,13 +11,13 @@
       </div>
     </div>
     <router-view></router-view>
-
-    推荐页面
+    <articleContent :tabType='9'></articleContent>
   </div>
 </template>
 
 <script>
   import CommonSearch from '@/common/view/search.vue';
+  import articleContent from './articleContent.vue';
   export default {
     name: 'recommend',
     data () {
@@ -38,7 +38,8 @@
       }
     },
     components:{
-      CommonSearch
+      CommonSearch,
+      articleContent
     }
   }
 </script>
