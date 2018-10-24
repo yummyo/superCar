@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { Loading, Message } from 'element-ui'
 
 export const URLROUTER="https://i.donzch.com"
 export const DEVURLROUTER="http://meluyouxia.w3.luyouxia.net"
@@ -19,7 +18,7 @@ axios.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
   ajaxNum++;
   if(ajaxNum == 1){
-    loadinginstace = Loading.service({ fullscreen: true })
+    // loadinginstace = Loading.service({ fullscreen: true })
   }
   return config;
 }, function (error) {

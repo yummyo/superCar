@@ -17,6 +17,6 @@ function axiosConfig(config){
 // *****************************主页********************************************
 // 主页轮播图
 export  function getIndexLunbo(config){
-  const url=URLROUTER+'/queryHomeCarouselFigureList'
+  const url=URLROUTER+'/api/articleList'
   return axiosConfig(Object.assign({url},config))
 }

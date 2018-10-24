@@ -11,13 +11,15 @@
       </div>
     </div>
     <router-view></router-view>
-
     推荐页面
   </div>
 </template>
 
 <script>
   import CommonSearch from '@/common/view/search.vue';
+  import {getIndexLunbo} from '@/api/articleList';
+
+
   export default {
     name: 'recommend',
     data () {
@@ -31,6 +33,19 @@
         ],
         nowActive : "recommend"
       }
+    },
+    mounted:function(){
+      getArticleList({
+        data:{
+          pageSize:10,
+          pageNum:1,
+          categoryId:'',
+        }
+      }).then(res=>{
+        if(res.data){
+          this.textDataList = res.msgBody.data;
+        }
+      })
     },
     methods:{
       changeActive:function(cla){
