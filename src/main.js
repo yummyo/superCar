@@ -7,6 +7,7 @@ import Vuex from 'vuex'
 import Mint_UI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import store from './store/index'
+import './mork/index'
 
 Vue.config.productionTip = false
 

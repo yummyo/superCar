@@ -48,22 +48,24 @@
   .item
     display flex
     box-sizing border-box
-    align-items center
-    margin .5rem 1rem
+    flex-direction row
+    /* justify-content center
+    align-items center */
+    margin 0 .8rem
+    padding .8rem 0
     border-bottom 1px solid #E1E1E1
     .icon
       padding-left 1rem
       img
         width 100%
-        height 4.5rem
     .text
       display flex
       flex-direction column
-      line-height 2rem
-      overflow hidden
+      justify-content space-between
+      flex-grow 1
       .name
         text-align left
-        color #47484C
+        color #474B4C
       .desc
         text-align left
         color #B7B8BA

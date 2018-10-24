@@ -37,17 +37,17 @@
       }
     },
     mounted:function(){
-      getArticleList({
-        data:{
-          pageSize:10,
-          pageNum:1,
-          categoryId:'',
-        }
-      }).then(res=>{
-        if(res.data){
-          this.textDataList = res.msgBody.data;
-        }
-      })
+      // getArticleList({
+      //   data:{
+      //     pageSize:10,
+      //     pageNum:1,
+      //     categoryId:'',
+      //   }
+      // }).then(res=>{
+      //   if(res.data){
+      //     this.textDataList = res.msgBody.data;
+      //   }
+      // })
     },
     methods:{
       changeActive:function(cla){

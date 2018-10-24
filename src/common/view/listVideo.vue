@@ -1,13 +1,16 @@
 <template>
   <div class="list" >
       <div class="item">
-          <h3 class="name">{{listdata.content}}</h3>
           <div class="icon">
-            <img  :src="listdata.images" alt="">
-            <img  :src="listdata.images" alt="">
-            <img  :src="listdata.images" alt="">
+            <img :src="listdata.images" alt="">
           </div>
-          <p class="desc">{{listdata.comment}}</p>
+          <div class="paddingStyle">
+            <h3 class="name">{{listdata.content}}</h3>
+            <div class="desc">
+                <div>{{listdata.comment}}</div>
+                <div>{{listdata.desc}}</div>
+            </div>
+          </div>
       </div>
   </div>
 </template>
@@ -32,21 +35,19 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  
-  .item
-    box-sizing border-box
-    margin .5rem 1rem
-    border-bottom 1px solid #E1E1E1
-    .icon
-      img
-        width 32%
-        height 4.5rem
+  .icon img
+    height 12rem
+    width 100%
+    border 2px solid #D3D3D3
+  .paddingStyle
+    padding 1rem
+    line-height 2rem
     .name
       text-align left
       color #474B4C
-      line-height 3rem
     .desc
+      display flex
       text-align left
+      justify-content space-between
       color #B7B8BA
-      line-height 3rem  
 </style>

@@ -20,3 +20,7 @@ export  function getIndexLunbo(config){
   const url=URLROUTER+'/api/articleList'
   return axiosConfig(Object.assign({url},config))
 }
+export  function getListContent(config){
+  const url='/api/getListContent'
+  return axiosConfig(Object.assign({url},config))
+}
