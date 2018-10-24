@@ -12,6 +12,7 @@
     </div>
     <router-view></router-view>
     推荐页面
+    <articleContent :tabType='9'></articleContent>
   </div>
 </template>
 
@@ -20,6 +21,7 @@
   import {getIndexLunbo} from '@/api/articleList';
 
 
+  import articleContent from './articleContent.vue';
   export default {
     name: 'recommend',
     data () {
@@ -53,7 +55,8 @@
       }
     },
     components:{
-      CommonSearch
+      CommonSearch,
+      articleContent
     }
   }
 </script>
