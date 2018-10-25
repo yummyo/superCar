@@ -24,7 +24,7 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .search
     font-size 0
-    padding .5rem 1rem
+    padding .5rem 1rem 0
     .content
       background #fff
       border-radius 5px

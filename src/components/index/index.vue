@@ -1,7 +1,9 @@
 <template>
   <div class="index">
-    <router-view></router-view>
-    <foot></foot>  
+    <!-- 主体部分 -->
+    <router-view class="topContent"></router-view>
+    <!-- 下方四个按钮 -->
+    <foot class="foot"></foot>  
   </div>
 </template>
 
@@ -34,4 +36,17 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  .index
+    height 100%
+    .topContent
+      height 100%
+      box-sizing border-box
+      padding-bottom 55px;
+      box-sizing border-box
+    .foot
+      position fixed
+      bottom 0
+      left 0
+      right 0
+
 </style>

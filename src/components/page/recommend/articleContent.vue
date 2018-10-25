@@ -1,7 +1,7 @@
 <template>
   <!-- 文章列表 -->
   <div class="articleContent">
-    <div v-if='tabType == 0'>
+    <div v-if='tabType == 1'>
       <!-- 3文章 1专题 -->
       <!-- 推荐轮播位置 -->
       <div v-for="item in 15" :key='item'>
@@ -60,6 +60,9 @@
       getListContent().then(function(data){
         console.log(data)
       })
+    },
+    mounted:function(){
+      console.log(this.tabType)
     },
     methods:{
     },

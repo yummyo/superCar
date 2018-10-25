@@ -5,14 +5,12 @@
       <CommonSearch></CommonSearch>  
       <!-- 分类信息 -->
       <div class="tab">
-        <div v-for="item of testData" :class="{active : nowActive==item.class,tab_item : true}" @click="changeActive(item.class)" :key="item.name">
+        <div v-for="item of testData" :class="{active : nowActive==item.class,tab_item : true}" @click="changeActive(item.class,item.type)" :key="item.name">
           <span>{{ item.name }}</span>
         </div>
       </div>
     </div>
-    <router-view></router-view>
-    推荐页面
-    <articleContent :tabType='9'></articleContent>
+    <articleContent class="articleList" :tabType='tabType'></articleContent>
   </div>
 </template>
 
@@ -27,13 +25,14 @@
     data () {
       return {
         testData:[
-          {'name':"推荐",class:'recommend'},
-          {'name':"上海",class:'city'},
-          {'name':"视频",class:'movie'},
-          {'name':"新车",class:'car'},
-          {'name':"导购",class:'shop'},
+          {'name':"推荐",class:'recommend',type:"1"},
+          {'name':"上海",class:'city',type:"3"},
+          {'name':"视频",class:'movie',type:"9"},
+          {'name':"新车",class:'car',type:"8"},
+          {'name':"导购",class:'shop',type:"3"},
         ],
-        nowActive : "recommend"
+        nowActive : "recommend",
+        tabType:1
       }
     },
     mounted:function(){
@@ -50,8 +49,9 @@
       // })
     },
     methods:{
-      changeActive:function(cla){
+      changeActive:function(cla,type){
         this.nowActive = cla;
+        this.tabType = type
       }
     },
     components:{
@@ -65,12 +65,12 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .topBg
     background #3B5997
+    // tab切换组件
   .tab_item
     display inline-block
     min-width 10%
     color #fff
-    padding .5rem
-    font-size 1.3rem
+    padding .2em .5rem
     &:after
       content ""
       display block
@@ -82,5 +82,5 @@
       transition width .3s 
     &.active:after
       width 80%
-
+    
 </style>
