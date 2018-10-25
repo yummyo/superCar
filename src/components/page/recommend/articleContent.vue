@@ -1,12 +1,19 @@
 <template>
   <!-- 文章列表 -->
   <div class="articleContent">
+<<<<<<< HEAD
     <div v-if='tabType == 1'>
+=======
+    <!-- 最新 -->
+    <div v-if='tabType == 8'>
+>>>>>>> cd8f8f09b322e575c84ab5e50389ec67b873a76a
       <!-- 3文章 1专题 -->
       <!-- 推荐轮播位置 -->
+      <swipe :listdata='listData4'></swipe>
       <div v-for="item in 15" :key='item'>
           <listContent v-if='(item) % 4 != 0' :listdata='listData'></listContent>
           <listRankContent v-else  :listdata='listData2'></listRankContent>
+          <listAdvert v-if='item % 4==0' :listdata='listData5'></listAdvert>
         </div>
     </div>
     <div v-else-if='tabType == 8'>
@@ -16,7 +23,7 @@
           <listRankContent v-else  :listdata='listData2'></listRankContent>
         </div>
     </div>
-    <div v-else-if='tabType == 3'>
+    <div v-else-if='tabType == 7'>
       <!-- 带广告 -->
       <div v-for="item in 9" :key='item'>
           <listContent v-if='(item+1) % 3 == 0' :listdata='listData'></listContent>
@@ -25,11 +32,11 @@
     </div>
     <div v-else-if="tabType == 9">
       <!-- 视频列表 -->
+      <contentHeader :listdata='listData6'></contentHeader> 
       <swipe :listdata='listData4'></swipe>
       <div v-for="item in 9" :key='item'>
           <listVideo :listdata='listData3'></listVideo> 
       </div>
-      <listAdvert :listdata='listData5'></listAdvert>
     </div>
   </div>
 </template>
@@ -40,6 +47,7 @@
   import listVideo from '@/common/view/listVideo.vue';
   import swipe from '@/common/view/swipe.vue';
   import listAdvert from '@/common/view/listAdvert.vue';
+  import contentHeader from '@/common/view/contentHeader.vue';
   import {getListContent} from '@/api/articleList.js';
   export default {
     name: 'articleContent',
@@ -52,7 +60,8 @@
         {'content':"上海大众飞腾 综合油耗仅仅1.2L",'href':"www.baidu.com",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
         {'content':"上海大众飞腾 综合油耗仅仅1.2L",'href':"www.baidu.com",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
                     ],
-        listData5 : {'content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"}
+        listData5 : {'content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
+        listData6 : {'content':"文章正文"},
       }
     },
     props:['tabType'],
@@ -71,7 +80,8 @@
       listRankContent,
       listVideo,
       swipe,
-      listAdvert
+      listAdvert,
+      contentHeader
     }
   }
 </script>
