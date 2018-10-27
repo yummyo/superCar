@@ -2,8 +2,13 @@
   <!-- 文章列表 -->
   <div class="articleContent">
     <!-- 最新 -->
+<<<<<<< HEAD
     <div v-if='tabType == 8'>
       <!-- 3文章 1专题 -->
+=======
+    <div v-if='tabType == 1'>
+      <!-- 最新 -->
+>>>>>>> c7260c2a52f083939d0540fc2b2244f293694f08
       <!-- 推荐轮播位置 -->
       <swipe :listdata='listData4'></swipe>
       <div v-for="item in 15" :key='item'>
@@ -12,26 +17,34 @@
           <listAdvert v-if='item % 4==0' :listdata='listData5'></listAdvert>
         </div>
     </div>
-    <div v-else-if='tabType == 8'>
-      <!-- 全文章 -->
+    <div v-else-if='tabType == 2'>
+      <!-- 视频 -->
+      <div v-for="item in 9" :key='item'>
+        <listVideo :listdata='listData3'></listVideo> 
+      </div>
+      <!-- <div v-for="item in 9" :key='item'>
+          <listContent v-if='(item+1) % 3 == 0' :listdata='listData'></listContent>
+          <listRankContent v-else  :listdata='listData2'></listRankContent>
+        </div> -->
+    </div>
+    <div v-else-if='tabType == 3'>
+      <!-- 上海 -->
       <div v-for="item in 9" :key='item'>
           <listContent v-if='(item+1) % 3 == 0' :listdata='listData'></listContent>
           <listRankContent v-else  :listdata='listData2'></listRankContent>
         </div>
     </div>
-    <div v-else-if='tabType == 7'>
-      <!-- 带广告 -->
-      <div v-for="item in 9" :key='item'>
-          <listContent v-if='(item+1) % 3 == 0' :listdata='listData'></listContent>
-          <listRankContent v-else  :listdata='listData2'></listRankContent>
-        </div>
+    <div v-else-if="tabType == 4">
+      <!-- 测试 -->
+      <contentHeader :listdata='listData6'></contentHeader> 
+      <swipe :listdata='listData4'></swipe>
     </div>
-    <div v-else-if="tabType == 9">
-      <!-- 视频列表 -->
+    <div v-else-if="tabType == 5">
+      <!-- 导购 -->
       <contentHeader :listdata='listData6'></contentHeader> 
       <swipe :listdata='listData4'></swipe>
       <div v-for="item in 9" :key='item'>
-          <listVideo :listdata='listData3'></listVideo> 
+          <listVideo :listdata='listData3'></listVideo>   
       </div>
     </div>
   </div>

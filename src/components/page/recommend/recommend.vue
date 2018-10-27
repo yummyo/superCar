@@ -26,10 +26,10 @@
       return {
         testData:[
           {'name':"推荐",class:'recommend',type:"1"},
-          {'name':"上海",class:'city',type:"3"},
-          {'name':"视频",class:'movie',type:"9"},
-          {'name':"新车",class:'car',type:"8"},
-          {'name':"导购",class:'shop',type:"3"},
+          {'name':"上海",class:'city',type:"2"},
+          {'name':"视频",class:'movie',type:"3"},
+          {'name':"新车",class:'car',type:"4"},
+          {'name':"导购",class:'shop',type:"5"},
         ],
         nowActive : "recommend",
         tabType:1

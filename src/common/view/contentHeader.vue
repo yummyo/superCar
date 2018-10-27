@@ -20,7 +20,7 @@
           作为新能源奥斯陆方尽快了手动阀撒打发斯了芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬
         </h3>
         <div>
-          <!-- <img src="/static/index/articleContent.jpg" alt=""> -->
+          <img src="/static/index/articleContent.jpg" alt="">
         </div>
         <h3>
             <span></span>
@@ -100,6 +100,8 @@
       justify-content space-between
       color #B7B8BA
     .articleContent 
+      img
+        width 100%
       h3  
         margin 2rem 0
         text-align left
