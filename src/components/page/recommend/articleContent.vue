@@ -7,8 +7,11 @@
       <!-- 推荐轮播位置 -->
       <swipe :listdata='listData4'></swipe>
       <div v-for="item in 15" :key='item'>
+          <!-- 文章 -->
           <listContent v-if='(item) % 4 != 0' :listdata='listData'></listContent>
-          <listRankContent v-else  :listdata='listData2'></listRankContent>
+          <!-- 专题 -->
+          <listRankContent v-else  :listdata='listData2' :id="listData.id" @click.native="fun(listData.id)"></listRankContent>
+          <!-- 广告 -->
           <listAdvert v-if='item % 4==0' :listdata='listData5'></listAdvert>
         </div>
     </div>
@@ -57,8 +60,8 @@
     name: 'articleContent',
     data () {
       return {
-        listData : {'content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'images':"/static/index/view.jpg"},
-        listData2 : {'content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'images':"/static/index/view.jpg"},
+        listData : {'id':'1','content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'images':"/static/index/view.jpg"},
+        listData2 : {'id':'1','content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'images':"/static/index/view.jpg"},
         listData3 : {'content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
         listData4 : [{'content':"上海大众飞腾 综合油耗仅仅1.2L",'href':"www.baidu.com",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
         {'content':"上海大众飞腾 综合油耗仅仅1.2L",'href':"www.baidu.com",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
@@ -78,6 +81,15 @@
       console.log(this.tabType)
     },
     methods:{
+      fun : function(id){
+        console.log('id:'+id)
+        this.$router.push({
+          name:"articleDetail",
+          params:{
+            id
+          }
+        })
+      }
     },
     components:{
       listContent,

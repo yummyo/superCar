@@ -31,6 +31,11 @@ const userCenter = (resolve) => {
     resolve(module)
   })
 }
+const articleDetail = (resolve) => {
+  import('@/components/page/recommend/articleDetail').then((module) => {
+    resolve(module)
+  })
+}
 export default new Router({
   routes: [
     {
@@ -59,6 +64,11 @@ export default new Router({
           component:userCenter
         },
       ]
+    },
+    {
+      path: '/articleDetail',
+      name: 'articleDetail',
+      component: articleDetail,
     }
   ]
 })
