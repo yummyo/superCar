@@ -1,8 +1,9 @@
 <template>
   <div> 
+    <!-- 文章详情 -->
     <div class="contentHeader" >
       <div class="desc">
-          <div class="point"><</div>
+          <div class="point"></div>
           <div class="title">{{listdata.content}}</div>
           <div class="point">···</div>
       </div>

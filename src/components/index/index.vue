@@ -40,6 +40,7 @@
     height 100%
     .topContent
       height 100%
+      overflow scroll
       box-sizing border-box
       padding-bottom 55px;
       box-sizing border-box
@@ -48,5 +49,5 @@
       bottom 0
       left 0
       right 0
-
+      height 55px
 </style>

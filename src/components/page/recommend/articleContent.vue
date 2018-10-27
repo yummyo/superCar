@@ -2,13 +2,8 @@
   <!-- 文章列表 -->
   <div class="articleContent">
     <!-- 最新 -->
-<<<<<<< HEAD
-    <div v-if='tabType == 8'>
-      <!-- 3文章 1专题 -->
-=======
     <div v-if='tabType == 1'>
       <!-- 最新 -->
->>>>>>> c7260c2a52f083939d0540fc2b2244f293694f08
       <!-- 推荐轮播位置 -->
       <swipe :listdata='listData4'></swipe>
       <div v-for="item in 15" :key='item'>

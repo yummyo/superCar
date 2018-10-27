@@ -1,5 +1,6 @@
 <template>
   <div class="foot">
+    <!-- 底部导航 -->
     <mt-tabbar :value="pageShow" @input="changePageShow($event)">
       <mt-tab-item v-for="item in tobarList" :key="item.key" :id="item.key" >
         <img slot="icon" v-show="pageShow==item.key" :src="'/static/index/'+item.key+'_active.png'">
