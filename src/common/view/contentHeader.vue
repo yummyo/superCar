@@ -3,9 +3,13 @@
     <!-- 文章公共头部信息 可返回 -->
     <div class="contentHeader" >
       <div class="desc">
-          <div class="point"></div>
+          <div class="point">
+              <span class="iconfont icon-zuo"></span>
+          </div>
           <div class="title">{{listdata.content}}</div>
-          <div class="point">···</div>
+          <div class="point">
+            <span class="iconfont icon-more"></span>
+          </div>
       </div>
     </div>
 </div>
@@ -37,7 +41,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .contentHeader
-    padding 1rem
     border-bottom 1px solid #E5E5E5
     .desc
       display flex
@@ -46,5 +49,6 @@
       .title
         font-size 1.5rem
       .point
+        padding .5rem 1.5rem
         font-size 2rem
 </style>

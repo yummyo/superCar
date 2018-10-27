@@ -8,11 +8,11 @@
       <swipe :listdata='listData4'></swipe>
       <div v-for="item in 15" :key='item'>
           <!-- 文章 -->
-          <listContent v-if='(item) % 4 != 0' :listdata='listData'></listContent>
+          <listContent v-if='(item) % 4 != 0' :listdata='listData' @click.native="fun(listData.id)"></listContent>
           <!-- 专题 -->
           <listRankContent v-else  :listdata='listData2' :id="listData.id" @click.native="fun(listData.id)"></listRankContent>
           <!-- 广告 -->
-          <listAdvert v-if='item % 4==0' :listdata='listData5'></listAdvert>
+          <listAdvert v-if='item % 4==0' :listdata='listData5' @click.native="fun(listData.id)"></listAdvert>
         </div>
     </div>
     <div v-else-if='tabType == 2'>
