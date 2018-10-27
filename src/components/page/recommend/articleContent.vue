@@ -1,12 +1,8 @@
 <template>
   <!-- 文章列表 -->
   <div class="articleContent">
-<<<<<<< HEAD
-    <div v-if='tabType == 1'>
-=======
     <!-- 最新 -->
     <div v-if='tabType == 8'>
->>>>>>> cd8f8f09b322e575c84ab5e50389ec67b873a76a
       <!-- 3文章 1专题 -->
       <!-- 推荐轮播位置 -->
       <swipe :listdata='listData4'></swipe>
