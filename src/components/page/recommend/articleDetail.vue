@@ -1,7 +1,7 @@
 <template>
   <!-- 文章列表 -->
   <div class="articleDetail">
-    <contentHeader></contentHeader>
+    <contentHeader :listdata='articleContent'></contentHeader>
     <div class="descTitle">
       <h2 class="name">欧拉品牌正式发布 3年内将要推出4款产品</h2>
       <div class="desc">
@@ -31,19 +31,27 @@
       </div>
       <div class="upload">
           <div>
-            <div>tupiandizhi</div>
+            <div class="share">
+              <img src="/static/index/weixin.png" alt="">
+            </div>
             <div>微信好友</div>
           </div>
           <div>
-            <div>tupiandizhi</div>
+            <div class="share">
+              <img src="/static/index/pengyouquan.png" alt="">
+            </div>
             <div>朋友圈</div>
           </div>
           <div>
-            <div>tupiandizhi</div>
+            <div class="share">
+              <img src="/static/index/weibo.png" alt="">
+            </div>
             <div>微博</div>
           </div>
           <div>
-            <div>tupiandizhi</div>
+            <div class="share">
+              <img src="/static/index/qq.png" alt="">
+            </div>
             <div>QQ好友</div>
           </div>
       </div>
@@ -57,6 +65,7 @@
     name: 'articleDetail',
     data () {
       return {
+        articleContent:{'content':'文章正文'}
       }
     },
     created:function (){
@@ -98,5 +107,10 @@
       display flex
       justify-content space-between
       overflow hidden
-
+      >div
+        width 23%
+      .share
+        border 1px solid #f3f3f3
+        padding 15px 0 5px
+        border-radius 50%
 </style>

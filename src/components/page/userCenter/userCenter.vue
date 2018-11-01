@@ -19,12 +19,12 @@
     </div>
     <div class="setting">
       <!-- 我的关注 -->
-      <div class="attention">
+      <div class="attention" @click="fun('1')">
         <span>我的关注：</span>
         <span>0</span>
       </div>
       <!-- 我的收藏 -->
-      <div class="collect">
+      <div class="collect" @click="fun('2')">
         <span>我的收藏：</span>
         <span>0</span>
       </div>
@@ -38,6 +38,17 @@
     data () {
       return {
         isLogin:false
+      }
+    },
+    methods:{
+      fun : function(id){
+        console.log('id:'+id)
+        this.$router.push({
+          name:"myAttention",
+          params:{
+            id
+          }
+        })
       }
     },
   }

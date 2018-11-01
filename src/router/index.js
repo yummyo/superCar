@@ -36,6 +36,11 @@ const articleDetail = (resolve) => {
     resolve(module)
   })
 }
+const myAttention = (resolve) => {
+  import('@/components/page/userCenter/myAttention').then((module) => {
+    resolve(module)
+  })
+}
 export default new Router({
   routes: [
     {
@@ -69,6 +74,11 @@ export default new Router({
       path: '/articleDetail',
       name: 'articleDetail',
       component: articleDetail,
+    },
+    {
+      path: '/myAttention',
+      name: 'myAttention',
+      component: myAttention,
     }
   ]
 })
