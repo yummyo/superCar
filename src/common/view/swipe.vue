@@ -2,7 +2,7 @@
     <mt-swipe @change="handleChange" :auto="2000">
         <mt-swipe-item v-for="(item,index) in listdata" :key="index">
             <a :href="item.href">
-                <img :src="item.images" class="img"/>
+                <img :src="item.contentUrl" class="img"/>
             </a>
         </mt-swipe-item>
       </mt-swipe>

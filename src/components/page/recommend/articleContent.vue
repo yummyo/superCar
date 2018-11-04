@@ -55,7 +55,7 @@
   import swipe from '@/common/view/swipe.vue';
   import listAdvert from '@/common/view/listAdvert.vue';
   import contentHeader from '@/common/view/contentHeader.vue';
-  import {getListContent} from '@/api/articleList.js';
+  import {getIndexLunbo} from '@/api/articleList.js';
   export default {
     name: 'articleContent',
     data () {
@@ -63,18 +63,18 @@
         listData : {'id':'1','content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'images':"/static/index/view.jpg"},
         listData2 : {'id':'1','content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'images':"/static/index/view.jpg"},
         listData3 : {'content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
-        listData4 : [{'content':"上海大众飞腾 综合油耗仅仅1.2L",'href':"www.baidu.com",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
-        {'content':"上海大众飞腾 综合油耗仅仅1.2L",'href':"www.baidu.com",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
-        {'content':"上海大众飞腾 综合油耗仅仅1.2L",'href':"www.baidu.com",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
-                    ],
+        listData4 : [],
         listData5 : {'content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
         listData6 : {'content':"文章正文"},
       }
     },
     props:['tabType'],
     created:function (){
-      getListContent().then(function(data){
+      var swipeData=this;
+      getIndexLunbo({"method":"get"}).then(function(data){
         console.log(data)
+        swipeData.listData4=data.data
+        console.log(swipeData.listData4)
       })
     },
     mounted:function(){

@@ -71,6 +71,7 @@
     z-index 999
     background #3B5997
     // tab切换组件
+    height 5rem
   .tab_item
     display inline-block
     min-width 10%
@@ -88,6 +89,6 @@
     &.active:after
       width 80%
   .articleList
-    margin-top 74.375px
+    margin-top 5rem
     
 </style>

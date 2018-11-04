@@ -2,6 +2,7 @@
   <div class="list" >
       <contentHeader :listdata="listContent"></contentHeader>
       <div class="item" v-for="item in 5">
+        <input class="inputState" type="checkbox" v-show="!choose">
         <div class="icon">
           <img src="/static/index/myAttention_1.jpg">
         </div>
@@ -9,6 +10,16 @@
           <h3 class="name">兰博基尼</h3>
           <p class="desc">价格：<span>1000万起</span></p>
         </div>
+      </div>
+      <div class="footer">
+          <div v-show="choose">
+              <span @click="changeState(1)">编辑</span>
+          </div>
+          <div v-show="!choose">
+              <span @click="deleteRow()" >删除</span>
+              <span @click="chooseAll()">全选</span>
+              <span @click="isOk()">完成</span>
+          </div>
       </div>
   </div>
 </template>
@@ -19,8 +30,35 @@
     name: 'myAttention',
     data () {
       return {
-        listContent : {'content':"车系"}
+        listContent : {'content':"车系"},
+        choose:true
       }
+    },
+    methods:{
+        changeState : function(id){
+          console.log(id)
+          if(id==1){
+            this.choose=false;
+          }
+        },
+        deleteRow : function(){
+          var inp =document.getElementsByTagName("input");
+          for(var i=0;i<inp.length;i++){
+            if(inp[i].checked==true){
+              inp[i].parentNode.remove();
+              console.log(inp[i].parentNode)
+            }
+          }
+        },
+        chooseAll : function(){
+           var inp =document.getElementsByTagName("input");
+            for(var i=0;i<inp.length;i++){
+              inp[i].checked=true
+            }
+        },
+        isOk : function(){
+          this.choose=true
+        }
     },
     props:{
       listdata:{
@@ -38,7 +76,8 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  
+.list
+  margin-bottom 3rem
   .item
     display flex
     box-sizing border-box
@@ -65,4 +104,18 @@
         color #474B4C
         span
           color red
+  .footer
+    border-top 1px solid #E1E1E1
+    height 3rem
+    line-height 3rem
+    position fixed
+    bottom 0
+    width 100%
+    background #FFFFFF
+    div
+      display flex
+      justify-content flex-end
+      span
+        padding-right 1.5rem
+
 </style>

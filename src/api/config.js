@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const URLROUTER="https://i.donzch.com"
+export const URLROUTER="http://192.168.1.41:9108"
 export const DEVURLROUTER="http://meluyouxia.w3.luyouxia.net"
 export const ERROK="0"
 export const NOTLOGIN=301
