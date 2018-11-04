@@ -71,12 +71,8 @@
     },
     props:['tabType'],
     created:function (){
-<<<<<<< HEAD
-      getListContent({"data":{pageIndex:"2"}}).then(function(data){
-=======
       var swipeData=this;
       getIndexLunbo({"method":"get"}).then(function(data){
->>>>>>> 3bb9461fcce3f81054c81225f4a10f959713cdd6
         console.log(data)
         swipeData.listData4=data.data
         console.log(swipeData.listData4)
