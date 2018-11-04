@@ -4,6 +4,7 @@
     <!-- 最新 -->
     <div v-if='tabType == 1'>
       <!-- 最新 -->
+      
       <!-- 推荐轮播位置 -->
       <swipe :listdata='listData4'></swipe>
       <div v-for="item in 15" :key='item'>
@@ -73,7 +74,7 @@
     },
     props:['tabType'],
     created:function (){
-      getListContent().then(function(data){
+      getListContent({"data":{pageIndex:"2"}}).then(function(data){
         console.log(data)
       })
     },
