@@ -5,7 +5,7 @@
     <div v-if='tabType == 1'>
       <!-- 最新 -->
       <!-- 推荐轮播位置 -->
-      <swipe :listdata='listData4'></swipe>
+      <swipe :listdata='swipeData'></swipe>
       <div v-for="item in 15" :key='item'>
           <!-- 文章 -->
           <listContent v-if='(item) % 4 != 0' :listdata='listData' @click.native="fun(listData.id)"></listContent>
@@ -63,18 +63,18 @@
         listData : {'id':'1','content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'images':"/static/index/view.jpg"},
         listData2 : {'id':'1','content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'images':"/static/index/view.jpg"},
         listData3 : {'content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
-        listData4 : [],
+        swipeData : [],
         listData5 : {'content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
         listData6 : {'content':"文章正文"},
       }
     },
     props:['tabType'],
     created:function (){
-      var swipeData=this;
+      var that=this;
       getIndexLunbo({"method":"get"}).then(function(data){
         console.log(data)
-        swipeData.listData4=data.data
-        console.log(swipeData.listData4)
+        that.swipeData=data.data
+        console.log(that.swipeData)
       })
     },
     mounted:function(){
