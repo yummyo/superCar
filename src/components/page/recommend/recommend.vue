@@ -64,8 +64,14 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .topBg
+    position fixed
+    top 0
+    left 0
+    width 100%
+    z-index 999
     background #3B5997
     // tab切换组件
+    height 5rem
   .tab_item
     display inline-block
     min-width 10%
@@ -82,5 +88,7 @@
       transition width .3s 
     &.active:after
       width 80%
+  .articleList
+    margin-top 5rem
     
 </style>

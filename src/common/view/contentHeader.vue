@@ -3,7 +3,7 @@
     <!-- 文章公共头部信息 可返回 -->
     <div class="contentHeader" >
       <div class="desc">
-          <div class="point">
+          <div class="point" @click="returnTop()">
               <span class="iconfont icon-zuo"></span>
           </div>
           <div class="title">{{listdata.content}}</div>
@@ -34,7 +34,12 @@
           return {}
         }
       }
-    }
+    },
+    methods:{
+      returnTop:function(){
+        window.history.go(-1);
+      }
+    },
   }
 </script>
 
@@ -48,6 +53,7 @@
       line-height 2rem
       .title
         font-size 1.5rem
+        line-height 2
       .point
         padding .5rem 1.5rem
         font-size 2rem
