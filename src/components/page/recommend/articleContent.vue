@@ -6,13 +6,19 @@
       <!-- 最新 -->
       <!-- 推荐轮播位置 -->
       <swipe :listdata='swipeData'></swipe>
+<<<<<<< HEAD
       <div v-for="item in 15" :key='item'>
           <!-- 文章 -->
           <listContent v-if='(item) % 4 != 0' :listdata='listData' @click.native="fun(listData.id)"></listContent>
+=======
+      <div :v-for="(item,index) in articleData" :key='item'>
+>>>>>>> df3035ea9fa2ff1f8b80801c61ef8d86a4d1ba45
           <!-- 专题 -->
-          <listRankContent v-else  :listdata='listData2' :id="listData.id" @click.native="fun(listData.id)"></listRankContent>
+          <listRankContent v-if="index % 4 == 0"  :listdata='item' :id="listData.id" @click.native="fun(listData.id)"></listRankContent>
           <!-- 广告 -->
-          <listAdvert v-if='item % 4==0' :listdata='listData5' @click.native="fun(listData.id)"></listAdvert>
+          <listAdvert v-else-if="index % 5 == 0"  :listdata='item' @click.native="fun(listData.id)"></listAdvert>
+          <!-- 文章 -->
+          <listContent v-else :listdata='item' @click.native="fun(listData)"></listContent>
         </div>
     </div>
     <div v-else-if='tabType == 2'>
@@ -55,7 +61,7 @@
   import swipe from '@/common/view/swipe.vue';
   import listAdvert from '@/common/view/listAdvert.vue';
   import contentHeader from '@/common/view/contentHeader.vue';
-  import {getIndexLunbo} from '@/api/articleList.js';
+  import {getIndexLunbo,getadvert,getArticleList,axiosAll} from '@/api/articleList.js';
   export default {
     name: 'articleContent',
     data () {
@@ -63,25 +69,49 @@
         listData : {'id':'1','content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'images':"/static/index/view.jpg"},
         listData2 : {'id':'1','content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'images':"/static/index/view.jpg"},
         listData3 : {'content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
+<<<<<<< HEAD
         swipeData : [],
+=======
+>>>>>>> df3035ea9fa2ff1f8b80801c61ef8d86a4d1ba45
         listData5 : {'content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
         listData6 : {'content':"文章正文"},
+        // 轮播图data 
+        swipeData : [],
+        // 当前页面的数据格式 
+        nowDataFormat : {
+          advertising : 1,//广告
+          articleSpecial : 1,//文章专题
+          article : 3,//文章
+        },
+        // 文章部分总数据 包含 文章 广告 专题
+        articleData : []
       }
     },
     props:['tabType'],
     created:function (){
       var that=this;
+<<<<<<< HEAD
       getIndexLunbo({"method":"get"}).then(function(data){
         console.log(data)
         that.swipeData=data.data
         console.log(that.swipeData)
+=======
+      // 获取轮播数据
+      axiosAll([getIndexLunbo(),getArticleList()]).then((res)=>{
+        // 组合数据 将广告和文章列表数据通过制定格式组合
+        console.log(res)
+        that.regroupData(res[0],res[1]);
+      });
+      getIndexLunbo({"method":"get"}).then(function(data){
+        that.swipeData=data.data
+>>>>>>> df3035ea9fa2ff1f8b80801c61ef8d86a4d1ba45
       })
     },
     mounted:function(){
       console.log(this.tabType)
     },
     methods:{
-      fun : function(id){
+      fun : function(data){
         console.log('id:'+id)
         this.$router.push({
           name:"articleDetail",
@@ -89,6 +119,19 @@
             id
           }
         })
+      },
+      regroupData : function(advertising,article){
+        //  advertising 广告数据 article 文章数据
+        // 后期需要在维护 目前的次数与格式不稳定，基本都是写死的格式  
+        let arr = [];
+        if(article.length > 0 && advertising.length > 0){
+          //重组数据 
+          for (var a = 1;a <= 3;a++){
+            arr.push(...(article.slice((a-1)*4,4*a)));
+            arr.push(...advertising.slice((a-1),a))
+          }
+          articleData.push(...arr);
+        }
       }
     },
     components:{
