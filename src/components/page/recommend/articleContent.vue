@@ -6,14 +6,14 @@
       <!-- 最新 -->
       <!-- 推荐轮播位置 -->
       <swipe :listdata='swipeData'></swipe>
-      <div :v-for="(item,index) in articleData" :key='item'>
-          <!-- 专题 -->
-          <listRankContent v-if="index % 4 == 0"  :listdata='item' :id="listData.id" @click.native="fun(listData.id)"></listRankContent>
-          <!-- 广告 -->
-          <listAdvert v-else-if="index % 5 == 0"  :listdata='item' @click.native="fun(listData.id)"></listAdvert>
-          <!-- 文章 -->
-          <listContent v-else :listdata='item' @click.native="fun(listData)"></listContent>
-        </div>
+      <div v-for="(item,index) of articleData" :key='item'> -->
+        <!-- 专题 -->
+        <listRankContent v-if="index % 4 == 0"  :listdata='item' :id="listData.id" @click.native="fun(listData.id)"></listRankContent>
+        <!-- 广告 -->
+        <listAdvert v-else-if="index % 5 == 0"  :listdata='item' @click.native="fun(listData.id)"></listAdvert>
+        <!-- 文章 -->
+        <listContent v-else :listdata='item' @click.native="fun(listData)"></listContent>
+      </div>
     </div>
     <div v-else-if='tabType == 2'>
       <!-- 视频 -->
@@ -81,7 +81,17 @@
     created:function (){
       var that=this;
       // 获取轮播数据
-      axiosAll([getIndexLunbo(),getArticleList()]).then((res)=>{
+      axiosAll([getadvert(//广告分页
+        {'data':{
+          "pageNo": 1,
+          "pageSize": 20
+        }}
+      ),getArticleList( // 文章分页
+        {'data':{
+            "pageNo": 1,
+            "pageSize": 20
+          }}
+      )]).then((res)=>{
         // 组合数据 将广告和文章列表数据通过制定格式组合
         console.log(res)
         that.regroupData(res[0],res[1]);
