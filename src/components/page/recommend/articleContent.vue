@@ -81,22 +81,22 @@
     created:function (){
       var that=this;
       // 获取轮播数据
-      // axiosAll([getadvert(//广告分页
-      //   {'data':{
-      //     "pageNo": 1,
-      //     "pageSize": 20
-      //   }}
-      // ),getArticleList( // 文章分页
-      //   {'data':{
-      //       "pageNo": 1,
-      //       "pageSize": 20
-      //     }}
-      // )]).then((res)=>{
-      //   // 组合数据 将广告和文章列表数据通过制定格式组合
-      //   console.log(res)
-      //   // that.regroupData(res[0]['data'],res[1]['data']);
-      //   that.regroupData = res
-      // });
+      axiosAll([getadvert(//广告分页
+        {'data':{
+          "pageNo": 1,
+          "pageSize": 20
+        }}
+      ),getArticleList( // 文章分页
+        {'data':{
+            "pageNo": 1,
+            "pageSize": 20
+          }}
+      )]).then((res)=>{
+        // 组合数据 将广告和文章列表数据通过制定格式组合
+        console.log(res)
+        // that.regroupData(res[0]['data'],res[1]['data']);
+        that.regroupData = res
+      });
       getadvert({
         data:{
           "pageNo": 1,
@@ -105,12 +105,8 @@
       }).then((res) => {
         // 组合数据 将广告和文章列表数据通过制定格式组合
         console.log(res)
-<<<<<<< HEAD
-        that.regroupData(res[0]['data'],res[1]['data']);
-=======
         // that.regroupData(res[0]['data'],res[1]['data']);
         that.articleData = res['data'];
->>>>>>> 96676c839aa6968a45ce94755d8240d00a4918db
       });
       getIndexLunbo({"method":"get"}).then(function(data){
         that.swipeData=data.data
@@ -129,24 +125,6 @@
           }
         })
       },
-<<<<<<< HEAD
-      regroupData : function(advertising,article){
-        //  advertising 广告数据 article 文章数据
-        // 后期需要在维护 目前的次数与格式不稳定，基本都是写死的格式  
-        let arr = [];
-        if(article.length > 0 && advertising.length > 0){
-          //重组数据 
-          console.log(advertising)
-          for (var a = 1;a <= 3;a++){
-            console.log(article.slice((a-1)*4,4*a))
-            arr.push(...(article.slice((a-1)*4,4*a)));
-            arr.push(...advertising.slice((a-1),a))
-          }
-          console.log(arr)
-          this.articleData.push(...arr);
-        }
-      }
-=======
       // regroupData : function(advertising,article){
       //   //  advertising 广告数据 article 文章数据
       //   // 后期需要在维护 目前的次数与格式不稳定，基本都是写死的格式  
@@ -162,7 +140,6 @@
       //     console.log(this.articleData)
       //   }
       // }
->>>>>>> 96676c839aa6968a45ce94755d8240d00a4918db
     },
     components:{
       listContent,

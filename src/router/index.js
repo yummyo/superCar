@@ -50,6 +50,7 @@ const router = new Router({
     {
       path: '/index',
       name: 'index',
+      redirect:"/index/recommend",
       component: index,
       children:[
         {
