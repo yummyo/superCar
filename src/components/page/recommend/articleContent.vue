@@ -6,7 +6,7 @@
       <!-- 最新 -->
       <!-- 推荐轮播位置 -->
       <swipe :listdata='swipeData'></swipe>
-      <div v-for="(item,index) of articleData" :key='item'> -->
+      <div v-for="(item,index) of articleData" :key='index'>
         <!-- 专题 -->
         <listRankContent v-if="index % 4 == 0"  :listdata='item' :id="listData.id" @click.native="fun(listData.id)"></listRankContent>
         <!-- 广告 -->
@@ -94,7 +94,7 @@
       )]).then((res)=>{
         // 组合数据 将广告和文章列表数据通过制定格式组合
         console.log(res)
-        that.regroupData(res[0],res[1]);
+        that.regroupData(res[0]['data'],res[1]['data']);
       });
       getIndexLunbo({"method":"get"}).then(function(data){
         that.swipeData=data.data
@@ -119,11 +119,14 @@
         let arr = [];
         if(article.length > 0 && advertising.length > 0){
           //重组数据 
+          console.log(advertising)
           for (var a = 1;a <= 3;a++){
+            console.log(article.slice((a-1)*4,4*a))
             arr.push(...(article.slice((a-1)*4,4*a)));
             arr.push(...advertising.slice((a-1),a))
           }
-          articleData.push(...arr);
+          console.log(arr)
+          this.articleData.push(...arr);
         }
       }
     },
