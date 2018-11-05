@@ -1,9 +1,7 @@
 <template>
     <mt-swipe @change="handleChange" :auto="2000">
         <mt-swipe-item v-for="(item,index) in listdata" :key="index">
-            <a :href="item.href">
-                <img :src="item.contentUrl" class="img"/>
-            </a>
+              <img :src="item.thumbnailResource[0].thumbnailUrl" @click="swipeLink(item.thumbnailResource[0].thumbnailId,item.contentUrl)" class="img"/>
         </mt-swipe-item>
       </mt-swipe>
   </template>
@@ -28,6 +26,19 @@
       methods:{
         handleChange(index) {
     
+        },
+        swipeLink(id,url){
+          var name = /^[www]+$/;
+          if(name.test(url)){
+            this.$router.push({
+              name:"articleDetail",
+              params:{
+                id
+              }
+            })
+          }else{
+            window.location.href = url
+          }
         }
       },
       components:{

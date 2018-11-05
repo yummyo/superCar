@@ -1,13 +1,11 @@
 <template>
   <div class="list" >
       <div class="item">
-          <h3 class="name">{{listdata.content}}</h3>
+          <h3 class="name">{{listdata.contentTitle}}</h3>
           <div class="icon">
-            <img  :src="listdata.images" alt="">
-            <img  :src="listdata.images" alt="">
-            <img  :src="listdata.images" alt="">
+            <img v-for='item in listdata.thumbnailResource'  :src="item['thumbnailUrl']" alt="">
           </div>
-          <p class="desc">{{listdata.comment}}</p>
+          <p class="desc">{{listdata.describe}}</p>
       </div>
   </div>
 </template>
@@ -18,6 +16,9 @@
       return {
       
       }
+    },
+    mounted:function(){
+      console.log(this.listdata.thumbnailResource)
     },
     props:{
       listdata:{
@@ -41,6 +42,8 @@
       img
         width 32%
         height 4.5rem
+      img:nth-child(2)
+        margin:0 .2rem 
     .name
       text-align left
       color #474B4C

@@ -29,6 +29,11 @@ export  function getArticleList(config){
   const url=URLROUTER+'/app/article/advertisement'
   return axiosConfig(Object.assign({url},config))
 }
+//文章详情页面查询
+export  function getArticleDetail(config){
+  const url=URLROUTER+'/app/article/findByID/6503b30d6b3e45d0be1eb4eec16f87b6';
+  return axiosConfig(Object.assign({url},config))
+}
 
 // 多并发axios请求
 export function axiosAll(funs){

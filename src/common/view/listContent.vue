@@ -14,11 +14,11 @@
       </ul> -->
       <div class="item">
         <div class="text">
-          <h3 class="name">{{listdata.content}}</h3>
-          <p class="desc">{{listdata.comment}}</p>
+          <h3 class="name">{{listdata.contentTitle}}</h3>
+          <p class="desc">{{listdata.describe}}</p>
         </div>
         <div class="icon">
-          <img :src="listdata.images">
+          <img :src="listdata.thumbnailResource[0].thumbnailUrl" alt="">
         </div>
       </div>
   </div>
@@ -57,7 +57,7 @@
     .icon
       padding-left 1rem
       img
-        width 100%
+        height 4.5rem
     .text
       display flex
       flex-direction column
