@@ -1,13 +1,13 @@
 <template>
     <div class="list" >
         <div class="item">
-            <h3 class="name">{{listdata.content}}</h3>
+            <h3 class="name">{{listdata.contentTitle}}</h3>
             <div class="icon">
-              <img :src="listdata.images" alt="">
+              <img :src="listdata.thumbnailResource[0].thumbnailUrl" alt="">
             </div>
             <div class="paddingStyle">
               <div class="desc">
-                  <div>{{listdata.desc}}</div>
+                  <div>{{listdata.describe}}</div>
               </div>
             </div>
         </div>

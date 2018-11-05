@@ -6,31 +6,14 @@
       <!-- 最新 -->
       <!-- 推荐轮播位置 -->
       <swipe :listdata='swipeData'></swipe>
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <div v-for="item in 15" :key='item'>
-          <!-- 文章 -->
-          <listContent v-if='(item) % 4 != 0' :listdata='listData' @click.native="fun(listData.id)"></listContent>
-=======
-      <div :v-for="(item,index) in articleData" :key='item'>
->>>>>>> df3035ea9fa2ff1f8b80801c61ef8d86a4d1ba45
-          <!-- 专题 -->
-          <listRankContent v-if="index % 4 == 0"  :listdata='item' :id="listData.id" @click.native="fun(listData.id)"></listRankContent>
-          <!-- 广告 -->
-          <listAdvert v-else-if="index % 5 == 0"  :listdata='item' @click.native="fun(listData.id)"></listAdvert>
-          <!-- 文章 -->
-          <listContent v-else :listdata='item' @click.native="fun(listData)"></listContent>
-        </div>
-=======
-      <div v-for="(item,index) of articleData" :key='item'> -->
+      <div v-for="(item,index) of articleData" :key='index'>
         <!-- 专题 -->
-        <listRankContent v-if="index % 4 == 0"  :listdata='item' :id="listData.id" @click.native="fun(listData.id)"></listRankContent>
+        <listRankContent v-if="item.contentSourceType == 2"  :listdata='item'  @click.native="fun(item.id)"></listRankContent>
         <!-- 广告 -->
-        <listAdvert v-else-if="index % 5 == 0"  :listdata='item' @click.native="fun(listData.id)"></listAdvert>
+        <listAdvert v-else-if="item.contentSourceType == 3"  :listdata='item' @click.native="fun(item.id)"></listAdvert>
         <!-- 文章 -->
-        <listContent v-else :listdata='item' @click.native="fun(listData)"></listContent>
+        <listContent v-else-if='item.contentSourceType == 1' :listdata='item' @click.native="fun(item.id)"></listContent>
       </div>
->>>>>>> d9fb35df1fa33f97c3d9d48cf5d0835e8f401ccd
     </div>
     <div v-else-if='tabType == 2'>
       <!-- 视频 -->
@@ -80,10 +63,6 @@
         listData : {'id':'1','content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'images':"/static/index/view.jpg"},
         listData2 : {'id':'1','content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'images':"/static/index/view.jpg"},
         listData3 : {'content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
-<<<<<<< HEAD
-        swipeData : [],
-=======
->>>>>>> df3035ea9fa2ff1f8b80801c61ef8d86a4d1ba45
         listData5 : {'content':"上海大众飞腾 综合油耗仅仅1.2L",'comment':"156条评论",'desc':'上车吧,老铁','images':"/static/index/playView.jpg"},
         listData6 : {'content':"文章正文"},
         // 轮播图data 
@@ -101,31 +80,36 @@
     props:['tabType'],
     created:function (){
       var that=this;
-<<<<<<< HEAD
-      getIndexLunbo({"method":"get"}).then(function(data){
-        console.log(data)
-        that.swipeData=data.data
-        console.log(that.swipeData)
-=======
       // 获取轮播数据
-      axiosAll([getadvert(//广告分页
-        {'data':{
+      // axiosAll([getadvert(//广告分页
+      //   {'data':{
+      //     "pageNo": 1,
+      //     "pageSize": 20
+      //   }}
+      // ),getArticleList( // 文章分页
+      //   {'data':{
+      //       "pageNo": 1,
+      //       "pageSize": 20
+      //     }}
+      // )]).then((res)=>{
+      //   // 组合数据 将广告和文章列表数据通过制定格式组合
+      //   console.log(res)
+      //   // that.regroupData(res[0]['data'],res[1]['data']);
+      //   that.regroupData = res
+      // });
+      getadvert({
+        data:{
           "pageNo": 1,
-          "pageSize": 20
-        }}
-      ),getArticleList( // 文章分页
-        {'data':{
-            "pageNo": 1,
-            "pageSize": 20
-          }}
-      )]).then((res)=>{
+          "pageSize": 15
+        }
+      }).then((res) => {
         // 组合数据 将广告和文章列表数据通过制定格式组合
         console.log(res)
-        that.regroupData(res[0],res[1]);
+        // that.regroupData(res[0]['data'],res[1]['data']);
+        that.articleData = res['data'];
       });
       getIndexLunbo({"method":"get"}).then(function(data){
         that.swipeData=data.data
->>>>>>> df3035ea9fa2ff1f8b80801c61ef8d86a4d1ba45
       })
     },
     mounted:function(){
@@ -133,27 +117,29 @@
     },
     methods:{
       fun : function(data){
-        console.log('id:'+id)
+        console.log(data)
         this.$router.push({
           name:"articleDetail",
           params:{
-            id
+            data
           }
         })
       },
-      regroupData : function(advertising,article){
-        //  advertising 广告数据 article 文章数据
-        // 后期需要在维护 目前的次数与格式不稳定，基本都是写死的格式  
-        let arr = [];
-        if(article.length > 0 && advertising.length > 0){
-          //重组数据 
-          for (var a = 1;a <= 3;a++){
-            arr.push(...(article.slice((a-1)*4,4*a)));
-            arr.push(...advertising.slice((a-1),a))
-          }
-          articleData.push(...arr);
-        }
-      }
+      // regroupData : function(advertising,article){
+      //   //  advertising 广告数据 article 文章数据
+      //   // 后期需要在维护 目前的次数与格式不稳定，基本都是写死的格式  
+      //   let arr = [];
+      //   if(article.length > 0 && advertising.length > 0){
+      //     //重组数据 
+      //     for (var a = 1;a <= 3;a++){
+      //       arr.push(...(article.slice((a-1)*4,4*a)));
+      //       arr.push(...advertising.slice((a-1),a))
+      //     }
+      //     console.log(arr)
+      //     this.articleData.push(...arr);
+      //     console.log(this.articleData)
+      //   }
+      // }
     },
     components:{
       listContent,

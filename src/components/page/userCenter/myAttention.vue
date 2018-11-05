@@ -45,8 +45,6 @@
           var inp =document.getElementsByTagName("input");
           for(var i=0;i<inp.length;i++){
             if(inp[i].checked==true){
-              inp[i].parentNode.remove();
-              console.log(inp[i].parentNode)
             }
           }
         },

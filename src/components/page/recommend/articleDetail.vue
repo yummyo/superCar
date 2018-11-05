@@ -3,7 +3,8 @@
   <div class="articleDetail">
     <contentHeader :listdata='articleContent'></contentHeader>
     <div class="descTitle">
-      <h2 class="name">欧拉品牌正式发布 3年内将要推出4款产品</h2>
+      <div>{{content}}</div>
+      <!-- <h2 class="name">欧拉品牌正式发布 3年内将要推出4款产品</h2>
       <div class="desc">
           <div>孟子</div>
           <div>3小时前</div>
@@ -54,24 +55,34 @@
             </div>
             <div>QQ好友</div>
           </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
   import contentHeader from '@/common/view/contentHeader';
+  import {getArticleDetail} from '@/api/articleList.js';
   export default {
     name: 'articleDetail',
     data () {
       return {
-        articleContent:{'content':'文章正文'}
+        articleContent:{'content':'文章正文'},
+        detail : ""
       }
     },
     created:function (){
+      getArticleDetail({
+        method:"GET",
+        data:{
+          id:'127130fed3574ca0b52632294d846ccb'
+        }
+      }).then((res)=>{
+        console.log(res)
+      })
     },
     mounted:function(){
-      console.log(this.tabType)
+      console.log(this.$route.params.data)
     },
     methods:{
     },
