@@ -41,7 +41,7 @@ const myAttention = (resolve) => {
     resolve(module)
   })
 }
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -82,3 +82,8 @@ export default new Router({
     }
   ]
 })
+// 页面跳转之前校验
+router.beforeEach((to, from, next)=>{
+  next();
+})
+export default router;
