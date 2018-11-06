@@ -3,11 +3,11 @@
     <!-- 发表评论 -->
       <input type="text" placeholder="发表评论">
       <div @click="toggleComment">
-        <mt-badge class="badge" size="small" type="error">1</mt-badge>
+        <mt-badge class="badge" v-if="commentBrage>0" size="small" type="error">{{commentBrage}}</mt-badge>
         <span :class="{'iconfont':true,'icon-pinglun':!isComment,'icon-tubiaozhizuo-':isComment}" ></span>
       </div>
       <div @click="toggleCollect">
-        <mt-badge class="badge" size="small" type="error">10</mt-badge>
+        <mt-badge class="badge" v-if="commentBrage>0" size="small" type="error">{{commentBrage}}</mt-badge>
         <span :class="{'iconfont':true,'icon-unie601':!isCollect,'icon-shoucang':isCollect}"></span>
       </div>
   </div>
@@ -22,9 +22,19 @@
         isCollect:false,
       }
     },
+    props:{
+      commentBrage : 0,
+      collectBrage : 0
+    },
     methods:{
       toggleComment : function(){
-        this.isComment = !this.isComment
+        // this.isComment = !this.isComment
+        this.$router.push({
+          "path":"/commentList",
+          params : {
+            'id':'123'
+          }
+        });
       },
       toggleCollect : function(){
         this.isCollect = !this.isCollect

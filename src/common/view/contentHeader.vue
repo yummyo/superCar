@@ -46,10 +46,12 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .contentHeader
+    width 100%
     border-bottom 1px solid #E5E5E5
     .desc
       display flex
       justify-content space-between
+      align-items center
       line-height 2rem
       .title
         font-size 1.5rem

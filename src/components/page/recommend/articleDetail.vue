@@ -2,11 +2,13 @@
   <!-- 文章列表 -->
   <div class="articleDetail">
     <contentHeader :listdata='articleContent'></contentHeader>
+    <!-- 评论列表 -->
+    <div></div>
     <div class="descTitle">
       <div>{{content}}</div>
     </div>
     <!-- 下方评论部分 -->
-    <publishComment ></publishComment>  
+    <publishComment ></publishComment>
   </div>
 </template>
 
