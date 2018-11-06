@@ -5,59 +5,9 @@
     <contentHeader :listdata='articleContent'></contentHeader>
     <div class="descTitle">
       <div>{{content}}</div>
-      <!-- <h2 class="name">欧拉品牌正式发布 3年内将要推出4款产品</h2>
-      <div class="desc">
-          <div>孟子</div>
-          <div>3小时前</div>
-      </div>
-      <h3>【欧拉品牌正式发布原创】</h3>
-      <div class="articleContent">
-        <h3>
-          <span></span>
-          作为新能源奥斯陆方尽快了手动阀撒打发斯了芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬
-        </h3>
-        <div>
-          <img src="/static/index/articleContent.jpg" alt="">
-        </div>
-        <h3>
-            <span></span>
-            作为新能源奥斯陆方尽快了手动阀撒打发斯了芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬
-        </h3>
-        <div>
-            <img  src="/static/index/articleContent.jpg" alt="">
-        </div>
-        <h3>
-            <span></span>
-            作为新能源奥斯陆方尽快了手动阀撒打发斯了芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬作为新能源奥斯陆方尽快了手动阀撒打发斯蒂芬
-        </h3>
-      </div>
-      <div class="upload">
-          <div>
-            <div class="share">
-              <img src="/static/index/weixin.png" alt="">
-            </div>
-            <div>微信好友</div>
-          </div>
-          <div>
-            <div class="share">
-              <img src="/static/index/pengyouquan.png" alt="">
-            </div>
-            <div>朋友圈</div>
-          </div>
-          <div>
-            <div class="share">
-              <img src="/static/index/weibo.png" alt="">
-            </div>
-            <div>微博</div>
-          </div>
-          <div>
-            <div class="share">
-              <img src="/static/index/qq.png" alt="">
-            </div>
-            <div>QQ好友</div>
-          </div>
-      </div> -->
     </div>
+    <!-- 下方评论部分 -->
+    <publishComment ></publishComment>  
   </div>
   <div>
       <contentHeader :listdata='articleContent'></contentHeader>
@@ -70,6 +20,7 @@
 
 <script>
   import contentHeader from '@/common/view/contentHeader';
+  import publishComment from '@/common/view/publishComment';
   import {getArticleDetail} from '@/api/articleList.js';
   export default {
     name: 'articleDetail',
@@ -101,7 +52,7 @@
         }
     },
     components:{
-      contentHeader
+      contentHeader,publishComment
     }
   }
 </script>

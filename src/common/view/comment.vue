@@ -1,7 +1,16 @@
 <template>
   <div class="comment">
     <!-- 评论 -->
-
+    <div class="" :v-for="item in commentData">
+        <div>
+          <img src="/static/index/qq.png" alt="">
+        </div>
+        <div>
+          <div class="userName">{{item.name}}</div>
+          <div class="time">{{item.time}}</div>
+          <div class="content">{{item.content}}</div>
+        </div>
+    </div>
   </div>
 </template>
 
@@ -10,6 +19,13 @@
     name: 'comment',
     data () {
       return {
+        commentData : [
+          {'id':1,'pid':0,"content":"测试评论",name:"大帅锅1",time:"2018/11/5"},
+          {'id':2,'pid':1,"content":"测试评论1",name:"大帅锅2",time:"2018/11/6"},
+          {'id':3,'pid':1,"content":"测试评论2",name:"大帅锅3",time:"2018/11/7"},
+          {'id':4,'pid':3,"content":"测试评论3",name:"大帅锅4",time:"2018/11/7"},
+          {'id':5,'pid':4,"content":"测试评论4",name:"大帅锅5",time:"2018/11/7"},
+        ]
       }
     },
   }

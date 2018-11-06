@@ -81,22 +81,22 @@
     created:function (){
       var that=this;
       // 获取轮播数据
-      // axiosAll([getadvert(//广告分页
-      //   {'data':{
-      //     "pageNo": 1,
-      //     "pageSize": 20
-      //   }}
-      // ),getArticleList( // 文章分页
-      //   {'data':{
-      //       "pageNo": 1,
-      //       "pageSize": 20
-      //     }}
-      // )]).then((res)=>{
-      //   // 组合数据 将广告和文章列表数据通过制定格式组合
-      //   console.log(res)
-      //   // that.regroupData(res[0]['data'],res[1]['data']);
-      //   that.regroupData = res
-      // });
+      axiosAll([getadvert(//广告分页
+        {'data':{
+          "pageNo": 1,
+          "pageSize": 20
+        }}
+      ),getArticleList( // 文章分页
+        {'data':{
+            "pageNo": 1,
+            "pageSize": 20
+          }}
+      )]).then((res)=>{
+        // 组合数据 将广告和文章列表数据通过制定格式组合
+        console.log(res)
+        // that.regroupData(res[0]['data'],res[1]['data']);
+        that.regroupData = res
+      });
       getadvert({
         data:{
           "pageNo": 1,
