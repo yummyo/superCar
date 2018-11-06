@@ -14,6 +14,8 @@
     <div v-on:click="playVideo()" v-show="true">
       <video :src="videoSrc" controls id="videoPlay" v-show="true" class="video">您的浏览器不支持 video 视屏播放。</video> 
   </div>
+  <!-- 下方评论部分 -->
+  <publishComment ></publishComment>  
 </div>
 </div>
 </template>
@@ -34,10 +36,9 @@
     },
     created:function (){
       getArticleDetail({
-        method:"GET",
-        data:{
-          id:'127130fed3574ca0b52632294d846ccb'
-        }
+        data:
+          this.$route.params.data
+        
       }).then((res)=>{
         console.log(res)
       })
