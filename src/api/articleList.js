@@ -31,7 +31,7 @@ export  function getArticleList(config){
 }
 //文章详情页面查询
 export  function getArticleDetail(config){
-  const url=URLROUTER+'/app/article/findByID/6503b30d6b3e45d0be1eb4eec16f87b6';
+  const url=URLROUTER+'/app/article/findById';
   return axiosConfig(Object.assign({url},config))
 }
 
