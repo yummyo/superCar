@@ -1,6 +1,7 @@
 <template>
   <!-- 文章列表 -->
-  <div class="articleDetail">
+  <div> 
+  <div class="articleDetail" v-show="false">
     <contentHeader :listdata='articleContent'></contentHeader>
     <div class="descTitle">
       <div>{{content}}</div>
@@ -58,6 +59,13 @@
       </div> -->
     </div>
   </div>
+  <div>
+      <contentHeader :listdata='articleContent'></contentHeader>
+    <div v-on:click="playVideo()" v-show="true">
+      <video :src="videoSrc" controls id="videoPlay" v-show="true" class="video">您的浏览器不支持 video 视屏播放。</video> 
+  </div>
+</div>
+</div>
 </template>
 
 <script>
@@ -68,7 +76,9 @@
     data () {
       return {
         articleContent:{'content':'文章正文'},
-        detail : ""
+        articleContent:{'content':'视频列表'},
+        detail : "",
+        videoSrc: 'https://vdse.bdstatic.com//a819ba306b1d95d8d93e52c71d31635b?authorization=bce-auth-v1%2F40f207e648424f47b2e3dfbb1014b1a5%2F2017-05-11T09%3A02%3A31Z%2F-1%2F%2F38bdd1bb8bfd3eaa5c633280bd1c4a6514812ea7224b7efa3ac20b5ab8eab126'
       }
     },
     created:function (){
@@ -85,6 +95,10 @@
       console.log(this.$route.params.data)
     },
     methods:{
+      playVideo(){
+            var vdo = document.getElementById("videoPlay");
+            vdo.play();
+        }
     },
     components:{
       contentHeader
@@ -124,4 +138,6 @@
         border 1px solid #f3f3f3
         padding 15px 0 5px
         border-radius 50%
+  .video
+    width 100%
 </style>
