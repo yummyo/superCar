@@ -7,7 +7,7 @@
     <div class="brand">
         <div class="brandTitle">品牌</div>
         <div class="singer" ref="singer">
-          <chooseCar  :data="carData"></chooseCar>
+          <chooseCar  :data="carData" @click.native="selectCar()"></chooseCar>
         </div>
     </div>
   </div>
@@ -21,6 +21,15 @@
     data () {
       return {
         carData:[]
+      }
+    },
+    methods:{
+      selectCar(){
+        this.$router.push({
+          name:"carSeriesDetail",
+          params:{
+          }
+        })
       }
     },
     components:{

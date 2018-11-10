@@ -21,7 +21,7 @@ export  function getIndexLunbo(config){
 }
 //g广告分页查询接口
 export  function getadvert(config){
-  const url=URLROUTER+'/app/pushPosition/advertisement'
+  const url=URLROUTER+'/app/article/advertisement'
   return axiosConfig(Object.assign({url},config))
 }
 //文章内容分页查询

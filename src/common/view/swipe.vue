@@ -1,7 +1,7 @@
 <template>
     <mt-swipe @change="handleChange" :auto="2000">
         <mt-swipe-item v-for="(item,index) in listdata" :key="index">
-              <img :src="item.thumbnailResource[0].thumbnailUrl" @click="swipeLink(item.thumbnailResource[0].thumbnailId,item.contentUrl)" class="img"/>
+              <img v-lazy="item.thumbnailResource[0].thumbnailUrl" @click="swipeLink(item.thumbnailResource[0].thumbnailId,item.contentUrl)" class="img"/>
         </mt-swipe-item>
       </mt-swipe>
   </template>

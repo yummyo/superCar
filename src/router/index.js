@@ -49,7 +49,12 @@ const myAttention = (resolve) => {
     resolve(module)
   })
 }
-
+// 车系详情
+const carSeriesDetail = (resolve) => {
+  import('@/common/view/carSeriesDetail').then((module) => {
+    resolve(module)
+  })
+}
 const router = new Router({
   routes: [
     {
@@ -94,6 +99,11 @@ const router = new Router({
       path: '/myAttention',
       name: 'myAttention',
       component: myAttention,
+    },
+    {
+      path: '/carSeriesDetail',
+      name: 'carSeriesDetail',
+      component: carSeriesDetail,
     }
   ]
 })

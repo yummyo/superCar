@@ -18,7 +18,7 @@
           <p class="desc">{{listdata.describe}}</p>
         </div>
         <div class="icon">
-          <img :src="listdata.thumbnailResource[0].thumbnailUrl" alt="">
+          <img v-lazy="listdata.thumbnailResource[0].thumbnailUrl" alt="">
         </div>
       </div>
   </div>

@@ -3,7 +3,7 @@
         <div class="item">
             <h3 class="name">{{listdata.contentTitle}}</h3>
             <div class="icon">
-              <img :src="listdata.thumbnailResource[0].thumbnailUrl" alt="">
+              <img v-lazy="listdata.thumbnailResource[0].thumbnailUrl" alt="">
             </div>
             <div class="paddingStyle">
               <div class="desc">
