@@ -80,6 +80,7 @@
     },
     props:['tabType'],
     created:function(){
+      console.log('创建了')
       // 文章列表
             getadvert({
               data:{

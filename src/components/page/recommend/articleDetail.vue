@@ -1,17 +1,17 @@
 <template>
   
   <div> 
-    <contentHeader :listdata='articleData.title'></contentHeader>
+    <contentHeader :listdata="{'content':videoData.title}"></contentHeader>
     <div class="articleDetail" v-if="pageType == 'article'">
       <!-- 文章列表 -->
-      <div>{{articleData.title}}</div>
+      <div class="articleTitle">{{videoData.title}}</div>
       <!-- 评论列表 -->
       <div class="descTitle">
         <div class="desc">
-          <span class="user">{{articleData.createUserNickName }}</span>
-          <span class="time">{{articleData.createTime }}</span>
+          <span class="user">{{videoData.createUserNickName }}</span>
+          <span class="time">{{videoData.createTime }}</span>
         </div>
-        <div>{{articleData.content}}</div>
+        <div class="articleContent" v-html='this.htmlEnCode(videoData.content)'></div>
       </div>
       <!-- 文章内容 -->
     </div>
@@ -27,14 +27,21 @@
           <div class="videoMessage">
             <!--  播放次数 -->
             <div>
-              <span>120播放</span>
+              <span>
+                {{videoData.borwseCount}}播放
+              </span>
             </div>
             <!--  点赞数量 评论 -->
             <div>
+              <span @click="changeXihuan">
+                <i :class="{iconfont:true,'icon-xihuan2':this.xihuan,'icon-xihuan':!(this.xihuan)}"></i>
+                {{videoData.keepCount }}
+                </span>
               <span>
-                <i class="iconfont iconfont-"></i>
-              </span>
-            </div>
+                <i class="iconfont icon-pinglun"></i>
+                {{videoData.commentCount }}
+                </span>
+            </div>  
           </div>
         </div>
     </div>
@@ -51,27 +58,27 @@
     name: 'articleDetail',
     data () {
       return {
-        articleContent:{'content':'视频列表'},
         detail : "",
         videoSrc: 'https://vdse.bdstatic.com//a819ba306b1d95d8d93e52c71d31635b?authorization=bce-auth-v1%2F40f207e648424f47b2e3dfbb1014b1a5%2F2017-05-11T09%3A02%3A31Z%2F-1%2F%2F38bdd1bb8bfd3eaa5c633280bd1c4a6514812ea7224b7efa3ac20b5ab8eab126',
         videoData : {},
-        articleData : {},
-        pageType : ''
+        videoData : {},
+        pageType : 'article',
+        xihuan : false
       }
     },
     created:function (){
       this.pageType = this.$route.params.type
-      console.log(this.pageType)
       if(this.pageType == 'article'){
         console.log("文章")
          // 获取文章详情
         getArticleDetail({
           data:{
-            id : this.$route.params.id
+            id : '6fbd4b4567394826967c9988c606d822'
+            // id : this.$route.params.id
           }
         }).then((res)=>{
-          console.log(res)
-          this.articleData = res.data
+          console.log(this.htmlEnCode(res.data.content))
+          this.videoData = res.data
         })
       }else{
          console.log("shipin")
@@ -90,9 +97,20 @@
     },
     methods:{
       playVideo(){
-          var vdo = document.getElementById("videoPlay");
-          vdo.play();
-        }
+        var vdo = document.getElementById("videoPlay");
+        vdo.play();
+      },
+      changeXihuan(){
+        this.xihuan = !(this.xihuan)
+      },
+      htmlEnCode(text){
+        var temp = document.createElement("div"); 
+        temp.innerHTML = text; 
+        var output = temp.innerText || temp.textContent; 
+        temp = null; 
+        output = output.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+        return output;
+      }
     },
     components:{
       contentHeader,commentPublish
@@ -101,7 +119,11 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus">
+    .articleTitle
+      font-size 2rem
+      text-align left
+      padding .5rem
   // 文章标题
    .descTitle
     padding 1rem
@@ -114,15 +136,11 @@
       text-align left
       justify-content space-between
       color #B7B8BA
-    .articleContent 
+      // 文章内容
+    .articleContent
+      overflow hidden
       img
         width 100%
-      h3  
-        margin 2rem 0
-        text-align left
-        span 
-          display inline-block
-          margin-left 2rem
     .upload
       display flex
       justify-content space-between
@@ -137,12 +155,12 @@
   .video
     width 100%
   .videoInfo
-    display flex
-    justify-content space-between
-    align-items flex-end
+      padding 0 1rem
     .videoTitle
       font-size 1.5rem
       text-align left
     .videoMessage
       display flex
+      justify-content space-between
+      align-items flex-end
 </style>

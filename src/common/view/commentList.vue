@@ -1,6 +1,6 @@
 <template>
   <div class="commentList">
-    <contentHeader :listdata='articleContent'></contentHeader>
+    <contentHeader :listdata="{'content':'评论详情'}"></contentHeader>
     <!-- 评论 -->
     <div class="list" v-for="(item,index) in commentData" :key="index">
       <div class="portrait">
@@ -24,7 +24,6 @@
     name: 'commentList',
     data () {
       return {
-        articleContent:{'content':'文章正文'},
         commentData : [
           {'id':1,'pid':0,"content":"测试评论",name:"大帅锅1",time:"2018/11/5"},
           {'id':2,'pid':1,"content":"测试评论1",name:"大帅锅2",time:"2018/11/6"},

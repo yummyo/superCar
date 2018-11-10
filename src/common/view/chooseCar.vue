@@ -10,8 +10,10 @@
         <h2 class="list-group-title">{{group.title}}</h2>
         <uL>
           <li @click="selectItem(item)" v-for="item in group.items" class="list-group-item">
-            <img class="avatar" v-lazy="item.avatar">
-            <span class="name">{{item.name}}</span>
+            <!-- <img class="avatar" v-lazy="item.avatar"> -->
+            <img class="avatar" v-lazy='imgSrc'>
+            <!-- <span class="name">{{item.name}}</span> -->
+            <span class="name">宝马</span>
           </li>
         </uL>
       </li>
@@ -65,7 +67,8 @@
       return {
         scrollY: -1,
         currentIndex: 0,
-        diff: -1
+        diff: -1,
+        imgSrc : 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3115821054,4178950010&fm=58'
       }
     },
     mounted() {

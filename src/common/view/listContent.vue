@@ -15,7 +15,10 @@
       <div class="item">
         <div class="text">
           <h3 class="name">{{listdata.contentTitle}}</h3>
-          <p class="desc">{{listdata.describe}}</p>
+          <div class="comment">
+            <div>{{listdata.commentCount }}评论</div>
+            <div>{{listdata.createUserId }}</div>
+          </div>
         </div>
         <div class="icon">
           <img v-lazy="listdata.thumbnailResource[0].thumbnailUrl" alt="">
@@ -58,6 +61,7 @@
       padding-left 1rem
       img
         height 4.5rem
+        width 7rem
     .text
       display flex
       flex-direction column
@@ -69,4 +73,10 @@
       .desc
         text-align left
         color #B7B8BA
+      .comment
+        display flex
+        font-size 1rem
+        align-items baseline
+        div:first-child
+          padding-right .5rem
 </style>

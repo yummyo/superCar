@@ -69,24 +69,33 @@ const router = new Router({
       children:[
         {
           path: '/index/recommend',
-          component:recommend
+          component:recommend,
+          meta: {
+            keepAlive: true // 需要被缓存
+          }
         },
         {
           path: '/index/changeCar',
-          component:changeCar
+          component:changeCar,
+          meta: {
+            keepAlive: true // 需要被缓存
+          }
         },
         {
           path: '/index/market',
-          component:market
+          component:market,
+          meta: {
+            keepAlive: true // 需要被缓存
+          }
         },
         {
           path: '/index/userCenter',
-          component:userCenter
+          component:userCenter,
+          meta: {
+            keepAlive: true // 需要被缓存
+          }
         },
-      ],
-      meta: {
-        keepAlive: true // 需要被缓存
-      }
+      ]
     },
     {
       path: '/articleDetail',
