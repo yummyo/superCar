@@ -26,7 +26,7 @@ export  function getIndexLunbo(config){
 export  function getadvert(config){
   let Obj = {
     'url':URLROUTER+'/app/article/advertisement',
-    'method':"GET"
+    'method':"POST"
   }
   return axiosConfig(Object.assign({},Obj,config))
 }
