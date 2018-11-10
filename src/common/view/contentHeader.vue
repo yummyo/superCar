@@ -6,7 +6,7 @@
           <div class="point" @click="returnTop()">
               <span class="iconfont icon-zuo"></span>
           </div>
-          <div class="title">{{listdata.content}}</div>
+          <div class="title">{{listdata}}</div>
           <div class="point">
             <span class="iconfont icon-more"></span>
           </div>
@@ -27,17 +27,10 @@
       console.log(this.$route)
       console.log(this.$router)
     },
-    props:{
-      listdata:{
-        type:Object,
-        default:function(){
-          return {}
-        }
-      }
-    },
+    props:['listdata'],
     methods:{
       returnTop:function(){
-        window.history.go(-1);
+        this.$router.go(-1);
       }
     },
   }

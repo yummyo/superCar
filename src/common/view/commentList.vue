@@ -12,12 +12,14 @@
         <div class="content">{{item.content}}</div>
       </div>
     </div>
+    <!-- 底部回复 -->
+    <commentPublish></commentPublish>
   </div>
 </template>
 
 <script>
   import contentHeader from '@/common/view/contentHeader';
-
+  import commentPublish from '@/common/view/commentPublish';
   export default {
     name: 'commentList',
     data () {
@@ -33,7 +35,7 @@
       }
     },
     components:{
-      contentHeader
+      contentHeader,commentPublish
     }
   }
 </script>

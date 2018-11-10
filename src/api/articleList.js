@@ -2,12 +2,24 @@ import axios from './config'
 import {URLROUTER,} from './config'
 
 function axiosConfig(config){
-  return axios({
-    method: config.method || 'POST',
+  let Obj = {
+    method: config.method.toUpperCase() || 'POST',
     url: config.url ,
-    data: config.data || '',
     headers : config.headers || '',
-  }).then((res)=>{
+  }
+  // 区别get请求和其他请求 get请求传参数需要用params
+  switch(Obj.method){
+    case 'GET': 
+      Obj['params'] = config.data || '';
+      break;
+    case 'DELETE': 
+      Obj['url'] += '/'+config.data['id']
+      break;
+    default:
+      Obj['data'] = config.data || '';
+      break;
+  }
+  return axios(Obj).then((res)=>{
     return Promise.resolve(res.data)
   }).catch((error)=>{
     return Promise.resolve(error)
@@ -26,7 +38,7 @@ export  function getIndexLunbo(config){
 export  function getadvert(config){
   let Obj = {
     'url':URLROUTER+'/app/article/advertisement',
-    'method':"POST"
+    'method':"get"
   }
   return axiosConfig(Object.assign({},Obj,config))
 }
@@ -42,6 +54,22 @@ export  function getArticleList(config){
 export  function getArticleDetail(config){
   let Obj = {
     'url':URLROUTER+'/app/article/findById',
+    'method':"GET"
+  }
+  return axiosConfig(Object.assign({},Obj,config))
+}
+//视频详情
+export  function getVideo(config){
+  let Obj = {
+    'url':URLROUTER+'/app/video/findById',
+    'method':"GET"
+  }
+  return axiosConfig(Object.assign({},Obj,config))
+}
+//视频列表
+export  function getVideoList(config){
+  let Obj = {
+    'url':URLROUTER+'/app/video/list',
     'method':"GET"
   }
   return axiosConfig(Object.assign({},Obj,config))

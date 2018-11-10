@@ -83,7 +83,10 @@ const router = new Router({
           path: '/index/userCenter',
           component:userCenter
         },
-      ]
+      ],
+      meta: {
+        keepAlive: true // 需要被缓存
+      }
     },
     {
       path: '/articleDetail',

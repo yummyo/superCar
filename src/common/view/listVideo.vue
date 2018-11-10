@@ -2,13 +2,15 @@
   <div class="list" >
       <div class="item">
           <div class="icon">
-            <img :src="listdata.images" alt="">
+            <img :src="listdata.thumbnailUrl" alt="">
           </div>
           <div class="paddingStyle">
-            <h3 class="name">{{listdata.content}}</h3>
+            <h3 class="name">{{listdata.title}}</h3>
             <div class="desc">
-                <div>{{listdata.comment}}</div>
-                <div>{{listdata.desc}}</div>
+                <!-- 文章简介 -->
+                <div>{{listdata.describe}}</div>
+                <!-- 评论数量 -->
+                <div>{{listdata.commentCount}}评论</div>
             </div>
           </div>
       </div>
@@ -26,7 +28,7 @@
       listdata:{
         type:Object,
         default:function(){
-          return {}
+          return []
         }
       }
     }
@@ -49,5 +51,10 @@
       display flex
       text-align left
       justify-content space-between
-      color #B7B8BA
+      div:first-child
+        width 50%
+        color #B7B8BA
+        overflow  hidden
+        text-overflow ellipsis
+        white-space  nowrap
 </style>

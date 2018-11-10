@@ -1,5 +1,5 @@
 <template>
-  <div class="publishComment">
+  <div class="commentPublish">
     <!-- 发表评论 -->
       <input type="text" placeholder="发表评论">
       <div @click="toggleComment">
@@ -15,7 +15,7 @@
 
 <script>
   export default {
-    name: 'publishComment',
+    name: 'commentPublish',
     data () {
       return {
         isComment:false,
@@ -45,7 +45,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  .publishComment
+  .commentPublish
     padding 10px 
     display flex
     height 40px
@@ -70,5 +70,8 @@
         transform translateX(-30%)
       span.iconfont
         font-size 2rem
+        display inline-block
+        width 2rem
+        height 2rem
     
 </style>

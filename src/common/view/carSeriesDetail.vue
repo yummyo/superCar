@@ -37,7 +37,7 @@
         <div>2.0T涡轮增压184马力</div>
     </div>
     <div class="Parameter"> 
-        <div class="itemList" v-for="item in 5">
+        <div class="itemList" v-for="(item,index) in 5" :key="index">
             <div>
                E200运动型
             </div>

@@ -8,17 +8,17 @@
       <swipe :listdata='swipeData'></swipe>
       <div v-for="(item,index) of articleData" :key='index'>
         <!-- 专题 -->
-        <listRankContent v-if="item.contentSourceType == 2"  :listdata='item'  @click.native="fun(item.id)"></listRankContent>
+        <listRankContent v-if="item.contentSourceType == 2"  :listdata='item'  @click.native="toDetail(item.id)"></listRankContent>
         <!-- 广告 -->
-        <listAdvert v-else-if="item.contentSourceType == 3"  :listdata='item' @click.native="fun(item.id)"></listAdvert>
+        <listAdvert v-else-if="item.contentSourceType == 3"  :listdata='item' @click.native="toDetail(item.id)"></listAdvert>
         <!-- 文章 -->
-        <listContent v-else-if='item.contentSourceType == 1' :listdata='item' @click.native="fun(item.id)"></listContent>
+        <listContent v-else-if='item.contentSourceType == 1' :listdata='item' @click.native="toDetail(item.id,'article')"></listContent>
       </div>
     </div>
     <div v-else-if='tabType == 2'>
       <!-- 视频 -->
-      <div v-for="item in 9" :key='item'>
-        <listVideo :listdata='listData3'></listVideo> 
+      <div v-for="(item,index) in videoData" :key='index'>
+        <listVideo :listdata='item' @click.native="toDetail(item.id,'video')"></listVideo>
       </div>
       <!-- <div v-for="item in 9" :key='item'>
           <listContent v-if='(item+1) % 3 == 0' :listdata='listData'></listContent>
@@ -55,7 +55,7 @@
   import swipe from '@/common/view/swipe.vue';
   import listAdvert from '@/common/view/listAdvert.vue';
   import contentHeader from '@/common/view/contentHeader.vue';
-  import {getIndexLunbo,getadvert,getArticleList,axiosAll} from '@/api/articleList.js';
+  import {getIndexLunbo,getadvert,getVideoList,getArticleList,axiosAll} from '@/api/articleList.js';
   export default {
     name: 'articleContent',
     data () {
@@ -74,72 +74,76 @@
           article : 3,//文章
         },
         // 文章部分总数据 包含 文章 广告 专题
-        articleData : []
+        videoData : [],
+        articleData:[]
       }
     },
     props:['tabType'],
-    created:function (){
-      var that=this;
-      // 获取轮播数据
-      // axiosAll([getadvert(//广告分页
-      //   {'data':{
-      //     "pageNo": 1,
-      //     "pageSize": 20
-      //   }}
-      // ),getArticleList( // 文章分页
-      //   {'data':{
-      //       "pageNo": 1,
-      //       "pageSize": 20
-      //     }}
-      // )]).then((res)=>{
-      //   // 组合数据 将广告和文章列表数据通过制定格式组合
-      //   console.log(res)
-      //   // that.regroupData(res[0]['data'],res[1]['data']);
-      //   that.regroupData = res
-      // });
-      getadvert({
-        data:{
-          "pageNo": 1,
-          "pageSize": 15
+    created:function(){
+      // 文章列表
+            getadvert({
+              data:{
+                "pageNo": 1,
+                "pageSize": 15
+              }
+            }).then((res) => {
+              this.articleData = res['data'];
+            });
+            // 轮播列表
+            getIndexLunbo().then((res) => {
+              this.swipeData = res['data'];
+            });
+    },
+    watch:{
+      tabType:function(id){
+        let that = this;
+        // 当tabType更新时重新调用接口查询数据
+        switch (id*1) {
+          case 1:
+            // 文章列表
+            getadvert({
+              data:{
+                "pageNo": 1,
+                "pageSize": 15
+              }
+            }).then((res) => {
+              that.articleData = res['data'];
+            });
+            // 轮播
+            getIndexLunbo().then((res) => {
+              that.swipeData = res['data'];
+            });
+            break;
+          case 2:
+            // 拿到视频列表
+            getVideoList({
+              data:{
+                "pageNo": 1,
+                "pageSize": 15
+              }
+            }).then((res) => {
+              that.videoData = res['data'];
+            });
+            break;
+          default:
+            break;
         }
-      }).then((res) => {
-        // 组合数据 将广告和文章列表数据通过制定格式组合
-        console.log(res)
-        // that.regroupData(res[0]['data'],res[1]['data']);
-        that.articleData = res['data'];
-      });
-      getIndexLunbo({"method":"get"}).then(function(data){
-        that.swipeData=data.data
-      })
+      }
     },
     mounted:function(){
       console.log(this.tabType)
     },
     methods:{
-      fun : function(data){
-        console.log(data)
+      toDetail : function(data,type){
+        // 进入文章喜爱那个IQ那个页面
         this.$router.push({
           name:"articleDetail",
           params:{
-            data
+            id:data,
+            type:type
           }
         })
       },
-      // regroupData : function(advertising,article){
-      //   //  advertising 广告数据 article 文章数据
-      //   // 后期需要在维护 目前的次数与格式不稳定，基本都是写死的格式  
-      //   let arr = [];
-      //   if(article.length > 0 && advertising.length > 0){
-      //     //重组数据 
-      //     for (var a = 1;a <= 3;a++){
-      //       arr.push(...(article.slice((a-1)*4,4*a)));
-      //       arr.push(...advertising.slice((a-1),a))
-      //     }
-      //     console.log(arr)
-      //     this.articleData.push(...arr);
-      //     console.log(this.articleData)
-      //   }
-      // }
     },
     components:{
       listContent,

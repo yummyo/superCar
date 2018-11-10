@@ -1,6 +1,6 @@
 <template>
     <div class="list" >
-        <div class="item">
+        <div class="item" v-if="listdata.length > 0">
             <h3 class="name">{{listdata.contentTitle}}</h3>
             <div class="icon">
               <img v-lazy="listdata.thumbnailResource[0].thumbnailUrl" alt="">

@@ -1,7 +1,10 @@
 <template>
   <div class="index">
     <!-- 主体部分 -->
-    <router-view class="topContent"></router-view>
+    <keep-alive>
+      <router-view  v-if="$route.meta.keepAlive" class="topContent"></router-view>
+    </keep-alive>
+    <router-view  v-if="!$route.meta.keepAlive" class="topContent"></router-view>
     <!-- 下方四个按钮 -->
     <foot class="foot"></foot>  
   </div>
@@ -41,7 +44,6 @@
     .topContent
       height 100%
       overflow scroll
-      box-sizing border-box
       padding-bottom 55px;
       box-sizing border-box
     .foot
