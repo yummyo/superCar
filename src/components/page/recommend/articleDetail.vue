@@ -57,7 +57,7 @@
 
 <script>
   import contentHeader from '@/common/view/contentHeader';
-  import commentPublish from '@/common/view/commentPublish';
+  import commentPublish from './information/commentPublish.vue';
   import {getArticleDetail,getVideo} from '@/api/articleList.js';
   export default {
     name: 'articleDetail',

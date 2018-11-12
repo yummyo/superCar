@@ -15,7 +15,7 @@
 
 <script>
   import CommonSearch from '@/common/view/search.vue';
-  import chooseCar from '@/common/view/chooseCar.vue';
+  import chooseCar from './chooseCar/chooseCar.vue';
   import Singer from '@/common/js/singer'
   import {mapMutations} from 'vuex'
   const HOT_SINGER_LEN = 10

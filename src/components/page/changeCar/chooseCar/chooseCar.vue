@@ -174,7 +174,7 @@
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import "../style/variable"
+  @import "../../../../common/style/variable"
 
   .listview
     position: relative

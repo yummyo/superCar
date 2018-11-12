@@ -21,7 +21,7 @@ const articleDetail = (resolve) => {
 }
 // 评论列表
 const commentList = (resolve) => {
-  import('@/common/view/commentList').then((module) => {
+  import('@/components/page/recommend/information/commentList').then((module) => {
     resolve(module)
   })
 }
@@ -51,7 +51,7 @@ const myAttention = (resolve) => {
 }
 // 车系详情
 const carSeriesDetail = (resolve) => {
-  import('@/common/view/carSeriesDetail').then((module) => {
+  import('@/components/page/changeCar/carSeriesDetail/carSeriesDetail').then((module) => {
     resolve(module)
   })
 }

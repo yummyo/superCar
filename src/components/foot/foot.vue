@@ -17,14 +17,35 @@
     name: 'foot',
     data () {
       return {
+         tobarList:[
+          {
+            'name':'推荐',
+            'key':'recommend'
+          },
+          {
+            'name':'选车',
+            'key':'changeCar'
+          },
+          {
+            'name':'商城',
+            'key':'market'
+          },
+          {
+            'name':'我的',
+            'key':'userCenter'
+          },
+        ],
+        'pageShow' : window.localStorage.getItem('tobarList') || "recommend"
       }
     },
     computed:{
-      ...mapGetters(['pageShow','tobarList'])
+      // ...mapGetters(['pageShow','tobarList']),
     },
     methods:{
       changePageShow : function(data){
-        this.changePage(data);
+        // this.changePage(data);
+        this.pageShow = data;
+        window.localStorage.setItem('tobarList',data);
         this.$router.push({path:"/index/"+data})
       },
       ...mapMutations({

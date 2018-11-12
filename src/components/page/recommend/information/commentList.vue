@@ -1,5 +1,6 @@
 <template>
   <div class="commentList">
+    <!-- 评论详情 -->
     <contentHeader :listdata="{'content':'评论详情'}"></contentHeader>
     <!-- 评论 -->
     <div class="list" v-for="(item,index) in commentData" :key="index">
@@ -19,7 +20,7 @@
 
 <script>
   import contentHeader from '@/common/view/contentHeader';
-  import commentPublish from '@/common/view/commentPublish';
+  import commentPublish from './commentPublish';
   export default {
     name: 'commentList',
     data () {
