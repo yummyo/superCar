@@ -55,11 +55,25 @@ const carSeriesDetail = (resolve) => {
     resolve(module)
   })
 }
+// 登录页面
+const login = (resolve) => {
+  import('@/components/page/login/login').then((module) => {
+    resolve(module)
+  })
+}
 const router = new Router({
   routes: [
     {
       path: '/',
       redirect:"/index/recommend"
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: login,
+      meta: {
+        auth: false
+      }
     },
     {
       path: '/index',
@@ -71,28 +85,32 @@ const router = new Router({
           path: '/index/recommend',
           component:recommend,
           meta: {
-            keepAlive: true // 需要被缓存
+            auth: true,
+            keepAlive: true
           }
         },
         {
           path: '/index/changeCar',
           component:changeCar,
           meta: {
-            keepAlive: true // 需要被缓存
+            auth: true,
+            keepAlive: true
           }
         },
         {
           path: '/index/market',
           component:market,
           meta: {
-            keepAlive: true // 需要被缓存
+            auth: true,
+            keepAlive: true
           }
         },
         {
           path: '/index/userCenter',
           component:userCenter,
           meta: {
-            keepAlive: true // 需要被缓存
+            auth: true,
+            keepAlive: true
           }
         },
       ]
