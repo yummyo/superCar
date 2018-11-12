@@ -8,9 +8,9 @@
       <swipe :listdata='swipeData'></swipe>
       <div v-for="(item,index) of articleData" :key='index'>
         <!-- 专题 -->
-        <listRankContent v-if="item.contentSourceType == 2"  :listdata='item'  @click.native="toDetail(item.id)"></listRankContent>
+        <listRankContent v-if="item.contentSourceType == 2"  :listdata='item'  @click.native="toDetail(item.id,'article')"></listRankContent>
         <!-- 广告 -->
-        <listAdvert v-else-if="item.contentSourceType == 3"  :listdata='item' @click.native="toDetail(item.id)"></listAdvert>
+        <listAdvert v-else-if="item.contentSourceType == 3"  :listdata='item' @click.native="toAdvert(item)"></listAdvert>
         <!-- 文章 -->
         <listContent v-else-if='item.contentSourceType == 1' :listdata='item' @click.native="toDetail(item.id,'article')"></listContent>
       </div>
@@ -145,6 +145,9 @@
           }
         })
       },
+      toAdvert:function(data){
+        window.location.href = data.contentUrl
+      }
     },
     components:{
       listContent,

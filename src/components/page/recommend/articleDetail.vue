@@ -1,8 +1,8 @@
 <template>
   
   <div> 
-    <contentHeader :listdata="{'content':videoData.title}"></contentHeader>
     <div class="articleDetail" v-if="pageType == 'article'">
+      <contentHeader :listdata="{'content':'文章正文'}"></contentHeader>
       <!-- 文章列表 -->
       <div class="articleTitle">{{videoData.title}}</div>
       <!-- 评论列表 -->
@@ -16,9 +16,14 @@
       <!-- 文章内容 -->
     </div>
     <div v-else class="">
+        <contentHeader :listdata="{'content':'视频'}"></contentHeader>
       <!-- 视频列表 -->
-        <div v-on:click="playVideo()" v-show="true">
-          <video :src="videoData.videoUrl" controls id="videoPlay" v-show="true" class="video">您的浏览器不支持 video 视屏播放。</video> 
+        <div v-on:click="playVideo()" v-show="true"  class="video">
+          <img v-show="!ifPlay" :src="videoData.thumbnailUrl" alt="">
+          <div class="playIcon">
+            <i class="iconfont icon-bofang"></i>
+          </div>
+          <video v-show="ifPlay" :src="videoData.videoUrl" controls id="videoPlay" class="video">您的浏览器不支持 video 视屏播放。</video> 
         </div>
         <!-- 视频基本信息 -->
         <div class="videoInfo">
@@ -63,7 +68,8 @@
         videoData : {},
         videoData : {},
         pageType : 'article',
-        xihuan : false
+        xihuan : false,
+        ifPlay : false
       }
     },
     created:function (){
@@ -98,6 +104,7 @@
     methods:{
       playVideo(){
         var vdo = document.getElementById("videoPlay");
+        this.ifPlay = true;
         vdo.play();
       },
       changeXihuan(){
@@ -153,7 +160,17 @@
         border-radius 50%
   // 视频部分
   .video
-    width 100%
+    position relative
+    .playIcon
+      position absolute
+      top 50%
+      left 50%
+      transform  translate(-50%,-50%)
+      i
+        font-size 2rem
+    video,img
+      width 100%
+      height 13rem
   .videoInfo
       padding 0 1rem
     .videoTitle
