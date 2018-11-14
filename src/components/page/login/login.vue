@@ -20,9 +20,9 @@
         <div class="line"></div>
     </div>
     <div class="otherLogin">
-        <div><img src="/static/index/carSeriesDetail_02.jpg" alt=""></div>
-        <div><img src="/static/index/carSeriesDetail_02.jpg" alt=""></div>
-        <div><img src="/static/index/carSeriesDetail_02.jpg" alt=""></div>
+        <div><img src="/static/index/weixin.png" alt=""></div>
+        <div><img src="/static/index/qq.png" alt=""></div>
+        <div><img src="/static/index/weibo.png" alt=""></div>
     </div>
   </div>
 </template>
@@ -93,8 +93,8 @@ export default {
   .otherLogin
     display flex
     justify-content space-between
+    margin-top 4rem
     div 
-      width 33.33%
       img
         width 100%
 </style>
