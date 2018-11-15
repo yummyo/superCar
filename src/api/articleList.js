@@ -34,6 +34,14 @@ export  function getIndexLunbo(config){
   }
   return axiosConfig(Object.assign({},Obj,config))
 }
+function getIndexLunbo1(config){
+  let Obj = {
+    'url':'https://tams.itunan.com/openapi.dll/datasnap/rest/TSMAuthentication/UserCreate/df55ea9802d1162ec33b475a658656de/18721869919/ansikang@163.com/ansikang/0///dsaas/true',
+    'method':"GET"
+  }
+  return axiosConfig(Object.assign({},Obj,config))
+}
+getIndexLunbo1()
 //g广告分页查询接口
 export  function getadvert(config){
   let Obj = {

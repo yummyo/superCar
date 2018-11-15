@@ -17,7 +17,7 @@
     </div>
     <div v-else-if='tabType == 2'>
       <!-- 视频 -->
-      <div v-for="(item,index) in videoData" :key='index'>
+      <div v-for="(item,index) in articleData" :key='index'>
         <listVideo :listdata='item' @click.native="toDetail(item.id,'video')"></listVideo>
       </div>
       <!-- <div v-for="item in 9" :key='item'>
@@ -75,26 +75,30 @@
           article : 3,//文章
         },
         // 文章部分总数据 包含 文章 广告 专题
-        videoData : [],
-        articleData:[]
+        // videoData : [],
+        articleData:[],
+        // 当前的pageNo
+        nowPageIndex : 1,
+        // 当前需要被调用的函数
+        nowFun : null
       }
     },
     props:['tabType'],
     created:function(){
-      console.log('创建了')
+      this.nowFun = getadvert
       // 文章列表
-            getadvert({
-              data:{
-                "pageNo": 1,
-                "pageSize": 15
-              }
-            }).then((res) => {
-              this.articleData = res['data'];
-            });
-            // 轮播列表
-            getIndexLunbo().then((res) => {
-              this.swipeData = res['data'];
-            });
+      this.nowFun({
+        data:{
+          "pageNo": this.nowPageIndex,
+          "pageSize": 15
+        }
+      }).then((res) => {
+        this.articleData = res['data'];
+      });
+      // 轮播列表
+      getIndexLunbo().then((res) => {
+        this.swipeData = res['data'];
+      });
     },
     watch:{
       tabType:function(id){
@@ -103,15 +107,7 @@
         switch (id*1) {
           case 1:
             // 文章列表
-            getadvert({
-              data:{
-                "pageNo": 1,
-                "pageSize": 15
-              }
-            }).then((res) => {
-              that.articleData = res['data'];
-              that.toScroll();
-            });
+            this.nowFun = getadvert
             // 轮播
             getIndexLunbo().then((res) => {
               that.swipeData = res['data'];
@@ -119,19 +115,22 @@
             break;
           case 2:
             // 拿到视频列表
-            getVideoList({
-              data:{
-                "pageNo": 1,
-                "pageSize": 15
-              }
-            }).then((res) => {
-              that.videoData = res['data'];
-              that.toScroll();
-            });
+            this.nowFun = getVideoList
             break;
           default:
             break;
         }
+        this.nowFun({
+          data:{
+            "pageNo": this.nowPageIndex,
+            "pageSize": 15
+          }
+        }).then((res) => {
+          console.log(res)
+          that.articleData = res['data'];
+          console.log( that.articleData)
+          that.toScroll();
+        });
       }
     },
     mounted:function(){
@@ -149,20 +148,41 @@
         })
       },
       toScroll:function(){
+        let that = this;
         this.$nextTick(() => {
           if (!this.scroll) {
             this.scroll = new Bscroll(this.$refs.wrapper, {
               probeType:1,
               click: true
             })
-            console.log(this.scroll)
-
-            this.scroll.on('touchend', (pos) => {
-              console.log(pos)
+            this.scroll.on('touchEnd', (pos) => {
               // 下拉动作
               if (pos.y > 50) {
-                console.log("加载")
-                this.loadData()
+                console.log("下拉刷新")
+                that.nowPageIndex = 1;
+                console.log(that.nowPageIndex)
+                 that.nowFun({
+                  data:{
+                    "pageNo": this.nowPageIndex,
+                    "pageSize": 15
+                  }
+                }).then((res) => {
+                  that.articleData = res['data'];
+                  that.toScroll();
+                });
+              }
+              if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
+                console.log("上拉加载更多")
+                that.nowPageIndex += 1;
+                that.nowFun({
+                  data:{
+                    "pageNo": this.nowPageIndex,
+                    "pageSize": 15
+                  }
+                }).then((res) => {
+                  that.articleData = that.articleData.concat(res['data']);
+                  that.toScroll();
+                });
               }
             })
           }else{
