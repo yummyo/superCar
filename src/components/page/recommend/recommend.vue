@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-      <articleContent class="articleList" :tabType='tabType'></articleContent>
+    <articleContent class="articleList" :tabType='tabType'></articleContent>
   </div>
 </template>
 
@@ -89,7 +89,4 @@
       transition width .3s 
     &.active:after
       width 80%
-  .articleList
-    margin-top 5rem
-    
 </style>

@@ -42,9 +42,8 @@
   .index
     height 100%
     .topContent
-      height 100%
+      height calc(100% - 55px)
       overflow scroll
-      padding-bottom 55px;
       box-sizing border-box
     .foot
       position fixed

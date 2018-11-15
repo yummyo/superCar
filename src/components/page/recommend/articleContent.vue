@@ -1,6 +1,6 @@
 <template>
   <!-- 文章列表 -->
-  <div class="articleContent">
+  <div class="articleContent" ref='wrapper'>
     <!-- 最新 -->
     <div v-if='tabType == 1'>
       <!-- 最新 -->
@@ -56,6 +56,7 @@
   import listAdvert from '@/common/view/listAdvert.vue';
   import contentHeader from '@/common/view/contentHeader.vue';
   import {getIndexLunbo,getadvert,getVideoList,getArticleList,axiosAll} from '@/api/articleList.js';
+  import Bscroll from 'better-scroll'
   export default {
     name: 'articleContent',
     data () {
@@ -109,6 +110,7 @@
               }
             }).then((res) => {
               that.articleData = res['data'];
+              that.toScroll();
             });
             // 轮播
             getIndexLunbo().then((res) => {
@@ -124,6 +126,7 @@
               }
             }).then((res) => {
               that.videoData = res['data'];
+              that.toScroll();
             });
             break;
           default:
@@ -145,6 +148,28 @@
           }
         })
       },
+      toScroll:function(){
+        this.$nextTick(() => {
+          if (!this.scroll) {
+            this.scroll = new Bscroll(this.$refs.wrapper, {
+              probeType:1,
+              click: true
+            })
+            console.log(this.scroll)
+
+            this.scroll.on('touchend', (pos) => {
+              console.log(pos)
+              // 下拉动作
+              if (pos.y > 50) {
+                console.log("加载")
+                this.loadData()
+              }
+            })
+          }else{
+             this.scroll.refresh()
+          }
+        })
+      },
       toAdvert:function(data){
         window.location.href = data.contentUrl
       }
@@ -162,5 +187,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
-
+  .articleContent
+    height calc(100% - 5rem)
+    margin-top 5rem
 </style>
