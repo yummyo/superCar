@@ -58,7 +58,7 @@
 <script>
   import contentHeader from '@/common/view/contentHeader';
   import commentPublish from './information/commentPublish.vue';
-  import {getArticleDetail,getVideo} from '@/api/articleList.js';
+  import {getArticleDetail,getVideo} from '@/api/recommend/index';
   export default {
     name: 'articleDetail',
     data () {

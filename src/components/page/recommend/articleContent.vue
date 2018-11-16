@@ -1,48 +1,68 @@
 <template>
   <!-- 文章列表 -->
   <div class="articleContent" ref='wrapper'>
-    <!-- 最新 -->
-    <div v-if='tabType == 1'>
-      <!-- 最新 -->
-      <!-- 推荐轮播位置 -->
-      <swipe :listdata='swipeData'></swipe>
-      <div v-for="(item,index) of articleData" :key='index'>
-        <!-- 专题 -->
-        <listRankContent v-if="item.contentSourceType == 2"  :listdata='item'  @click.native="toDetail(item.id,'article')"></listRankContent>
-        <!-- 广告 -->
-        <listAdvert v-else-if="item.contentSourceType == 3"  :listdata='item' @click.native="toAdvert(item)"></listAdvert>
-        <!-- 文章 -->
-        <listContent v-else-if='item.contentSourceType == 1' :listdata='item' @click.native="toDetail(item.id,'article')"></listContent>
-      </div>
-    </div>
-    <div v-else-if='tabType == 2'>
-      <!-- 视频 -->
-      <div v-for="(item,index) in articleData" :key='index'>
-        <listVideo :listdata='item' @click.native="toDetail(item.id,'video')"></listVideo>
-      </div>
-      <!-- <div v-for="item in 9" :key='item'>
-          <listContent v-if='(item+1) % 3 == 0' :listdata='listData'></listContent>
-          <listRankContent v-else  :listdata='listData2'></listRankContent>
-        </div> -->
-    </div>
-    <div v-else-if='tabType == 3'>
-      <!-- 上海 -->
-      <div v-for="item in 9" :key='item'>
-          <listContent v-if='(item+1) % 3 == 0' :listdata='listData'></listContent>
-          <listRankContent v-else  :listdata='listData2'></listRankContent>
+    <div>
+      <!-- <div class="scroll-top" >
+        <div v-if="aspect==2">
+            <p v-if="state==6">
+                下拉刷新
+            </p>
+            <p v-if="state==1">
+                <i><img :src="Load"/></i>
+                <br/>
+                刷新中
+            </p>
+            <p v-if="state==2">松开刷新</p>
+            <p v-if="state==3">
+                <i><img :src="Load"/></i>
+                <br/>
+                刷新完成
+            </p>
         </div>
-    </div>
-    <div v-else-if="tabType == 4">
-      <!-- 测试 -->
-      <contentHeader :listdata='listData6'></contentHeader> 
-      <swipe :listdata='listData4'></swipe>
-    </div>
-    <div v-else-if="tabType == 5">
-      <!-- 导购 -->
-      <contentHeader :listdata='listData6'></contentHeader> 
-      <swipe :listdata='listData4'></swipe>
-      <div v-for="item in 9" :key='item'>
-          <listVideo :listdata='listData3'></listVideo>   
+      </div> -->
+        <!-- 最新 -->
+      <div v-if='tabType == 1'>
+        <!-- 最新 -->
+        <!-- 推荐轮播位置 -->
+        <swipe :listdata='swipeData'></swipe>
+        <div v-for="(item,index) of articleData" :key='index'>
+          <!-- 专题 -->
+          <listRankContent v-if="item.contentSourceType == 2"  :listdata='item'  @click.native="toDetail(item.id,'article')"></listRankContent>
+          <!-- 广告 -->
+          <listAdvert v-else-if="item.contentSourceType == 3"  :listdata='item' @click.native="toAdvert(item)"></listAdvert>
+          <!-- 文章 -->
+          <listContent v-else-if='item.contentSourceType == 1' :listdata='item' @click.native="toDetail(item.id,'article')"></listContent>
+        </div>
+      </div>
+      <div v-else-if='tabType == 2'>
+        <!-- 视频 -->
+        <div v-for="(item,index) in articleData" :key='index'>
+          <listVideo :listdata='item' @click.native="toDetail(item.id,'video')"></listVideo>
+        </div>
+        <!-- <div v-for="item in 9" :key='item'>
+            <listContent v-if='(item+1) % 3 == 0' :listdata='listData'></listContent>
+            <listRankContent v-else  :listdata='listData2'></listRankContent>
+          </div> -->
+      </div>
+      <div v-else-if='tabType == 3'>
+        <!-- 上海 -->
+        <div v-for="item in 9" :key='item'>
+            <listContent v-if='(item+1) % 3 == 0' :listdata='listData'></listContent>
+            <listRankContent v-else  :listdata='listData2'></listRankContent>
+          </div>
+      </div>
+      <div v-else-if="tabType == 4">
+        <!-- 测试 -->
+        <contentHeader :listdata='listData6'></contentHeader> 
+        <swipe :listdata='listData4'></swipe>
+      </div>
+      <div v-else-if="tabType == 5">
+        <!-- 导购 -->
+        <contentHeader :listdata='listData6'></contentHeader> 
+        <swipe :listdata='listData4'></swipe>
+        <div v-for="item in 9" :key='item'>
+            <listVideo :listdata='listData3'></listVideo>   
+        </div>
       </div>
     </div>
   </div>
@@ -55,7 +75,7 @@
   import swipe from '@/common/view/swipe.vue';
   import listAdvert from '@/common/view/listAdvert.vue';
   import contentHeader from '@/common/view/contentHeader.vue';
-  import {getIndexLunbo,getadvert,getVideoList,getArticleList,axiosAll} from '@/api/articleList.js';
+  import {getIndexLunbo,getadvert,getVideoList,getArticleList} from '@/api/recommend/index';
   import Bscroll from 'better-scroll'
   export default {
     name: 'articleContent',
@@ -80,7 +100,10 @@
         // 当前的pageNo
         nowPageIndex : 1,
         // 当前需要被调用的函数
-        nowFun : null
+        nowFun : null,
+        nowFunType : {},
+        aspect : 2,
+        state : 6
       }
     },
     props:['tabType'],
@@ -102,12 +125,14 @@
     },
     watch:{
       tabType:function(id){
+        this.nowPageIndex = 1;
         let that = this;
         // 当tabType更新时重新调用接口查询数据
         switch (id*1) {
           case 1:
             // 文章列表
             this.nowFun = getadvert
+            this.nowFunType = {'key':'titleType','value':"ALL"}
             // 轮播
             getIndexLunbo().then((res) => {
               that.swipeData = res['data'];
@@ -116,6 +141,12 @@
           case 2:
             // 拿到视频列表
             this.nowFun = getVideoList
+            this.nowFunType = {'key':'titleType','value':"ALL"}
+            break;
+          case 3:
+            // 拿到本地列表
+            this.nowFun = getVideoList
+            this.nowFunType = {'key':'cityCode','value':"1"}
             break;
           default:
             break;
@@ -123,7 +154,7 @@
         this.nowFun({
           data:{
             "pageNo": this.nowPageIndex,
-            "pageSize": 15
+            "pageSize": 15,
           }
         }).then((res) => {
           console.log(res)
@@ -173,15 +204,18 @@
               }
               if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
                 console.log("上拉加载更多")
-                that.nowPageIndex += 1;
                 that.nowFun({
                   data:{
                     "pageNo": this.nowPageIndex,
                     "pageSize": 15
                   }
                 }).then((res) => {
-                  that.articleData = that.articleData.concat(res['data']);
-                  that.toScroll();
+                  if(res.data.length > 0){
+                    that.articleData = that.articleData.concat(res['data']);
+                    that.nowPageIndex += 1;
+                    that.toScroll();
+                  }
+                  
                 });
               }
             })
