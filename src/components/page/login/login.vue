@@ -94,9 +94,15 @@ export default {
     display flex
     justify-content space-between
     margin-top 4rem
-    div 
-      img
-        width 100%
+    div
+      width 4rem
+      height 4rem
+      border 1px solid #ddd
+      pdding 1rem
+      padding .3rem
+      border-radius 50%
+      /* img */
+        /* width 100% */
 </style>
 
 
