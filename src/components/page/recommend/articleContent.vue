@@ -112,11 +112,14 @@
       // 文章列表
       this.nowFun({
         data:{
-          "pageNo": this.nowPageIndex,
-          "pageSize": 15
+          "pageNo": 1,
+          "pageSize": 15,
+          "operatorType":'default',
+          "titleType":"ALL"
         }
       }).then((res) => {
         this.articleData = res['data'];
+        this.toScroll();
       });
       // 轮播列表
       getIndexLunbo().then((res) => {
@@ -153,8 +156,10 @@
         }
         this.nowFun({
           data:{
-            "pageNo": this.nowPageIndex,
+            "pageNo": 1,
             "pageSize": 15,
+            "operatorType":'default',
+            "titleType":"ALL"
           }
         }).then((res) => {
           console.log(res)
@@ -192,13 +197,18 @@
                 console.log("下拉刷新")
                 that.nowPageIndex = 1;
                 console.log(that.nowPageIndex)
+                console.log('aaabbb')
+                console.log(that.articleData.length)
                  that.nowFun({
                   data:{
-                    "pageNo": this.nowPageIndex,
-                    "pageSize": 15
+                    "pageNo": 1,
+                    "pageSize": 15,
+                    "operatorType":"down",
+                    "dateTime":that.articleData[0].createTime,
+                    "titleType":"ALL"
                   }
                 }).then((res) => {
-                  that.articleData = res['data'];
+                  that.articleData =res['data'].concat(that.articleData)
                   that.toScroll();
                 });
               }
@@ -206,8 +216,11 @@
                 console.log("上拉加载更多")
                 that.nowFun({
                   data:{
-                    "pageNo": this.nowPageIndex,
-                    "pageSize": 15
+                    "pageNo": 1,
+                    "pageSize": 15,
+                    "operatorType":"up",
+                    "dateTime":that.articleData[that.articleData.length-1].createTime,
+                    "titleType":"ALL"
                   }
                 }).then((res) => {
                   if(res.data.length > 0){

@@ -7,13 +7,13 @@
           ref="listview">
     <ul>
       <li v-for="group in data" class="list-group" ref="listGroup">
-        <h2 class="list-group-title">{{group.title}}</h2>
+        <h2 class="list-group-title">{{group.initials}}</h2>
         <uL>
-          <li @click="selectItem(item)" v-for="item in group.items" class="list-group-item">
-            <!-- <img class="avatar" v-lazy="item.avatar"> -->
-            <img class="avatar" v-lazy='imgSrc'>
-            <!-- <span class="name">{{item.name}}</span> -->
-            <span class="name">宝马</span>
+          <li @click="selectItem(item)" v-for="item in group.brands" class="list-group-item">
+            <img class="avatar" v-lazy="item.offLogo">
+            <!-- <img class="avatar" v-lazy='imgSrc'> -->
+            <span class="name">{{item.brandName}}</span>
+            <!-- <span class="name">宝马</span> -->
           </li>
         </uL>
       </li>
@@ -55,14 +55,17 @@
     computed: {
       shortcutList() {
         return this.data.map((group) => {
-          return group.title.substr(0, 1)
+          console.log(group)
+          console.log('aaa')
+          return group.initials.substr(0, 1)
         })
       },
       fixedTitle() {
         if (this.scrollY > 0) {
           return ''
         }
-        return this.data[this.currentIndex] ? this.data[this.currentIndex].title : ''
+        // console.log(this.data[this.currentIndex].initials)
+        return this.data[this.currentIndex] ? this.data[this.currentIndex].initials : ''
       }
     },
     data() {
@@ -73,9 +76,9 @@
         imgSrc : 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3115821054,4178950010&fm=58'
       }
     },
-    mounted() {
-      this._calculateHeight()
-    },
+    // mounted() {
+    //   this._calculateHeight()
+    // },
     created() {
       this.probeType = 3
       this.listenScroll = true
@@ -133,11 +136,11 @@
       }
     },
     watch: {
-      // data() {
-      //   setTimeout(() => {
-      //     this._calculateHeight()
-      //   }, 20)
-      // },
+      data() {
+        setTimeout(() => {
+          this._calculateHeight()
+        }, 20)
+      },
       scrollY(newY) {
         const listHeight = this.listHeight
         // 当滚动到顶部，newY>0

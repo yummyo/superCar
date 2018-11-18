@@ -2,7 +2,7 @@
     <mt-swipe @change="handleChange" :auto="2000">
       <!-- 轮播图 -->
         <mt-swipe-item v-if="listdata.length > 0" v-for="(item,index) in listdata" :key="index">
-              <img v-if="item.thumbnailResource" v-lazy="item.thumbnailResource[0].thumbnailUrl" @click="swipeLink(item.thumbnailResource[0].thumbnailId,item.contentUrl)" class="img"/>
+              <img v-if="item.thumbnailResource.length > 0" v-lazy="item.thumbnailResource[0].thumbnailUrl" @click="swipeLink(item.thumbnailResource[0].thumbnailId,item.contentUrl)" class="img"/>
         </mt-swipe-item>
       </mt-swipe>
   </template>
