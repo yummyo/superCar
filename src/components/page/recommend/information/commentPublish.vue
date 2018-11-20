@@ -24,15 +24,19 @@
     },
     props:{
       commentBrage : 0,
-      collectBrage : 0
+      collectBrage : 0,
+      id:{
+        default:0
+      }
     },
     methods:{
       toggleComment : function(){
         // this.isComment = !this.isComment
+        console.log("文章id"+this.id)
         this.$router.push({
           "path":"/commentList",
-          params : {
-            'id':'123'
+          'query' : {
+            'id':this.id
           }
         });
       },

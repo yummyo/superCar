@@ -196,9 +196,6 @@
               if (pos.y > 50) {
                 console.log("下拉刷新")
                 that.nowPageIndex = 1;
-                console.log(that.nowPageIndex)
-                console.log('aaabbb')
-                console.log(that.articleData.length)
                  that.nowFun({
                   data:{
                     "pageNo": 1,
@@ -214,14 +211,17 @@
               }
               if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
                 console.log("上拉加载更多")
+                let data = {
+                  "pageNo": 1,
+                  "pageSize": 15,
+                  "operatorType":"up",
+                  "titleType":"ALL"
+                }
+                if(that.articleData.length > 0){
+                  data["dateTime"] = that.articleData[that.articleData.length-1].createTime
+                }
                 that.nowFun({
-                  data:{
-                    "pageNo": 1,
-                    "pageSize": 15,
-                    "operatorType":"up",
-                    "dateTime":that.articleData[that.articleData.length-1].createTime,
-                    "titleType":"ALL"
-                  }
+                  data:data
                 }).then((res) => {
                   if(res.data.length > 0){
                     that.articleData = that.articleData.concat(res['data']);

@@ -51,7 +51,7 @@
         </div>
     </div>
     <!-- 下方评论部分 -->
-    <commentPublish ></commentPublish>
+    <commentPublish :id='pageId'></commentPublish>
   </div>
 </template>
 
@@ -69,18 +69,20 @@
         videoData : {},
         pageType : 'article',
         xihuan : false,
-        ifPlay : false
+        ifPlay : false,
+        pageId: 0 
       }
     },
     created:function (){
       this.pageType = this.$route.params.type
+      this.pageId = this.$route.params.id
       if(this.pageType == 'article'){
         console.log("文章")
          // 获取文章详情
         getArticleDetail({
           data:{
-            id : '6fbd4b4567394826967c9988c606d822'
-            // id : this.$route.params.id
+            // id : '6fbd4b4567394826967c9988c606d822'
+            id : this.$route.params.id
           }
         }).then((res)=>{
           console.log(this.htmlEnCode(res.data.content))
@@ -99,7 +101,6 @@
       }
     },
     mounted:function(){
-      console.log(this.$route.params.data)
     },
     methods:{
       playVideo(){

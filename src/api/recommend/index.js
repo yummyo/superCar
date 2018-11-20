@@ -50,6 +50,30 @@ export  function getIndexLunbo(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
   }
+  //查询视频评论列表
+  export  function getVideoCommentList(config){
+    let Obj = {
+      'url':URLROUTER+'/app/comment/findByVideoId',
+      'method':"GET"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+  }
+  // 新增回复
+  export  function saveComment(config){
+    let Obj = {
+      'url':URLROUTER+'/app/comment/save',
+      'method':"PUT"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+  }
+  // 新增
+  export  function saveresponse(config){
+    let Obj = {
+      'url':URLROUTER+'/app/comment/saveresponse',
+      'method':"PUT"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+  }
   
   // export  function getListContent(config){
   //   const url='/api/getListContent'

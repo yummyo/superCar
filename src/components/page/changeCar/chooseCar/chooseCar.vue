@@ -55,8 +55,6 @@
     computed: {
       shortcutList() {
         return this.data.map((group) => {
-          console.log(group)
-          console.log('aaa')
           return group.initials.substr(0, 1)
         })
       },
