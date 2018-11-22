@@ -5,14 +5,14 @@
     <!-- 评论 -->
     <div class="list" v-for="(item,index) in commentData" :key="index">
       <div class="portrait">
-        <img src="/static/index/qq.png" alt="">
+        <img :src="item.createUserHeadIconUrl" alt="">
       </div>
       <div class="content">
-        <div class="userName">{{item.name}}</div>
+        <div class="userName">{{item.createUserNickName}}</div>
         <div class="content">{{item.content}}</div>
         <div class="time">
-          <span>{{item.time}}</span>
-          <a @click.prevent="reply">回复</a>  
+          <span>{{item.createTime.substr(0,10)}}</span>
+          <a @click.prevent="reply(item)">回复</a>  
         </div>
       </div>
     </div>
@@ -63,15 +63,23 @@
         commentBrage: 0,
         isCollect: true,
         isComment: true,
-        content:''
+        content:'',
       }
     },
     created:function(){
       console.log(this.$route.query.id)
+      const _self = this
       getVideoCommentList({
-        id:this.$route.query.id
+        data:{
+          // 'sourceId':this.$route.query.id,
+        'sourceId':'941fb2c803e24ca39077f4be3f92c770',
+        'sourceType':'video',
+        "pageNo":1,
+        'pageSize':15
+        }
       }).then(res=>{
-        console.log(res)
+        _self.commentData = res.data.result
+        console.log(res.data.result)
       })
     },
     components:{
@@ -95,14 +103,22 @@
         this.commentVisible = true
       },
       commont:function(){
-        saveComment({
+        // saveComment({
+        //   data:{
+        //     sourceId:this.$route.query.id,
+        //     sourceType:"video",
+        //     content:this.content,
+        //   }
+        // }).then(res=>{
+        //   console.log(res)
+        // })
+        saveresponse({
           data:{
-            commentSourceId:this.$route.query.id,
-            commentSourceType:"",
+            pid:'c9246c273ef54c76ae5baa5c4901394c',
             content:this.content,
           }
         }).then(res=>{
-
+          console.log(res)
         })
       },
       reply(){

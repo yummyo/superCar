@@ -53,7 +53,7 @@ export  function getIndexLunbo(config){
   //查询视频评论列表
   export  function getVideoCommentList(config){
     let Obj = {
-      'url':URLROUTER+'/app/comment/findByVideoId',
+      'url':URLROUTER+'/app/comment/findComments',
       'method':"GET"
     }
     return axiosConfig(Object.assign({},Obj,config))

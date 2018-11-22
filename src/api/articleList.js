@@ -10,6 +10,7 @@ export function axiosConfig(config){
   // 区别get请求和其他请求 get请求传参数需要用params
   switch(Obj.method){
     case 'GET': 
+    case 'PUT': 
       Obj['params'] = config.data || '';
       break;
     case 'DELETE': 
