@@ -13,7 +13,7 @@
           <span>未登录</span>
         </div>
         <div>
-          <button class="toLogin">登录</button>
+          <button @click="login" class="toLogin">登录</button>
         </div>
       </div>
     </div>
@@ -49,6 +49,9 @@
             id
           }
         })
+      },
+      login : function(){
+        this.$router.push({path: "/login"})
       }
     },
   }
