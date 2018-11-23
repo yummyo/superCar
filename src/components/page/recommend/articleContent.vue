@@ -46,22 +46,27 @@
       </div>
       <div v-else-if='tabType == 3'>
         <!-- 上海 -->
-        <div v-for="item in 9" :key='item'>
-            <listContent v-if='(item+1) % 3 == 0' :listdata='listData'></listContent>
-            <listRankContent v-else  :listdata='listData2'></listRankContent>
+        <div v-for="(item,index) of articleData" :key='index'>
+            <listContent v-if='item.contentSourceType == 1' :listdata='item' @click.native="toDetail(item.id,'article')"></listContent>
+            <listRankContent v-if="item.contentSourceType == 2"  :listdata='item' @click.native="toDetail(item.id,'article')"></listRankContent>
           </div>
       </div>
       <div v-else-if="tabType == 4">
-        <!-- 测试 -->
-        <contentHeader :listdata='listData6'></contentHeader> 
-        <swipe :listdata='listData4'></swipe>
+        <!-- 评测 -->
+        <div v-for="(item,index) of articleData" :key='index'>
+          <listContent v-if='item.contentSourceType == 1' :listdata='item' @click.native="toDetail(item.id,'article')"></listContent>
+          <listRankContent v-if="item.contentSourceType == 2"  :listdata='item' @click.native="toDetail(item.id,'article')"></listRankContent>
+        </div>
       </div>
       <div v-else-if="tabType == 5">
         <!-- 导购 -->
-        <contentHeader :listdata='listData6'></contentHeader> 
-        <swipe :listdata='listData4'></swipe>
-        <div v-for="item in 9" :key='item'>
-            <listVideo :listdata='listData3'></listVideo>   
+        <div v-for="(item,index) of articleData" :key='index'>
+          <!-- 专题 -->
+          <listRankContent v-if="item.contentSourceType == 2"  :listdata='item'  @click.native="toDetail(item.id,'article')"></listRankContent>
+          <!-- 广告 -->
+          <listAdvert v-else-if="item.contentSourceType == 3"  :listdata='item' @click.native="toAdvert(item)"></listAdvert>
+          <!-- 文章 -->
+          <listContent v-else-if='item.contentSourceType == 1' :listdata='item' @click.native="toDetail(item.id,'article')"></listContent>
         </div>
       </div>
     </div>
@@ -148,8 +153,18 @@
             break;
           case 3:
             // 拿到本地列表
-            this.nowFun = getVideoList
+            this.nowFun = getadvert
             this.nowFunType = {'key':'cityCode','value':"1"}
+            break;
+          case 4:
+            // 拿到评测
+            this.nowFun = getadvert
+            this.nowFunType = {'key':'titleType','value':"PC"}
+            break;
+          case 5:
+            // 拿到导购
+            this.nowFun = getadvert
+            this.nowFunType = {'key':'titleType','value':"DG"}
             break;
           default:
             break;
@@ -177,7 +192,7 @@
         // 进入文章喜爱那个IQ那个页面
         this.$router.push({
           name:"articleDetail",
-          params:{
+          query:{
             id:data,
             type:type
           }
@@ -196,15 +211,24 @@
               if (pos.y > 50) {
                 console.log("下拉刷新")
                 that.nowPageIndex = 1;
-                 that.nowFun({
-                  data:{
-                    "pageNo": 1,
-                    "pageSize": 15,
-                    "operatorType":"down",
-                    "dateTime":that.articleData[0].createTime,
-                    "titleType":"ALL"
-                  }
-                }).then((res) => {
+                let  data = {
+                  "pageNo": 1,
+                  "pageSize": 15,
+                  "operatorType":"down",
+                  "titleType":"ALL",
+                  [that.nowFunType.key] : that.nowFunType.value
+                }
+                if(that.tabType == '1'){
+                  // 如果页面是最新 增加时间字段
+                  data['articleDateTime'] = that.articleData[0]['createTime']
+                  data['pushDateTime'] = that.articleData[4]['createTime']
+                }else if(that.tabType == '2'){
+                  // 如果页面是 视频
+                  data['dateTime'] = that.articleData[0]['createTime']
+                }else if(that.tabType == '4'){
+
+                }
+                that.nowFun({data}).then((res) => {
                   that.articleData =res['data'].concat(that.articleData)
                   that.toScroll();
                 });
@@ -220,9 +244,7 @@
                 if(that.articleData.length > 0){
                   data["dateTime"] = that.articleData[that.articleData.length-1].createTime
                 }
-                that.nowFun({
-                  data:data
-                }).then((res) => {
+                that.nowFun({data}).then((res) => {
                   if(res.data.length > 0){
                     that.articleData = that.articleData.concat(res['data']);
                     that.nowPageIndex += 1;

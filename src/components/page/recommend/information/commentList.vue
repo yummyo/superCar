@@ -31,7 +31,7 @@
           </div>
       </div>
       <div v-else>
-        <div class="commentInput" @click.self="commentVisible = false">
+        <div class="commentInput" @click.self="hideComment">
           <div>
             <textarea v-model="content" cols="30" rows="10"></textarea>
             <div class="commentBtn">
@@ -52,17 +52,12 @@
     name: 'commentList',
     data () {
       return {
-        commentData : [
-          {'id':1,'pid':0,"content":"测试评论",name:"大帅锅1",time:"2018/11/5"},
-          {'id':2,'pid':1,"content":"测试评论1",name:"大帅锅2",time:"2018/11/6"},
-          {'id':3,'pid':1,"content":"测试评论2",name:"大帅锅3",time:"2018/11/7"},
-          {'id':4,'pid':3,"content":"测试评论3",name:"大帅锅4",time:"2018/11/7"},
-          {'id':5,'pid':4,"content":"测试评论4",name:"大帅锅5",time:"2018/11/7"}
-        ],
+        commentData : [],
         commentVisible:false,
         commentBrage: 0,
         isCollect: true,
         isComment: true,
+        replyUserData: null,
         content:'',
       }
     },
@@ -100,29 +95,43 @@
 
       },
       cutInput:function(){
+        // 正常评论
         this.commentVisible = true
       },
       commont:function(){
-        // saveComment({
-        //   data:{
-        //     sourceId:this.$route.query.id,
-        //     sourceType:"video",
-        //     content:this.content,
-        //   }
-        // }).then(res=>{
-        //   console.log(res)
-        // })
-        saveresponse({
-          data:{
-            pid:'c9246c273ef54c76ae5baa5c4901394c',
-            content:this.content,
-          }
-        }).then(res=>{
-          console.log(res)
-        })
+        console.log(this.replyUserData)
+        if(!this.replyUserData){
+          // 评论
+          saveComment({
+            data:{
+              sourceId:this.$route.query.id,
+              sourceType:this.$route.query.pageType,
+              content:this.content,
+            }
+          }).then(res=>{
+            console.log(res)
+          })
+        }else{
+          // 回复
+          saveresponse({
+            data:{
+              pid:this.replyUserData.id,
+              content:this.content,
+            }
+          }).then(res=>{
+            console.log(res)
+          })
+        }
       },
-      reply(){
+      reply(item){
+        // 点击回复按钮
+        this.replyUserData = item;
         this.commentVisible = true
+      },
+      hideComment(){
+        // 隐藏回复框
+        this.replyUserData = null;
+        this.commentVisible = false
       }
     }
   }

@@ -27,6 +27,9 @@
       collectBrage : 0,
       id:{
         default:0
+      },
+      pageType:{
+        default:'article'
       }
     },
     methods:{
@@ -36,7 +39,8 @@
         this.$router.push({
           "path":"/commentList",
           'query' : {
-            'id':this.id
+            'id':this.id,
+            'pageType':this.pageType
           }
         });
       },

@@ -51,7 +51,7 @@
         </div>
     </div>
     <!-- 下方评论部分 -->
-    <commentPublish :id='pageId'></commentPublish>
+    <commentPublish :id='pageId' :pageType='pageType'></commentPublish>
   </div>
 </template>
 
@@ -74,8 +74,8 @@
       }
     },
     created:function (){
-      this.pageType = this.$route.params.type
-      this.pageId = this.$route.params.id
+      this.pageType = this.$route.query.type
+      this.pageId = this.$route.query.id
       if(this.pageType == 'article'){
         console.log("文章")
          // 获取文章详情
