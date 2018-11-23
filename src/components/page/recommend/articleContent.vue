@@ -125,6 +125,9 @@
       }).then((res) => {
         this.articleData = res['data'];
         this.toScroll();
+      }).catch(res=>{
+        console.log('错误2')
+        console.log(res)
       });
       // 轮播列表
       getIndexLunbo().then((res) => {

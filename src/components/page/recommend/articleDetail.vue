@@ -38,17 +38,30 @@
             </div>
             <!--  点赞数量 评论 -->
             <div>
-              <span @click="changeXihuan">
-                <i :class="{iconfont:true,'icon-xihuan2':this.xihuan,'icon-xihuan':!(this.xihuan)}"></i>
-                {{videoData.keepCount }}
-                </span>
               <span>
                 <i class="iconfont icon-pinglun"></i>
                 {{videoData.commentCount }}
                 </span>
-            </div>  
+            </div>
           </div>
         </div>
+    </div>
+    <!-- 点赞 -->
+    <div>
+      <button class="spuerCar_btn" @click="star()">
+        点赞
+        <span>
+                <i :class="{iconfont:true,'icon-xihuan2':this.xihuan,'icon-xihuan':!(this.xihuan)}"></i>
+                {{videoData.keepCount }}
+              </span>
+        </button>
+    </div>
+    <!-- 相关推荐 -->
+    <div>
+      <h5>相关推荐</h5>
+      <div v-for="(item,index) of recommendData" :key="index">
+          <listContent :listdata='item'></listContent>
+      </div>
     </div>
     <!-- 下方评论部分 -->
     <commentPublish :id='pageId' :pageType='pageType'></commentPublish>
@@ -58,7 +71,8 @@
 <script>
   import contentHeader from '@/common/view/contentHeader';
   import commentPublish from './information/commentPublish.vue';
-  import {getArticleDetail,getVideo} from '@/api/recommend/index';
+  import listContent from '@/common/view/listContent';
+  import { getArticleDetail,getVideo,similarArticles,giveLike,removeLike } from '@/api/recommend/index';
   export default {
     name: 'articleDetail',
     data () {
@@ -70,30 +84,50 @@
         pageType : 'article',
         xihuan : false,
         ifPlay : false,
-        pageId: 0 
+        pageId: 0,
+        // 相关推荐
+        recommendData:[],
+        isLike:true
       }
     },
     created:function (){
       this.pageType = this.$route.query.type
       this.pageId = this.$route.query.id
+      similarArticles({
+          data:{
+            // id : '6fbd4b4567394826967c9988c606d822'
+            id : this.$route.query.id
+          }
+        }).then(res=>{
+          console.log(res)
+          this.recommendData = res.data
+        })
       if(this.pageType == 'article'){
         console.log("文章")
          // 获取文章详情
         getArticleDetail({
           data:{
             // id : '6fbd4b4567394826967c9988c606d822'
-            id : this.$route.params.id
+            id : this.$route.query.id
           }
         }).then((res)=>{
           console.log(this.htmlEnCode(res.data.content))
           this.videoData = res.data
+        })
+        similarArticles({
+          data:{
+            // id : '6fbd4b4567394826967c9988c606d822'
+            id : this.$route.query.id
+          }
+        }).then(res=>{
+          console.log(res)
         })
       }else{
          console.log("shipin")
         // 获取视频详情
         getVideo({
           data : {
-            id:this.$route.params.id
+            id:this.$route.query.id
           }
         }).then((res)=>{
           this.videoData = res.data
@@ -118,6 +152,20 @@
         temp = null; 
         output = output.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
         return output;
+      },
+      star(){
+        let data = {
+          id: this.$route.query.id,
+        }
+        if(this.isLike){
+          removeLike({data}).then(res => {
+            console.log(res)
+          })
+        }else{
+          giveLike({data}).then(res => {
+            console.log(res)
+          })
+        }
       }
     },
     components:{

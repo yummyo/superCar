@@ -74,6 +74,30 @@ export  function getIndexLunbo(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
   }
+  // 查询相关推荐
+  export  function similarArticles(config){
+    let Obj = {
+      'url':URLROUTER+'/app/article/findSimilarArticles',
+      'method':"GET"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+  }
+  // 点赞
+  export  function giveLike(config){
+    let Obj = {
+      'url':URLROUTER+'/app/userlike/giveLike',
+      'method':"GET"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+  }
+  // 取消点赞
+  export  function removeLike(config){
+    let Obj = {
+      'url':URLROUTER+'/app/userlike/removeLike',
+      'method':"GET"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+  }
   
   // export  function getListContent(config){
   //   const url='/api/getListContent'

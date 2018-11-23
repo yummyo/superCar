@@ -23,7 +23,7 @@ export function axiosConfig(config){
   return axios(Obj).then((res)=>{
     return Promise.resolve(res.data)
   }).catch((error)=>{
-    return Promise.resolve(error)
+    return Promise.reject(error)
   })
 }
  // 多并发axios请求
