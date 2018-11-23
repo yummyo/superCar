@@ -49,6 +49,12 @@ const myAttention = (resolve) => {
     resolve(module)
   })
 }
+// 我的收藏
+const myCollect = (resolve) => {
+  import('@/components/page/userCenter/myCollect').then((module) => {
+    resolve(module)
+  })
+}
 // 车系详情
 const carSeriesDetail = (resolve) => {
   import('@/components/page/changeCar/carSeriesDetail/carSeriesDetail').then((module) => {
@@ -58,6 +64,19 @@ const carSeriesDetail = (resolve) => {
 // 登录页面
 const login = (resolve) => {
   import('@/components/page/login/login').then((module) => {
+    resolve(module)
+  })
+}
+// 注册页面
+// 输入手机号
+const registerNumber = (resolve) => {
+  import('@/components/page/register/registerNumber').then((module) => {
+    resolve(module)
+  })
+}
+//输入短信验证码
+const registerCode = (resolve) => {
+  import('@/components/page/register/registerCode').then((module) => {
     resolve(module)
   })
 }
@@ -71,6 +90,22 @@ const router = new Router({
       path: "/login",
       name: "login",
       component: login,
+      meta: {
+        auth: false
+      }
+    },
+    {
+      path: "/registerNumber",
+      name: "registerNumber",
+      component: registerNumber,
+      meta: {
+        auth: false
+      }
+    },
+    {
+      path: "/registerCode",
+      name: "registerCode",
+      component: registerCode,
       meta: {
         auth: false
       }
@@ -128,6 +163,11 @@ const router = new Router({
     {
       path: '/myAttention',
       name: 'myAttention',
+      component: myAttention,
+    },
+    {
+      path: '/myCollect',
+      name: 'myCollect',
       component: myAttention,
     },
     {

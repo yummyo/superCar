@@ -19,12 +19,12 @@
     </div>
     <div class="setting">
       <!-- 我的关注 -->
-      <div class="attention" @click="fun('1')">
+      <div class="attention" @click="funAttention()">
         <span>我的关注：</span>
         <span>0</span>
       </div>
       <!-- 我的收藏 -->
-      <div class="collect" @click="fun('2')">
+      <div class="collect" @click="funCollect()">
         <span>我的收藏：</span>
         <span>0</span>
       </div>
@@ -41,13 +41,14 @@
       }
     },
     methods:{
-      fun : function(id){
-        console.log('id:'+id)
+      funAttention : function(){
         this.$router.push({
-          name:"myAttention",
-          params:{
-            id
-          }
+          name:"myAttention"
+        })
+      },
+      funCollect : function(){
+        this.$router.push({
+          name:"myCollect"
         })
       },
       login : function(){
