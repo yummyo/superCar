@@ -2,11 +2,11 @@
   <div class="login">
     <h2 class="loginName">用户名登录</h2>
     <div class="loginIpunt">
-      <input type="text" placeholder="账户">
-      <input type="password" placeholder="密码">
+      <input type="text" v-model="loginForm.userName" placeholder="账户">
+      <input type="password" v-model="loginForm.password" placeholder="密码">
     </div>
     <div class="loginButton">
-        <button>登录</button>
+        <button @click="loginFn" :disabled=loginForm.userName&&loginForm.password?false:true :class={activeLogin:loginForm.userName&&loginForm.password}>登录</button>
     </div>
     <div class="login-wrapper">
         <div class="links">
@@ -28,24 +28,39 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {toLogin} from '@/api/login/index.js'
 export default {
   data() {
     return {
       pwdVisable: false,
-      userName: "",
-      password: ""
+      loginForm:{
+        userName: "",
+        password: ""
+      },
+     
     };
   },
+ 
   methods: {
-    pwdVisableFn() {
-      this.pwdVisable = !this.pwdVisable;
-    },
     loginFn() {
-      if (!this.userName || !this.password) {
-      } else {
-          this.$router.push({path: "recommend"});
+      if (this.loginForm.userName && this.loginForm.password) {
+        toLogin({data:this.loginForm}).then(res=>{
+          console.log(res)
+         if(res.code=='0'){
+          this.$toast('登录成功')
+          this.$router.push({path: "/"});
+         }else{
+          this.$toast('用户名或者密码错误')
+         }
+        }).catch(err=>{
+          console.log(err,'err')
+          this.$toast('用户名或者密码错误')
+        })
+      
+      }else{
+        this.$toast('请输入用户名或者密码')
       }
-      }
+      } 
     },
   components: {
   }
@@ -63,6 +78,9 @@ export default {
       padding 0.8rem 0
       background #E7E8EC
       outline none
+    .activeLogin
+      background #007ACC
+      color #fff
   .loginName
     text-align left
     margin-bottom 4rem
@@ -97,7 +115,7 @@ export default {
     div
       width 4rem
       height 4rem
-      border 1px solid #ddd
+      /* border 1px solid #ddd */
       pdding 1rem
       padding .3rem
       border-radius 50%

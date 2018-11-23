@@ -6,7 +6,7 @@ import router from './router'
 import Vuex from 'vuex'
 import store from './store/index'
 import './mork/index'
-import { Tabbar,TabItem,Swipe, SwipeItem,Badge  } from 'mint-ui';
+import { Tabbar,TabItem,Swipe, SwipeItem,Badge,Toast} from 'mint-ui';
 import lazyLoad from "vue-lazyload"
 import 'mint-ui/lib/style.css'
 
@@ -19,6 +19,7 @@ Vue.component(TabItem.name, TabItem);
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
 Vue.component(Badge.name, Badge);
+Vue.$toast = Vue.prototype.$toast = Toast;
 Vue.config.productionTip = false
 
 Vue.use(Vuex)
