@@ -143,7 +143,7 @@
           case 1:
             // 文章列表
             this.nowFun = getadvert
-            this.nowFunType = {'key':'titleType','value':"ALL"}
+            this.nowFunType = {'k':'titleType','v':"ALL"}
             // 轮播
             getIndexLunbo().then((res) => {
               that.swipeData = res['data'];
@@ -152,44 +152,39 @@
           case 2:
             // 拿到视频列表
             this.nowFun = getVideoList
-            this.nowFunType = {'key':'titleType','value':"ALL"}
             break;
           case 3:
             // 拿到本地列表
             this.nowFun = getadvert
-            this.nowFunType = {'key':'cityCode','value':"1"}
+            this.nowFunType = {'k':'cityCode','v':"1"}
             break;
           case 4:
             // 拿到评测
             this.nowFun = getadvert
-            this.nowFunType = {'key':'titleType','value':"PC"}
+            this.nowFunType = {'k':'titleType','v':"PC"}
             break;
           case 5:
             // 拿到导购
             this.nowFun = getadvert
-            this.nowFunType = {'key':'titleType','value':"DG"}
+            this.nowFunType = {'k':'titleType','v':"DG"}
             break;
           default:
             break;
         }
-        console.log(this.nowFunType)
         this.nowFun({
           data:{
             "pageNo": 1,
             "pageSize": 15,
             "operatorType":'default',
-            [this.nowFunType.key]: this.nowFunType.value
+            [this.nowFunType.k]: this.nowFunType.v
           }
         }).then((res) => {
-          console.log(res)
           that.articleData = res['data'];
-          console.log( that.articleData)
           that.toScroll();
         });
       }
     },
     mounted:function(){
-      console.log(this.tabType)
     },
     methods:{
       toDetail : function(data,type){
@@ -219,18 +214,19 @@
                   "pageNo": 1,
                   "pageSize": 15,
                   "operatorType":"down",
-                  "titleType":"ALL",
-                  [that.nowFunType.key] : that.nowFunType.value
+                  [that.nowFunType.k] : that.nowFunType.v
                 }
-                if(that.tabType == '1'){
+                if(that.tabType+"" == '1' || that.tabType == '3' || that.tabType == '4' || that.tabType == '5'){
                   // 如果页面是最新 增加时间字段
-                  data['articleDateTime'] = that.articleData[0]['createTime']
-                  data['pushDateTime'] = that.articleData[4]['createTime']
-                }else if(that.tabType == '2'){
+                  if(that.articleData[0]){
+                    data['articleDateTime'] = that.articleData[0]['createTime'];
+                  }
+                  if(that.articleData[4]){
+                    data['pushDateTime'] =  that.articleData[4]['createTime']
+                  }
+                }else if(that.tabType+"" == '2'){
                   // 如果页面是 视频
                   data['dateTime'] = that.articleData[0]['createTime']
-                }else if(that.tabType == '4'){
-
                 }
                 that.nowFun({data}).then((res) => {
                   that.articleData =res['data'].concat(that.articleData)
@@ -240,7 +236,7 @@
               if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
                 console.log("上拉加载更多")
                 let data = {
-                  "pageNo": 1,
+                  "pageNo": that.nowPageIndex,
                   "pageSize": 15,
                   "operatorType":"up",
                   "titleType":"ALL"
@@ -254,7 +250,6 @@
                     that.nowPageIndex += 1;
                     that.toScroll();
                   }
-                  
                 });
               }
             })

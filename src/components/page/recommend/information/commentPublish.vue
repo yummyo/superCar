@@ -7,7 +7,7 @@
         <span :class="{'iconfont':true,'icon-pinglun':!isComment,'icon-tubiaozhizuo-':isComment}" ></span>
       </div>
       <div @click="toggleCollect">
-        <mt-badge class="badge" size="small" type="error">{{collectNum}}</mt-badge>
+        <mt-badge class="badge" v-if="false" size="small" type="error">{{collectNum}}</mt-badge>
         <span :class="{'iconfont':true,'icon-unie601':!isCollect,'icon-shoucang':isCollect}"></span>
       </div>
   </div>
@@ -27,7 +27,6 @@ import { isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
     },
     props:{
       commentBrage : 0,
-      collectBrage : 0,
       id:{
         default:0
       },
@@ -36,6 +35,7 @@ import { isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
       }
     },
     created:function(){
+      console.log(this.commentBrage)
       const that = this
       // 判断是否已经收藏过
       isKeeped({
