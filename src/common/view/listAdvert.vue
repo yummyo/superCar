@@ -32,9 +32,12 @@
   </script>
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
-  <style scoped lang="stylus" rel="stylesheet/stylus">
+  <style scoped lang="stylus" rel="stylesheet/stylus">      
     .item
       padding 1rem
+      .comment-Title
+        font-weight 500
+        color black 
       .icon img
         height 12rem
         width 100%
