@@ -77,7 +77,7 @@
         color #B7B8BA
       .comment
         display flex
-        font-size .1rem
+        font-size .8rem
         color #ccc
         align-items baseline
         div:first-child

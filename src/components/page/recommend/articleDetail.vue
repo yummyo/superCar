@@ -277,13 +277,17 @@
       transform  translate(-50%,-50%)
       i
         font-size 2rem
+        color #C6C6C4
+        padding 1rem 1rem 1rem 1.2rem
+        border 2px solid #C6C6C4
+        border-radius 50%
     video,img
       width 100%
       height 13rem
   .videoInfo
       padding 0 1rem
     .videoTitle
-      font-size 1.5rem
+      font-size 1.2rem
       text-align left
     .videoMessage
       display flex

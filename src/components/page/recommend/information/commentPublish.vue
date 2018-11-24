@@ -100,14 +100,14 @@ import { isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
   .commentPublish
     padding 10px 
     display flex
-    height 40px
+    height 28px
     background #F6F7FB
     position fixed
     bottom 0
     input 
       width 80%
       padding-left 2rem
-      font-size 1.3rem
+      font-size 1rem
       border none
       &:focus
         outline none
