@@ -46,7 +46,7 @@
     .name
       text-align left
       color #474B4C
-      padding-bottom 2rem
+      padding-bottom 1rem
       font-weight 500
       color black 
     .desc

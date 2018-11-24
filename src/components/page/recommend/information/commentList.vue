@@ -15,6 +15,13 @@
           <a @click.prevent="reply(item)">回复</a>  
         </div>
       </div>
+      <div class="contentReturn" v-if="item.commentResponse.length>0" v-for="(itemReturn,indexReturn) in item.commentResponse" :key="indexReturn">
+        <div class="userName">{{itemReturn.createUserId}}回复{{itemReturn.createUserNickName}}</div>
+        <div class="content">{{itemReturn.responseComment}}</div>
+        <div class="time">
+          <span>{{itemReturn.createTime.substr(0,10)}}</span>
+        </div>
+      </div>
     </div>
     <!-- 底部回复 -->
     <div>
@@ -192,8 +199,11 @@
     .commentList
       .list
         display flex
+        flex-direction: column
+        align-items: flex-start;
         padding .5rem 1rem
         border-bottom 1px solid #ddd
+        text-align left
         .time
           span
             font-size 5px
@@ -201,11 +211,13 @@
           a
             font-size 8px
         .content
-          padding-left 1rem
+          // padding-left 1rem
+        .contentReturn
+          padding-left 2rem
     .commentPublish
       padding 10px 
       display flex
-      height 40px
+      height 28px
       background #F6F7FB
       position fixed
       bottom 0
@@ -214,7 +226,7 @@
       input 
         width 80%
         padding-left 2rem
-        font-size 1.3rem
+        font-size 1rem
         border none
         &:focus
           outline none

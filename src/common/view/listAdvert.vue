@@ -7,7 +7,8 @@
             </div>
             <div class="paddingStyle">
               <div class="desc">
-                  <div>{{listdata.describe}}</div>
+                  <!-- <div>{{listdata.describe}}</div> -->
+                  <div>广告</div>
               </div>
             </div>
         </div>
@@ -38,6 +39,7 @@
       .comment-Title
         font-weight 500
         color black 
+        padding-bottom 1.1rem
       .icon img
         height 12rem
         width 100%
@@ -50,5 +52,6 @@
           border 1px solid #E1E1E1
           display inline-block
           padding 2px
+          font-size .8rem
   </style>
   
