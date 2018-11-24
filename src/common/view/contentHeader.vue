@@ -24,8 +24,6 @@
       }
     },
     created:function(){
-      console.log(this.$route)
-      console.log(this.$router)
     },
     // props:['listdata'],
     props:{

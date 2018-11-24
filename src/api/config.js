@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 // export const URLROUTER="http://192.168.1.41:9108"
-export const URLROUTER="http://47.101.182.194:9108" //线上
-// export const URLROUTER="http://192.168.1.125:9108" // 陈宇浩
+// export const URLROUTER="http://47.101.182.194:9108" //线上
+export const URLROUTER="http://192.168.1.125:9108" // 陈宇浩
 export const DEVURLROUTER="http://meluyouxia.w3.luyouxia.net"
 export const ERROK="0"
 export const NOTLOGIN=301

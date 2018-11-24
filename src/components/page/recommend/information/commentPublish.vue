@@ -1,7 +1,7 @@
 <template>
   <div class="commentPublish">
     <!-- 发表评论 -->
-      <input type="text" placeholder="发表评论">
+      <input type="text" placeholder="发表评论" readonly @click="toggleComment">
       <div @click="toggleComment">
         <mt-badge class="badge" v-if="commentBrage>0" size="small" type="error">{{commentBrage}}</mt-badge>
         <span :class="{'iconfont':true,'icon-pinglun':!isComment,'icon-tubiaozhizuo-':isComment}" ></span>

@@ -5,7 +5,7 @@
             <img :src="listdata.thumbnailUrl" alt="">
           </div>
           <div class="paddingStyle">
-            <h3 class="name">{{listdata.title}}</h3>
+            <h3 class="comment-Title">{{listdata.title}}</h3>
             <div class="desc">
                 <!-- 文章简介 -->
                 <div>{{listdata.describe}}</div>
@@ -44,9 +44,6 @@
   .paddingStyle
     padding 1rem
     line-height 2rem
-    .name
-      text-align left
-      color #474B4C
     .desc
       display flex
       text-align left

@@ -90,6 +90,14 @@ export  function getIndexLunbo(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
   }
+  // 查询文章或者视频是否被点赞
+  export  function isLiked(config){
+    let Obj = {
+      'url':URLROUTER+'/app/userlike/isLiked',
+      'method':"GET"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+  }
   // 取消点赞
   export  function removeLike(config){
     let Obj = {
