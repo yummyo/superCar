@@ -91,7 +91,7 @@ const router = new Router({
       name: "login",
       component: login,
       meta: {
-        auth: false
+        auth: true
       }
     },
     {

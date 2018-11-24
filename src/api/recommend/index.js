@@ -66,7 +66,7 @@ export  function getIndexLunbo(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
   }
-  // 新增
+  // 新增评论
   export  function saveresponse(config){
     let Obj = {
       'url':URLROUTER+'/app/comment/saveresponse',

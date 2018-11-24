@@ -2,7 +2,7 @@
   
   <div class="page"> 
     <div class="articleDetail" v-if="pageType == 'article'">
-      <contentHeader :listdata="{'content':'文章正文'}"></contentHeader>
+      <contentHeader :listdata="{'content':'文章正文'}" :backFun="{'backFun':backFun}"></contentHeader>
       <!-- 文章列表 -->
       <div class="articleTitle">{{videoData.title}}</div>
       <!-- 评论列表 -->
@@ -58,8 +58,8 @@
     <!-- 相关推荐 -->
     <div class="moreRecommend">
       <h5>相关推荐</h5>
-      <div v-for="(item,index) of recommendData" :key="index">
-          <listContent :listdata='item'></listContent>
+      <div v-for="(item,index) of recommendData" :key="index" @click="toDetail(item,'article')">
+          <listContent :listdata='item' ></listContent>
       </div>
     </div>
     <!-- 下方评论部分 -->
@@ -86,74 +86,31 @@
         // 相关推荐
         recommendData:[],
         isLike:null,
-        likeCount: 0
+        likeCount: 0,
+        backFun: {}
       }
     },
     created:function (){
-      const that = this
-      this.pageType = this.$route.query.pageType
-      this.pageId = this.$route.query.id
-      if(this.pageType == 'article'){
-        console.log("文章")
-         // 获取文章详情
-        getArticleDetail({
-          data:{
-            id : this.$route.query.id
-          }
-        }).then((res)=>{
-          that.videoData = res.data
-          that.likeCount  = res.data.likeCount
-        })
-        // 获取相关推荐
-        similarArticles({
-          data:{
-            id : this.$route.query.id
-          }
-        }).then(res=>{
-          that.recommendData = res.data.map(v => {
-            v['contentTitle'] = v['title']
-            let data = []
-            // 缩略图格式重组
-            if(v['thumbnailResource'] && v['thumbnailResource'].length >0){
-              v['thumbnailResource'].map(vv=>{
-                data.push(Object.assign(vv,{'thumbnailUrl':vv['resourceImgUrl']}))
-              })
-            }
-            v['thumbnailResource'] = data
-            return v
-          })
-          console.log(that.recommendData)
-        })
-      }else{
-         console.log("shipin")
-        // 获取视频详情
-        getVideo({
-          data : {
-            id:this.$route.query.id
-          }
-        }).then((res)=>{
-          this.videoData = res.data
-        })
+      this.pageInit();
+    },
+    watch: {
+      $route:function(){
+        this.pageInit();
       }
-      // 查询是否被点赞
-      isLiked({
-        data:{
-          sourceId: this.$route.query.id,
-          pageType: this.$route.query.pageType
-        }
-      }).then(res=>{
-        if(!res.data){
-          that.isLike = null
-        }else{
-          that.isLike = {
-            id: res.data
-          }
-        }
-      })
     },
     mounted:function(){
     },
     methods:{
+      // 相关推荐点击
+      toDetail(data){
+        this.$router.push({
+          name:"articleDetail",
+          query:{
+            id:data.id,
+            pageType:'article'
+          }
+        })
+      },
       playVideo(){
         var vdo = document.getElementById("videoPlay");
         this.ifPlay = true;
@@ -191,6 +148,72 @@
             }
           })
         }
+      },
+      pageInit(){
+        // 页面初始化到顶部
+        document.documentElement.scrollTop=0
+        const that = this
+        this.pageType = this.$route.query.pageType
+        this.pageId = this.$route.query.id
+        this.backFun = function(){
+          that.$router.push({
+            path:"/index/recommend",
+          })
+        }
+        if(this.pageType == 'article'){
+          // 获取文章详情
+          getArticleDetail({
+            data:{
+              id : this.$route.query.id
+            }
+          }).then((res)=>{
+            that.videoData = res.data
+            that.likeCount  = res.data.likeCount
+          })
+          // 获取相关推荐
+          similarArticles({
+            data:{
+              id : this.$route.query.id
+            }
+          }).then(res=>{
+            that.recommendData = res.data.map(v => {
+              v['contentTitle'] = v['title']
+              let data = []
+              // 缩略图格式重组
+              if(v['thumbnailResource'] && v['thumbnailResource'].length >0){
+                v['thumbnailResource'].map(vv=>{
+                  data.push(Object.assign(vv,{'thumbnailUrl':vv['resourceImgUrl']}))
+                })
+              }
+              v['thumbnailResource'] = data
+              return v
+            })
+          })
+        }else{
+          // 获取视频详情
+          getVideo({
+            data : {
+              id:this.$route.query.id
+            }
+          }).then((res)=>{
+            this.videoData = res.data
+          })
+        }
+        // 查询是否被点赞
+        isLiked({
+          data:{
+            sourceId: this.$route.query.id,
+            pageType: this.$route.query.pageType
+          }
+        }).then(res=>{
+          if(!res.data){
+            that.isLike = null
+          }else{
+            that.isLike = {
+              id: res.data
+            }
+          }
+        })
       }
     },
     components:{
