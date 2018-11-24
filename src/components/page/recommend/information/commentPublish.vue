@@ -35,7 +35,6 @@ import { isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
       }
     },
     created:function(){
-      console.log(this.commentBrage)
       const that = this
       // 判断是否已经收藏过
       isKeeped({

@@ -73,8 +73,7 @@
       // })
       getVideoCommentList({
         data:{
-          'sourceId':this.$route.query.id,
-        // 'sourceId':'941fb2c803e24ca39077f4be3f92c770',
+        'sourceId':this.$route.query.id,
         'sourceType':this.$route.query.pageType,
         "pageNo":1,
         'pageSize':15
@@ -157,9 +156,9 @@
               content:this.content,
             }
           }).then(res=>{
-            console.log(res)
             that.commentVisible = false
             that.content = ''
+            that.getLIst()
           })
         }else{
           // 回复
@@ -169,9 +168,9 @@
               content:this.content,
             }
           }).then(res=>{
-            console.log(res)
             that.commentVisible = false
             that.content = ''
+            that.getLIst()
           })
         }
       },
@@ -186,6 +185,19 @@
         // 隐藏回复框
         this.replyUserData = null;
         this.commentVisible = false
+      },
+      getLIst(){
+        const that = this
+        getVideoCommentList({
+          data:{
+          'sourceId':that.$route.query.id,
+          'sourceType':that.$route.query.pageType,
+          "pageNo":1,
+          'pageSize':15
+          }
+        }).then(res=>{
+          that.commentData = res.data.result
+        })
       }
     }
   }
