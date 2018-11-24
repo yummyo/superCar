@@ -47,7 +47,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  
   .item
     display flex
     box-sizing border-box
@@ -69,12 +68,16 @@
       flex-direction column
       justify-content space-between
       flex-grow 1
+      .comment-Title
+        font-weight 500
+        color black 
       .desc
         text-align left
         color #B7B8BA
       .comment
         display flex
-        font-size 1rem
+        font-size .1rem
+        color #ccc
         align-items baseline
         div:first-child
           padding-right .5rem

@@ -33,7 +33,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  
   .item
     box-sizing border-box
     margin .5rem 1rem
@@ -47,7 +46,9 @@
     .name
       text-align left
       color #474B4C
-      line-height 3rem
+      padding-bottom 2rem
+      font-weight 500
+      color black 
     .desc
       text-align left
       color #B7B8BA

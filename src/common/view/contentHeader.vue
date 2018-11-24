@@ -8,9 +8,14 @@
           </div>
           <div class="title">{{listdata ? listdata.content : ""}}</div>
           <div class="point">
-            <span class="iconfont icon-more"></span>
+            <span class="iconfont icon-more" @click="share()"></span>
           </div>
       </div>
+    </div>
+    <div class="share" v-show="shareList" >
+        <div>
+            aaaa
+        </div>
     </div>
 </div>
 </template>
@@ -20,7 +25,7 @@
   export default {
     data () {
       return {
-      
+        shareList:false
       }
     },
     created:function(){
@@ -37,6 +42,10 @@
     methods:{
       returnTop:function(){
         this.$router.go(-1);
+      },
+      share:function(){
+        this.shareList=true;
+        console.log('aaa')
       }
     },
   }
@@ -58,4 +67,12 @@
       .point
         padding .5rem 1.5rem
         font-size 2rem
+  .share
+    position fixed
+    bottom 0
+    width 100%
+    z-index 100
+    background #fff
+    transition height 2s 
+    height 45%
 </style>
