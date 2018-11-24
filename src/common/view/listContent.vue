@@ -68,13 +68,10 @@
       flex-direction column
       justify-content space-between
       flex-grow 1
-<<<<<<< HEAD
       width 80%
-=======
       .comment-Title
         font-weight 500
         color black 
->>>>>>> 2a0dc6c649585ebdff508675bacafad329fcfd53
       .desc
         text-align left
         color #B7B8BA

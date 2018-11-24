@@ -37,15 +37,25 @@
         default:function(){
           return {}
         }
+      },
+      backFun:{
+        type:Object,
+        default:function(){
+          let that = this
+          return {
+            'backFun' : function(){
+              that.$router.go(-1)
+            }
+          }
+        }
       }
     },
     methods:{
       returnTop:function(){
-        this.$router.go(-1);
+        this.backFun['backFun']()
       },
       share:function(){
-        this.shareList=true;
-        console.log('aaa')
+        // this.shareList=true;
       }
     },
   }

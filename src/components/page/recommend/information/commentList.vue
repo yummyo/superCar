@@ -69,15 +69,14 @@
       const that = this
       getVideoCommentList({
         data:{
-          // 'sourceId':this.$route.query.id,
-        'sourceId':'941fb2c803e24ca39077f4be3f92c770',
-        'sourceType':'video',
+          'sourceId':this.$route.query.id,
+        // 'sourceId':'941fb2c803e24ca39077f4be3f92c770',
+        'sourceType':this.$route.query.pageType,
         "pageNo":1,
         'pageSize':15
         }
       }).then(res=>{
         that.commentData = res.data.result
-        console.log(res.data.result)
       })
       // 判断是否已经收藏过
       isKeeped({
@@ -144,6 +143,7 @@
         this.commentVisible = true
       },
       commont:function(){
+        let that = this
         if(!this.replyUserData){
           // 评论
           saveComment({
@@ -154,6 +154,8 @@
             }
           }).then(res=>{
             console.log(res)
+            that.commentVisible = false
+            that.content = ''
           })
         }else{
           // 回复
@@ -164,6 +166,8 @@
             }
           }).then(res=>{
             console.log(res)
+            that.commentVisible = false
+            that.content = ''
           })
         }
       },
