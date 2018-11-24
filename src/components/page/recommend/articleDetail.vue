@@ -1,6 +1,6 @@
 <template>
   
-  <div> 
+  <div class="page"> 
     <div class="articleDetail" v-if="pageType == 'article'">
       <contentHeader :listdata="{'content':'文章正文'}"></contentHeader>
       <!-- 文章列表 -->
@@ -38,17 +38,29 @@
             </div>
             <!--  点赞数量 评论 -->
             <div>
-              <span @click="changeXihuan">
-                <i :class="{iconfont:true,'icon-xihuan2':this.xihuan,'icon-xihuan':!(this.xihuan)}"></i>
-                {{videoData.keepCount }}
-                </span>
               <span>
                 <i class="iconfont icon-pinglun"></i>
                 {{videoData.commentCount }}
                 </span>
-            </div>  
+            </div>
           </div>
         </div>
+    </div>
+    <!-- 点赞 -->
+    <div>
+      <button class="spuerCar_btn" @click="star()">
+        <span>
+          <i :class="{iconfont:true,'icon-xihuan2':!this.isLike,'icon-xihuan':this.isLike}"></i>
+          {{videoData.keepCount }}
+        </span>
+        </button>
+    </div>
+    <!-- 相关推荐 -->
+    <div class="moreRecommend">
+      <h5>相关推荐</h5>
+      <div v-for="(item,index) of recommendData" :key="index">
+          <listContent :listdata='item'></listContent>
+      </div>
     </div>
     <!-- 下方评论部分 -->
     <commentPublish :id='pageId' :pageType='pageType'></commentPublish>
@@ -58,7 +70,8 @@
 <script>
   import contentHeader from '@/common/view/contentHeader';
   import commentPublish from './information/commentPublish.vue';
-  import {getArticleDetail,getVideo} from '@/api/recommend/index';
+  import listContent from '@/common/view/listContent';
+  import { getArticleDetail,getVideo,similarArticles,giveLike,removeLike,isLiked } from '@/api/recommend/index';
   export default {
     name: 'articleDetail',
     data () {
@@ -68,12 +81,15 @@
         videoData : {},
         videoData : {},
         pageType : 'article',
-        xihuan : false,
         ifPlay : false,
-        pageId: 0 
+        pageId: 0,
+        // 相关推荐
+        recommendData:[],
+        isLike:null
       }
     },
     created:function (){
+      const that = this
       this.pageType = this.$route.query.type
       this.pageId = this.$route.query.id
       if(this.pageType == 'article'){
@@ -81,24 +97,50 @@
          // 获取文章详情
         getArticleDetail({
           data:{
-            // id : '6fbd4b4567394826967c9988c606d822'
-            id : this.$route.params.id
+            id : this.$route.query.id
           }
         }).then((res)=>{
-          console.log(this.htmlEnCode(res.data.content))
           this.videoData = res.data
+        })
+        similarArticles({
+          data:{
+            id : this.$route.query.id
+          }
+        }).then(res=>{
+          that.recommendData = res.data.map(v => {
+            console.log(v)
+            v['contentTitle'] = v['title']
+            v['thumbnailResource'] = v['thumbnailResource']
+            return v
+          })
+          console.log(that.recommendData)
         })
       }else{
          console.log("shipin")
         // 获取视频详情
         getVideo({
           data : {
-            id:this.$route.params.id
+            id:this.$route.query.id
           }
         }).then((res)=>{
           this.videoData = res.data
         })
       }
+      // 查询是否被点赞
+      isLiked({
+        data:{
+          sourceId: this.$route.query.id,
+          type: this.$route.query.type
+        }
+      }).then(res=>{
+        if(!res.data){
+          that.isLike = null
+        }else{
+          that.isLike = {
+            id: res.data
+          }
+        }
+      })
     },
     mounted:function(){
     },
@@ -108,9 +150,6 @@
         this.ifPlay = true;
         vdo.play();
       },
-      changeXihuan(){
-        this.xihuan = !(this.xihuan)
-      },
       htmlEnCode(text){
         var temp = document.createElement("div"); 
         temp.innerHTML = text; 
@@ -118,16 +157,45 @@
         temp = null; 
         output = output.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
         return output;
+      },
+      star(){
+        const that = this
+        if(that.isLike){
+          removeLike({
+            data:{
+              id: that.isLike['id']
+            }
+          }).then(res => {
+            that.isLike = null
+          })
+        }else{
+          giveLike({
+            data:{
+              sourceId: this.$route.query.id,
+              type: this.$route.query.type
+            }
+          }).then(res => {
+            that.isLike = {
+              id: res.data
+            }
+          })
+        }
       }
     },
     components:{
-      contentHeader,commentPublish
+      contentHeader,commentPublish,listContent
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus">
+  // 点赞按钮
+  .spuerCar_btn
+    background #fff
+    outline none!important
+  .page
+    padding-bottom 60px
     .articleTitle
       font-size 2rem
       text-align left
@@ -181,4 +249,13 @@
       display flex
       justify-content space-between
       align-items flex-end
+  .moreRecommend
+    text-align left
+    font-size 1.5rem
+    border-top 5px solid #EFF3F6
+    margin-top .5rem
+    >h5
+      border-bottom 1px solid #ddd
+      padding .5rem .8rem
+      background #FBFCFE
 </style>

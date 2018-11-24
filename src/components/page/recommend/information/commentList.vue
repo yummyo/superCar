@@ -33,7 +33,7 @@
       <div v-else>
         <div class="commentInput" @click.self="hideComment">
           <div>
-            <textarea v-model="content" cols="30" rows="10"></textarea>
+            <textarea :placeholder="replyPlaceholder" v-model="content" cols="30" rows="10"></textarea>
             <div class="commentBtn">
               <button class="spuerCar_btn" @click="commont">回复</button>
             </div>
@@ -57,8 +57,10 @@
         commentBrage: 0,
         isCollect: true,
         isComment: true,
+        // 区分是评论还是回复的数据
         replyUserData: null,
         content:'',
+        replyPlaceholder:''
       }
     },
     created:function(){
@@ -95,11 +97,12 @@
 
       },
       cutInput:function(){
+        // 评论的提示内容
+        this.replyPlaceholder = '请输入评论内容：'
         // 正常评论
         this.commentVisible = true
       },
       commont:function(){
-        console.log(this.replyUserData)
         if(!this.replyUserData){
           // 评论
           saveComment({
@@ -124,6 +127,8 @@
         }
       },
       reply(item){
+        // 回复时的placeholder
+        this.replyPlaceholder = '回复：'+item.createUserNickName
         // 点击回复按钮
         this.replyUserData = item;
         this.commentVisible = true

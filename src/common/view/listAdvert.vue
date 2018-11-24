@@ -1,7 +1,7 @@
 <template>
     <div class="list" >
         <div class="item" v-if="listdata">
-            <h3 class="name">{{listdata.contentTitle}}</h3>
+            <h3 class="comment-Title">{{listdata.contentTitle}}</h3>
             <div class="icon">
               <img v-lazy="listdata.thumbnailResource[0].thumbnailUrl" alt="">
             </div>
@@ -18,7 +18,6 @@
     export default {
       data () {
         return {
-        
         }
       },
       props:{
@@ -39,10 +38,6 @@
       .icon img
         height 12rem
         width 100%
-      .name
-        text-align left
-        color #474B4C
-        margin 4px 0
       .desc
         display flex
         text-align left

@@ -14,14 +14,14 @@
       </ul> -->
       <div class="item">
         <div class="text">
-          <h3 class="name">{{listdata.contentTitle}}</h3>
+          <h3 class="comment-Title">{{listdata.contentTitle}}</h3>
           <div class="comment">
             <div>{{listdata.commentCount }}评论</div>
             <div>{{listdata.createUserId }}</div>
           </div>
         </div>
         <div class="icon">
-          <img v-lazy="listdata.thumbnailResource[0].thumbnailUrl" alt="">
+          <img v-if="listdata.thumbnailResource" v-lazy="listdata.thumbnailResource[0].thumbnailUrl" alt="">
         </div>
       </div>
   </div>
@@ -59,17 +59,16 @@
     border-bottom 1px solid #E1E1E1
     .icon
       padding-left 1rem
+      height 4.5rem
+      width 7rem
       img
-        height 4.5rem
-        width 7rem
+        width 100%
+        height 100%
     .text
       display flex
       flex-direction column
       justify-content space-between
       flex-grow 1
-      .name
-        text-align left
-        color #474B4C
       .desc
         text-align left
         color #B7B8BA
