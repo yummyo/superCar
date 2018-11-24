@@ -26,7 +26,7 @@
             <span :class="{'iconfont':true,'icon-pinglun':!isComment,'icon-tubiaozhizuo-':isComment}" ></span>
           </div> -->
           <div @click="toggleCollect">
-            <mt-badge class="badge"  size="small" type="error">{{collectNum}}</mt-badge>
+            <mt-badge class="badge" v-if="false" size="small" type="error">{{collectNum}}</mt-badge>
             <span :class="{'iconfont':true,'icon-unie601':!isCollect,'icon-shoucang':isCollect}"></span>
           </div>
       </div>
@@ -65,8 +65,12 @@
       }
     },
     created:function(){
-      console.log(this.$route.query.id)
       const that = this
+      // that.$toast({
+      //   message: '提示',
+      //   position: 'bottom',
+      //   duration: 5000
+      // })
       getVideoCommentList({
         data:{
           'sourceId':this.$route.query.id,

@@ -63,7 +63,7 @@
       </div>
     </div>
     <!-- 下方评论部分 -->
-    <commentPublish :id='pageId' :pageType='pageType'></commentPublish>
+    <commentPublish :commentBrage='videoData.commentCount' :id='pageId' :pageType='pageType'></commentPublish>
   </div>
 </template>
 
@@ -92,6 +92,11 @@
     },
     created:function (){
       this.pageInit();
+      //  this.$toast({
+      //   message: '提示',
+      //   position: 'bottom',
+      //   duration: 5000
+      // });
     },
     watch: {
       $route:function(){
@@ -127,14 +132,15 @@
       star(){
         const that = this
         if(that.isLike){
-          removeLike({
-            data:{
-              id: that.isLike['id']
-            }
-          }).then(res => {
-            that.isLike = null
-            that.likeCount--
-          })
+          // 暂时注释  禁止取消点赞
+          // removeLike({
+          //   data:{
+          //     id: that.isLike['id']
+          //   }
+          // }).then(res => {
+          //   that.isLike = null
+          //   that.likeCount--
+          // })
         }else{
           giveLike({
             data:{
@@ -203,7 +209,7 @@
         isLiked({
           data:{
             sourceId: this.$route.query.id,
-            pageType: this.$route.query.pageType
+            type: this.$route.query.pageType
           }
         }).then(res=>{
           if(!res.data){
