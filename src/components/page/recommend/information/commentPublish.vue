@@ -7,19 +7,22 @@
         <span :class="{'iconfont':true,'icon-pinglun':!isComment,'icon-tubiaozhizuo-':isComment}" ></span>
       </div>
       <div @click="toggleCollect">
-        <mt-badge class="badge" v-if="commentBrage>0" size="small" type="error">{{commentBrage}}</mt-badge>
+        <mt-badge class="badge" size="small" type="error">{{collectNum}}</mt-badge>
         <span :class="{'iconfont':true,'icon-unie601':!isCollect,'icon-shoucang':isCollect}"></span>
       </div>
   </div>
 </template>
 
 <script>
+import { isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
   export default {
     name: 'commentPublish',
     data () {
       return {
         isComment:false,
-        isCollect:false,
+        // 是否被收藏
+        isCollect: null,
+        collectNum : 0,
       }
     },
     props:{
@@ -31,6 +34,24 @@
       pageType:{
         default:'article'
       }
+    },
+    created:function(){
+      const that = this
+      // 判断是否已经收藏过
+      isKeeped({
+        data:{
+          sourceId: this.$route.query.id,
+          keepType: this.$route.query.pageType
+        }
+      }).then(res => {
+        if(res.data){
+          that.isCollect = {
+            id: res.data
+          }
+        }else{
+          that.isCollect = null
+        }
+      })
     },
     methods:{
       toggleComment : function(){
@@ -44,8 +65,32 @@
           }
         });
       },
-      toggleCollect : function(){
-        this.isCollect = !this.isCollect
+      toggleCollect:function(){
+        const that = this
+        if(!this.isCollect){
+          // 收藏
+          keepSource({
+            data:{
+              sourceId: this.$route.query.id,
+              keepType: this.$route.query.pageType
+            }
+          }).then(res => {
+            that.collectNum++
+            that.isCollect = {
+              id: res.data
+            }
+          })
+        }else{
+          // 取消收藏
+          removeKeep({
+            data:{
+              id: that.isCollect.id
+            }
+          }).then(res => {
+            that.collectNum--
+            that.isCollect = null
+          })
+        }
       },
     }
   }

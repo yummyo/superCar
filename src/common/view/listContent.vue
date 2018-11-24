@@ -69,6 +69,7 @@
       flex-direction column
       justify-content space-between
       flex-grow 1
+      width 80%
       .desc
         text-align left
         color #B7B8BA

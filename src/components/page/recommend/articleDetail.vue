@@ -51,7 +51,7 @@
       <button class="spuerCar_btn" @click="star()">
         <span>
           <i :class="{iconfont:true,'icon-xihuan2':!this.isLike,'icon-xihuan':this.isLike}"></i>
-          {{videoData.keepCount }}
+          {{likeCount}}
         </span>
         </button>
     </div>
@@ -85,12 +85,13 @@
         pageId: 0,
         // 相关推荐
         recommendData:[],
-        isLike:null
+        isLike:null,
+        likeCount: 0
       }
     },
     created:function (){
       const that = this
-      this.pageType = this.$route.query.type
+      this.pageType = this.$route.query.pageType
       this.pageId = this.$route.query.id
       if(this.pageType == 'article'){
         console.log("文章")
@@ -100,17 +101,25 @@
             id : this.$route.query.id
           }
         }).then((res)=>{
-          this.videoData = res.data
+          that.videoData = res.data
+          that.likeCount  = res.data.likeCount
         })
+        // 获取相关推荐
         similarArticles({
           data:{
             id : this.$route.query.id
           }
         }).then(res=>{
           that.recommendData = res.data.map(v => {
-            console.log(v)
             v['contentTitle'] = v['title']
-            v['thumbnailResource'] = v['thumbnailResource']
+            let data = []
+            // 缩略图格式重组
+            if(v['thumbnailResource'] && v['thumbnailResource'].length >0){
+              v['thumbnailResource'].map(vv=>{
+                data.push(Object.assign(vv,{'thumbnailUrl':vv['resourceImgUrl']}))
+              })
+            }
+            v['thumbnailResource'] = data
             return v
           })
           console.log(that.recommendData)
@@ -130,7 +139,7 @@
       isLiked({
         data:{
           sourceId: this.$route.query.id,
-          type: this.$route.query.type
+          pageType: this.$route.query.pageType
         }
       }).then(res=>{
         if(!res.data){
@@ -167,14 +176,16 @@
             }
           }).then(res => {
             that.isLike = null
+            that.likeCount--
           })
         }else{
           giveLike({
             data:{
               sourceId: this.$route.query.id,
-              type: this.$route.query.type
+              type: this.$route.query.pageType
             }
           }).then(res => {
+            that.likeCount++
             that.isLike = {
               id: res.data
             }

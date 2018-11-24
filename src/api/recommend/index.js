@@ -106,6 +106,31 @@ export  function getIndexLunbo(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
   }
+
+  // 收藏
+  export  function keepSource(config){
+    let Obj = {
+      'url':URLROUTER+'/app/keep/keepSource',
+      'method':"GET"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+  }
+  // 取消收藏
+  export  function removeKeep(config){
+    let Obj = {
+      'url':URLROUTER+'/app/keep/removeKeep',
+      'method':"GET"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+  }
+   // 查询文章或者视频是否被收藏
+   export  function isKeeped(config){
+    let Obj = {
+      'url':URLROUTER+'/app/keep/isKeeped',
+      'method':"GET"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+  }
   
   // export  function getListContent(config){
   //   const url='/api/getListContent'

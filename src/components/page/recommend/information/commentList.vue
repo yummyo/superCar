@@ -21,12 +21,12 @@
       <div class="commentPublish" v-if="!commentVisible">
         <!-- 发表评论 -->
           <input type="text" @click="cutInput" placeholder="发表评论" readonly>
-          <div @click="toggleComment">
+          <!-- <div @click="toggleComment">
             <mt-badge class="badge" v-if="commentBrage>0" size="small" type="error">{{commentBrage}}</mt-badge>
             <span :class="{'iconfont':true,'icon-pinglun':!isComment,'icon-tubiaozhizuo-':isComment}" ></span>
-          </div>
+          </div> -->
           <div @click="toggleCollect">
-            <mt-badge class="badge" v-if="commentBrage>0" size="small" type="error">{{commentBrage}}</mt-badge>
+            <mt-badge class="badge"  size="small" type="error">{{collectNum}}</mt-badge>
             <span :class="{'iconfont':true,'icon-unie601':!isCollect,'icon-shoucang':isCollect}"></span>
           </div>
       </div>
@@ -47,15 +47,16 @@
 <script>
   import contentHeader from '@/common/view/contentHeader';
   import commentPublish from './commentPublish';
-  import { getVideoCommentList,saveComment,saveresponse } from '@/api/recommend/index';
+  import { getVideoCommentList,saveComment,saveresponse,isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
   export default {
     name: 'commentList',
     data () {
       return {
         commentData : [],
         commentVisible:false,
-        commentBrage: 0,
-        isCollect: true,
+        // 是否被收藏
+        isCollect: null,
+        collectNum : 0,
         isComment: true,
         // 区分是评论还是回复的数据
         replyUserData: null,
@@ -65,7 +66,7 @@
     },
     created:function(){
       console.log(this.$route.query.id)
-      const _self = this
+      const that = this
       getVideoCommentList({
         data:{
           // 'sourceId':this.$route.query.id,
@@ -75,12 +76,28 @@
         'pageSize':15
         }
       }).then(res=>{
-        _self.commentData = res.data.result
+        that.commentData = res.data.result
         console.log(res.data.result)
+      })
+      // 判断是否已经收藏过
+      isKeeped({
+        data:{
+          sourceId: this.$route.query.id,
+          keepType: this.$route.query.pageType
+        }
+      }).then(res => {
+        console.log(res)
+        if(res.data){
+          that.isCollect = {
+            id: res.data
+          }
+        }else{
+          that.isCollect = null
+        }
       })
     },
     components:{
-      contentHeader,commentPublish
+      contentHeader,commentPublish,isKeeped
     },
     methods:{
       addComment:function(){
@@ -94,7 +111,31 @@
 
       },
       toggleCollect:function(){
-
+        const that = this
+        if(!this.isCollect){
+          // 收藏
+          keepSource({
+            data:{
+              sourceId: this.$route.query.id,
+              keepType: this.$route.query.pageType
+            }
+          }).then(res => {
+            that.collectNum++
+            that.isCollect = {
+              id: res.data
+            }
+          })
+        }else{
+          // 取消收藏
+          removeKeep({
+            data:{
+              id: that.isCollect.id
+            }
+          }).then(res => {
+            that.collectNum--
+            that.isCollect = null
+          })
+        }
       },
       cutInput:function(){
         // 评论的提示内容
@@ -164,6 +205,8 @@
       background #F6F7FB
       position fixed
       bottom 0
+      left 0
+      right 0
       input 
         width 80%
         padding-left 2rem

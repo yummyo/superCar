@@ -172,12 +172,13 @@
           default:
             break;
         }
+        console.log(this.nowFunType)
         this.nowFun({
           data:{
             "pageNo": 1,
             "pageSize": 15,
             "operatorType":'default',
-            "titleType":"ALL"
+            [this.nowFunType.key]: this.nowFunType.value
           }
         }).then((res) => {
           console.log(res)
@@ -197,7 +198,7 @@
           name:"articleDetail",
           query:{
             id:data,
-            type:type
+            pageType:type
           }
         })
       },
