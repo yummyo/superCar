@@ -37,7 +37,9 @@
     name: 'changeCar',
     data () {
       return {
-        isLogin:false
+        isLogin:false,
+        myAttention:'',
+        myCollect:''
       }
     },
     methods:{

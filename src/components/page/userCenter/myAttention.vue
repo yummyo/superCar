@@ -26,6 +26,7 @@
 
 <script>
   import contentHeader from '@/common/view/contentHeader';
+  import {myAttention} from '@/api/userCenter/index.js'
   export default {
     name: 'myAttention',
     data () {
@@ -33,6 +34,11 @@
         listContent : {'content':"车系"},
         choose:true
       }
+    },
+    created() {
+       myAttention({data:{pageNo:1,pageSize:10}}).then(res=>{
+         console.log(res)
+       })
     },
     methods:{
         changeState : function(id){
