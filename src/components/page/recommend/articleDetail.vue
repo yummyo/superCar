@@ -56,7 +56,7 @@
         </button>
     </div>
     <!-- 相关推荐 -->
-    <div class="moreRecommend">
+    <div class="moreRecommend" v-if="pageType == 'article'">
       <h5>相关推荐</h5>
       <div v-for="(item,index) of recommendData" :key="index" @click="toDetail(item,'article')">
           <listContent :listdata='item' ></listContent>
@@ -79,7 +79,6 @@
         detail : "",
         videoSrc: 'https://vdse.bdstatic.com//a819ba306b1d95d8d93e52c71d31635b?authorization=bce-auth-v1%2F40f207e648424f47b2e3dfbb1014b1a5%2F2017-05-11T09%3A02%3A31Z%2F-1%2F%2F38bdd1bb8bfd3eaa5c633280bd1c4a6514812ea7224b7efa3ac20b5ab8eab126',
         videoData : {},
-        videoData : {},
         pageType : 'article',
         ifPlay : false,
         pageId: 0,
@@ -92,11 +91,6 @@
     },
     created:function (){
       this.pageInit();
-      //  this.$toast({
-      //   message: '提示',
-      //   position: 'bottom',
-      //   duration: 5000
-      // });
     },
     watch: {
       $route:function(){
@@ -152,6 +146,11 @@
             that.isLike = {
               id: res.data
             }
+            that.$toast({
+              message: '点赞成功',
+              position: 'bottom',
+              duration: 2000
+            });
           })
         }
       },

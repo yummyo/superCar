@@ -4,19 +4,22 @@
     <contentHeader :listdata="{'content':'评论详情'}"></contentHeader>
     <!-- 评论 -->
     <div class="list" v-for="(item,index) in commentData" :key="index">
-      <div class="portrait">
-        <img :src="item.createUserHeadIconUrl" alt="">
-      </div>
-      <div class="content">
-        <div class="userName">{{item.createUserNickName}}</div>
-        <div class="content">{{item.content}}</div>
-        <div class="time">
-          <span>{{item.createTime.substr(0,10)}}</span>
-          <a @click.prevent="reply(item)">回复</a>  
+      <div>
+        <div class="portrait">
+          <!-- <img :src="item.createUserHeadIconUrl" alt=""> -->
+          <img src="//iconfont.alicdn.com/t/1534822793431.jpg@100h_100w.jpg" alt="">
+        </div>
+        <div class="content">
+          <div class="userName">{{item.createUserNickName}}</div>
+          <div class="content">{{item.content}}</div>
+          <div class="time">
+            <span>{{item.createTime.substr(0,10)}}</span>
+            <a class="replyBtn" @click.prevent="reply(item)">回复</a>  
+          </div>
         </div>
       </div>
       <div class="contentReturn" v-if="item.commentResponse.length>0" v-for="(itemReturn,indexReturn) in item.commentResponse" :key="indexReturn">
-        <div class="userName">{{itemReturn.createUserId}}回复{{itemReturn.createUserNickName}}</div>
+        <div class="userName">{{itemReturn.createUserId}}<span class='replyName'>回复</span>{{itemReturn.createUserNickName}}</div>
         <div class="content">{{itemReturn.responseComment}}</div>
         <div class="time">
           <span>{{itemReturn.createTime.substr(0,10)}}</span>
@@ -53,6 +56,7 @@
 
 <script>
   import contentHeader from '@/common/view/contentHeader';
+  import {detectorLogin} from '@/common/js/utils.js';
   import commentPublish from './commentPublish';
   import { getVideoCommentList,saveComment,saveresponse,isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
   export default {
@@ -73,11 +77,6 @@
     },
     created:function(){
       const that = this
-      // that.$toast({
-      //   message: '提示',
-      //   position: 'bottom',
-      //   duration: 5000
-      // })
       getVideoCommentList({
         data:{
         'sourceId':this.$route.query.id,
@@ -133,6 +132,11 @@
             that.isCollect = {
               id: res.data
             }
+            that.$toast({
+              message: '收藏成功',
+              position: 'bottom',
+              duration: 2000
+            });
           })
         }else{
           // 取消收藏
@@ -143,14 +147,23 @@
           }).then(res => {
             that.collectNum--
             that.isCollect = null
+            that.$toast({
+              message: '取消收藏成功',
+              position: 'bottom',
+              duration: 2000
+            });
           })
         }
       },
       cutInput:function(){
-        // 评论的提示内容
-        this.replyPlaceholder = '请输入评论内容：'
-        // 正常评论
-        this.commentVisible = true
+        let that = this
+        detectorLogin(that,function(){
+           // 评论的提示内容
+          that.replyPlaceholder = '请输入评论内容：'
+          // 正常评论
+          that.commentVisible = true
+        })
+       
       },
       commont:function(){
         let that = this
@@ -214,22 +227,35 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
     .commentList
       .list
-        display flex
-        flex-direction: column
-        align-items: flex-start;
-        padding .5rem 1rem
-        border-bottom 1px solid #ddd
-        text-align left
         .time
-          span
-            font-size 5px
-            color #ddd
-          a
-            font-size 8px
-        .content
-          // padding-left 1rem
+            span
+              font-size 5px
+              color #ddd
+            a
+              font-size 8px
+        >div:first-child
+          display flex
+          padding .5rem 1rem
+          border-bottom 1px solid #ddd
+          text-align left
+          img 
+            width 3rem 
+            height 3rem
+            border-radius 50%
+          .content
+            // padding-left 1rem
+            display flex
+            flex-direction column
+            justify-content space-around
+            .replyBtn
+              color red
         .contentReturn
-          padding-left 2rem
+          margin-left 2rem
+          text-align left
+          border-bottom 1px solid #ddd
+          .replyName
+            font-size .8rem
+            color #ddd
     .commentPublish
       padding 10px 
       display flex
@@ -256,7 +282,7 @@
           right 0
           transform translateX(-30%)
         span.iconfont
-          font-size 2rem
+          font-size 1.8rem
           display inline-block
           width 2rem
           height 2rem

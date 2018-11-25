@@ -38,8 +38,7 @@ export  function getIndexLunbo(config){
   export  function getVideo(config){
     let Obj = {
       'url':URLROUTER+'/app/video/findById',
-      'method':"GET",
-      'login':true
+      'method':"GET"
     }
     return axiosConfig(Object.assign({},Obj,config))
   }

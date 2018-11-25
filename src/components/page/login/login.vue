@@ -48,6 +48,7 @@ export default {
           console.log(res)
          if(res.code=='0'){
           this.$toast('登录成功')
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data.UserInfo))
           this.$router.push({path: "/"});
          }else{
           this.$toast('用户名或者密码错误')

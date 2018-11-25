@@ -229,7 +229,20 @@
                   data['dateTime'] = that.articleData[0]['createTime']
                 }
                 that.nowFun({data}).then((res) => {
-                  that.articleData =res['data'].concat(that.articleData)
+                  if(res['data'].length > 0){
+                    that.articleData =res['data'].concat(that.articleData)
+                    that.$toast({
+                      message: '更新成功',
+                      position: 'bottom',
+                      duration: 2000
+                    });
+                  }else{
+                    that.$toast({
+                      message: '暂无新数据！',
+                      position: 'bottom',
+                      duration: 2000
+                    });
+                  }
                   that.toScroll();
                 });
               }

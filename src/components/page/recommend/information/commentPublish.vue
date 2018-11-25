@@ -78,6 +78,11 @@ import { isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
             that.isCollect = {
               id: res.data
             }
+            that.$toast({
+              message: '收藏成功',
+              position: 'bottom',
+              duration: 2000
+            });
           })
         }else{
           // 取消收藏
@@ -88,6 +93,11 @@ import { isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
           }).then(res => {
             that.collectNum--
             that.isCollect = null
+            that.$toast({
+              message: '取消收藏成功',
+              position: 'bottom',
+              duration: 2000
+            });
           })
         }
       },
@@ -121,7 +131,7 @@ import { isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
         right 0
         transform translateX(-30%)
       span.iconfont
-        font-size 2rem
+        font-size 1.8rem
         display inline-block
         width 2rem
         height 2rem
