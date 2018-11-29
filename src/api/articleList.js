@@ -27,6 +27,6 @@ export function axiosConfig(config){
   })
 }
  // 多并发axios请求
- export function axiosAll(funs){
+export function axiosAll(funs){
   return axios.all(funs)
 }

@@ -63,7 +63,7 @@
         //   path: '/carSeriesDetail'
         // })
         this.$router.push({
-          path: '/modelPictures'
+          path: '/filtrateResult'
         })
         // this.setSinger(singer)
         console.log(singer)
