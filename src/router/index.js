@@ -80,6 +80,12 @@ const registerCode = (resolve) => {
     resolve(module)
   })
 }
+//车型图片
+const modelPictures = (resolve) => {
+  import('@/components/page/changeCar/modelPictures/modelPictures').then((module) => {
+    resolve(module)
+  })
+}
 const router = new Router({
   routes: [
     {
@@ -174,6 +180,11 @@ const router = new Router({
       path: '/carSeriesDetail',
       name: 'carSeriesDetail',
       component: carSeriesDetail,
+    },
+    {
+      path: '/modelPictures',
+      name: 'modelPictures',
+      component: modelPictures,
     }
   ]
 })

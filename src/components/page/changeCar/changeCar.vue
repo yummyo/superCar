@@ -59,8 +59,11 @@
         this.$refs.list.refresh()
       },
       selectSinger(singer) {
+        // this.$router.push({
+        //   path: '/carSeriesDetail'
+        // })
         this.$router.push({
-          path: '/carSeriesDetail'
+          path: '/modelPictures'
         })
         // this.setSinger(singer)
         console.log(singer)
