@@ -60,7 +60,7 @@
       },
       selectSinger(singer) {
         this.$router.push({
-          path: '/carSeriesDetail'
+          path: '/filtrateResult'
         })
         // this.setSinger(singer)
         console.log(singer)

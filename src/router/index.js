@@ -80,6 +80,12 @@ const registerCode = (resolve) => {
     resolve(module)
   })
 }
+// 筛选结果页面
+const filtrateResult = (resolve) => {
+  import('@/components/page/changeCar/filtrateResult').then((module) => {
+    resolve(module)
+  })
+}
 const router = new Router({
   routes: [
     {
@@ -169,6 +175,12 @@ const router = new Router({
       path: '/myCollect',
       name: 'myCollect',
       component: myAttention,
+    },
+    {
+      // 车系筛选结果页面
+      path: '/filtrateResult',
+      name: 'filtrateResult',
+      component: filtrateResult,
     },
     {
       path: '/carSeriesDetail',

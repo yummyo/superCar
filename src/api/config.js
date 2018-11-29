@@ -4,6 +4,7 @@ import router from '../router'
 
 // export const URLROUTER="http://192.168.1.41:9108"
 export const URLROUTER="http://47.101.182.194:9108" //线上
+// export const URLROUTER="http://47.101.182.194:9108" //线上
 // export const URLROUTER="http://192.168.1.125:9108" // 陈宇浩
 export const DEVURLROUTER="http://meluyouxia.w3.luyouxia.net"
 export const ERROK="0"
@@ -28,7 +29,7 @@ axios.interceptors.request.use(function (config) {
 }, function (error) {
   // 对请求错误做些什么
   return Promise.reject(error);
-});
+}); 
 
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
