@@ -7,8 +7,8 @@
             </div>
             <div class="paddingStyle">
               <div class="desc">
-                  <!-- <div>{{listdata.describe}}</div> -->
-                  <div>广告</div>
+                  <div>{{analysisText(listdata.pushType)}}</div>
+                  <!-- <div>广告</div> -->
               </div>
             </div>
         </div>
@@ -19,6 +19,27 @@
     export default {
       data () {
         return {
+        }
+      },
+      methods:{
+        analysisText(type){
+          switch(type){
+            // 广告、图片、图集、视频
+            case 1:
+              return '广告'
+            break;
+            case 2:
+              return '图片'
+            break;
+            case 3:
+              return '图集'
+            break;
+            case 4:
+              return '视频'
+            break;
+            default:
+            return '广告'
+          }
         }
       },
       props:{

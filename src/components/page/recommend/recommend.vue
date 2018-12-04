@@ -5,7 +5,7 @@
       <CommonSearch></CommonSearch>  
       <!-- 分类信息 -->
       <div class="tab">
-        <div v-for="item of testData" :class="{active : nowActive==item.class,tab_item : true}" @click="changeActive(item.class,item.type)" :key="item.name">
+        <div v-for="item of testData" :class="{active : tabType==item.type,tab_item : true}" @click="changeActive(item.class,item.type)" :key="item.name">
           <span>{{ item.name }}</span>
         </div>
       </div>
@@ -31,8 +31,15 @@
           {'name':"测评",class:'car',type:"4",'titleType':"PC"},
           {'name':"导购",class:'shop',type:"5",'titleType':"DG"},
         ],
-        nowActive : "recommend",
         tabType:1
+      }
+    },
+    created(){
+      this.tabType = this.$route.query.tabType || 1
+    },
+    watch:{
+      $route(){
+        this.tabType = this.$route.query.tabType || 1
       }
     },
     mounted:function(){
@@ -52,6 +59,12 @@
       changeActive:function(cla,type){
         this.nowActive = cla;
         this.tabType = type
+        this.$router.push({
+          path:'/index/recommend',
+          query:{
+            tabType:type
+          }
+        })
       }
     },
     components:{

@@ -106,7 +106,7 @@
           name:"articleDetail",
           query:{
             id:data.id,
-            pageType:'article'
+            pageType:this.$route.query.pageType
           }
         })
       },
@@ -202,6 +202,7 @@
             }
           }).then((res)=>{
             this.videoData = res.data
+            that.likeCount  = res.data.likeCount
           })
         }
         // 查询是否被点赞
@@ -233,6 +234,8 @@
   .spuerCar_btn
     background #fff
     outline none!important
+    .icon-xihuan
+      color red
   .page
     padding-bottom 60px
     .articleTitle

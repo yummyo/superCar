@@ -16,9 +16,6 @@
         
         }
       },
-      created:function(){
-        console.log("轮播",this.listdata)
-      },
       props:{
         listdata:{
           type:Array,

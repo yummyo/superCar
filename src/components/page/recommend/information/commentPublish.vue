@@ -1,20 +1,32 @@
 <template>
-  <div class="commentPublish">
-    <!-- 发表评论 -->
-      <input type="text" placeholder="发表评论" readonly @click="toggleComment">
-      <div @click="toggleComment">
-        <mt-badge class="badge" v-if="commentBrage>0" size="small" type="error">{{commentBrage}}</mt-badge>
-        <span :class="{'iconfont':true,'icon-pinglun':!isComment,'icon-tubiaozhizuo-':isComment}" ></span>
+  <div>
+    <div class="commentPublish">
+      <!-- 发表评论 -->
+        <input type="text" placeholder="发表评论" readonly @click="showComment">
+        <div @click="toggleComment">
+          <mt-badge class="badge" v-if="commentBrage>0" size="small" type="error">{{commentBrage}}</mt-badge>
+          <span :class="{'iconfont':true,'icon-pinglun':!isComment,'icon-tubiaozhizuo-':isComment}" ></span>
+        </div>
+        <div @click="toggleCollect">
+          <mt-badge class="badge" v-if="false" size="small" type="error">{{collectNum}}</mt-badge>
+          <span :class="{'iconfont':true,'icon-unie601':!isCollect,'icon-shoucang':isCollect}"></span>
+        </div>
+    </div>
+    <div v-if="CommentVisible">
+       <div class="commentInput" @click.self="hideComment">
+        <div>
+          <textarea placeholder="请输入评论内容" v-model="content" cols="30" rows="10"></textarea>
+          <div class="commentBtn">
+            <button class="spuerCar_btn" @click="commont">回复</button>
+          </div>
+        </div>
       </div>
-      <div @click="toggleCollect">
-        <mt-badge class="badge" v-if="false" size="small" type="error">{{collectNum}}</mt-badge>
-        <span :class="{'iconfont':true,'icon-unie601':!isCollect,'icon-shoucang':isCollect}"></span>
-      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
+import { isKeeped,keepSource,removeKeep,saveresponse } from '@/api/recommend/index';
   export default {
     name: 'commentPublish',
     data () {
@@ -23,6 +35,8 @@ import { isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
         // 是否被收藏
         isCollect: null,
         collectNum : 0,
+        CommentVisible: false,
+        content: ''
       }
     },
     props:{
@@ -63,6 +77,33 @@ import { isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
             'pageType':this.pageType
           }
         });
+      },
+      showComment(){
+        this.CommentVisible = true
+      },
+      hideComment(){
+        // 隐藏回复框
+        this.CommentVisible = false
+      },
+      // 回复
+      commont(){
+        const that = this
+        // 评论
+        saveresponse({
+          data:{
+            sourceId:this.$route.query.id,
+            sourceType:this.$route.query.pageType,
+            content:this.content
+          }
+        }).then(res=>{
+          that.$toast({
+            message: '回复成功',
+            position: 'bottom',
+            duration: 2000
+          });
+          that.commentVisible = false
+          that.content = ''
+        })
       },
       toggleCollect:function(){
         const that = this
@@ -135,5 +176,24 @@ import { isKeeped,keepSource,removeKeep } from '@/api/recommend/index';
         display inline-block
         width 2rem
         height 2rem
-    
+  // 回复input
+  .commentInput
+    position fixed
+    top 0
+    left 0
+    right 0
+    bottom 0
+    background rgba(0,0,0,.5)
+    >div
+      position absolute
+      bottom 0
+      left 0
+      right 0
+      padding 1rem
+      background #fff
+      textarea
+        width 100%
+        height 5rem
+      .commentBtn
+        text-align right
 </style>

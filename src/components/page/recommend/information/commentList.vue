@@ -14,7 +14,7 @@
           <div class="content">{{item.content}}</div>
           <div class="time">
             <span>{{item.createTime.substr(0,10)}}</span>
-            <a class="replyBtn" @click.prevent="reply(item)">回复</a>  
+            <a class="replyBtn" @click.prevent="reply(item)">回复</a>
           </div>
         </div>
       </div>
@@ -176,6 +176,11 @@
               content:this.content,
             }
           }).then(res=>{
+             that.$toast({
+              message: '评论成功',
+              position: 'bottom',
+              duration: 2000
+            });
             that.commentVisible = false
             that.content = ''
             that.getLIst()
@@ -188,6 +193,11 @@
               content:this.content,
             }
           }).then(res=>{
+             that.$toast({
+              message: '回复成功',
+              position: 'bottom',
+              duration: 2000
+            });
             that.commentVisible = false
             that.content = ''
             that.getLIst()
@@ -288,7 +298,7 @@
           height 2rem
     // 回复input
     .commentInput
-      position absolute
+      position fixed
       top 0
       left 0
       right 0
