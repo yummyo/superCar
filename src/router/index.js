@@ -92,6 +92,12 @@ const filtrateResult = (resolve) => {
     resolve(module)
   })
 }
+// 询底价
+const floorPrice = (resolve) => {
+  import('@/components/page/changeCar/floorPrice/floorPrice').then((module) => {
+    resolve(module)
+  })
+}
 const router = new Router({
   routes: [
     {
@@ -199,9 +205,14 @@ const router = new Router({
       component: modelPictures,
     },
     {
+      path: '/floorPrice',
+      name: 'floorPrice',
+      component: floorPrice,
+    },
+    {
       path: '*',
       redirect:"/index/recommend"
-    },
+    }
   ]
 })
 // 页面跳转之前校验
