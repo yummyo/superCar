@@ -129,7 +129,7 @@ const router = new Router({
       component: index,
       children:[
         {
-          path: '/index/recommend',
+          path: 'recommend/:tabType?',
           component:recommend,
           meta: {
             auth: true,
@@ -137,7 +137,7 @@ const router = new Router({
           }
         },
         {
-          path: '/index/changeCar',
+          path: 'changeCar',
           component:changeCar,
           meta: {
             auth: true,
@@ -145,7 +145,7 @@ const router = new Router({
           }
         },
         {
-          path: '/index/market',
+          path: 'market',
           component:market,
           meta: {
             auth: true,
@@ -153,7 +153,7 @@ const router = new Router({
           }
         },
         {
-          path: '/index/userCenter',
+          path: 'userCenter',
           component:userCenter,
           meta: {
             auth: true,
@@ -197,7 +197,11 @@ const router = new Router({
       path: '/modelPictures',
       name: 'modelPictures',
       component: modelPictures,
-    }
+    },
+    {
+      path: '*',
+      redirect:"/index/recommend"
+    },
   ]
 })
 // 页面跳转之前校验
