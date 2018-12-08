@@ -17,3 +17,19 @@ export  function getbrandGroup(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
+//根绝品牌查询车系
+export  function getSeriesGroupByBrandCode(config){
+    let Obj = {
+        'url':URLROUTER+'/app/carInfo/getSeriesGroupByBrandCode',
+        'method':"get"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+}
+//根绝品牌查询车系
+export  function getCarModelListBySeries(config){
+    let Obj = {
+        'url':URLROUTER+'/app/carInfo/getCarModelListBySeries',
+        'method':"get"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+}

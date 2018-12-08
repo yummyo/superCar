@@ -6,10 +6,10 @@
           class="listview"
           ref="listview">
     <ul>
-      <li v-for="group in data" class="list-group" ref="listGroup">
+      <li v-for="(group,i) in data" class="list-group" :key="i" ref="listGroup">
         <h2 class="list-group-title">{{group.initials}}</h2>
         <uL v-if="group.initials.length == 1">
-          <li @click="selectItem(item)" v-for="item in group.brands" class="list-group-item">
+          <li @click="selectItem(item)" v-for="(item,ii) in group.brands" :key="ii" class="list-group-item">
             <img class="avatar" v-lazy="item.offLogo">
             <!-- <img class="avatar" v-lazy='imgSrc'> -->
             <span class="name">{{item.brandName}}</span>
@@ -17,9 +17,9 @@
           </li>
         </uL>
         <ul class="hotName_ul" v-else>
-          <li v-for="(item,index) in group.brands" :key="index">
+          <li @click="selectItem(item)" v-for="(item,index) in group.brands" :key="index">
             <div class="hotName_item">
-              <img class="avatar" v-lazy="'//iconfont.alicdn.com/t/1534822793431.jpg@100h_100w.jpg'">
+              <img class="avatar" v-lazy="item.offLogo">
               <span class="name">{{item.brandName}}</span>
             </div>
           </li>
@@ -29,7 +29,7 @@
     <div class="list-shortcut" @touchstart.stop.prevent="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove"
          @touchend.stop>
       <ul>
-        <li v-for="(item, index) in shortcutList" :data-index="index" class="item"
+        <li v-for="(item, index) in shortcutList" :key="index" :data-index="index" class="item"
             :class="{'current':currentIndex===index}">{{item}}
         </li>
       </ul>
@@ -257,7 +257,7 @@
       display flex
       flex-wrap wrap
       >li
-        width 20%
+        min-width 20%
         .hotName_item
           display flex
           flex-direction column
