@@ -2,11 +2,19 @@
   <div class="login">
     <contentHeader class="topTitle" :listdata="{'content':'询底价'}"></contentHeader>
     <div class="loginIpunt">
-      <div>
-        <input type="text" v-model="car" placeholder="选择车型">
-        <input type="password" v-model="car" placeholder="姓名">
-        <input type="password" v-model="car" placeholder="电话">
-        <input type="password" v-model="car" placeholder="城市">
+      <div class="inputStyle">
+        <div>
+          <span>选择车型</span><input type="text" v-model="car" placeholder="选择车型>">
+        </div>
+        <div>
+          <span>姓名</span><input type="password" v-model="car" placeholder="您的中文姓名">
+        </div>
+        <div>
+          <span>电话</span><input type="password" v-model="car" placeholder="您的电话">
+        </div>
+        <div>
+          <span>城市</span><input type="password" v-model="car" placeholder=">">
+        </div>
       </div>
       <div class="loginButton">
         <button>提交</button>
@@ -43,13 +51,23 @@ export default {
       flex-direction column
       height 90%
       justify-content: space-between;
-      div>input 
-        width 100%
-        height 3rem
-        border none
+      .inputStyle>div
         border-bottom 2px solid #DDDDDD
-        outline none
-        font-size 1.2rem
+        display flex
+        justify-content space-between
+        line-height 3rem
+        height 3rem
+        input 
+          border none 
+          outline none 
+          text-align right 
+      // div>input 
+      //   width 100%
+      //   height 3rem
+      //   border none
+      //   border-bottom 2px solid #DDDDDD
+      //   outline none
+      //   font-size 1.2rem
       .loginButton>button
         width 95%
         background #3B5997
