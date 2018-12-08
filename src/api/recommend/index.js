@@ -132,7 +132,14 @@ export  function getIndexLunbo(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
   }
-  
+  //查询播放量
+export  function getUpdatePlayCount(config){
+  let Obj = {
+      'url':URLROUTER+'/app/video/updatePlayCount',
+      'method':"get"
+  }
+  return axiosConfig(Object.assign({},Obj,config))
+}
   // export  function getListContent(config){
   //   const url='/api/getListContent'
   //   return axiosConfig(Object.assign({url},config))
