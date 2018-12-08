@@ -10,18 +10,19 @@
           <chooseCar @select="selectSinger"  :data="singers" ref="list"></chooseCar>
         </div>
     </div>
-    <div class="motorcycleType" v-if="motorcycleTVisible">
-      <motorcycleType @close='hideMotorcycle' :listData='testData'></motorcycleType>
+    <div class="carSeries" v-if="motorcycleTVisible">
+      <car-series @close='hideMotorcycle' :nowChangeCar='nowChangeCar' :listData='listData'></car-series>
     </div>
   </div>
 </template>
 
 <script>
   import CommonSearch from '@/common/view/search.vue';
-  import chooseCar from './chooseCar/chooseCar.vue';
-  import motorcycleType from './motorcycleType';
   import Singer from '@/common/js/singer'
-  import {getHotBrand,getbrandGroup} from '@/api/changeCar/index'
+  import chooseCar from './chooseCar/chooseCar.vue';
+  import carSeries from './carSeries';
+
+  import {getHotBrand,getbrandGroup,getSeriesGroupByBrandCode} from '@/api/changeCar/index'
   import {axiosAll} from '@/api/articleList'
   import {mapMutations} from 'vuex'
   const HOT_SINGER_LEN = 10
@@ -32,16 +33,8 @@
       return {
         singers:[],
         motorcycleTVisible:false,
-        testData:{
-          'item':{'name':'奥迪','moneyScope':'7.5-8.6w','src':'//iconfont.alicdn.com/t/1534822793431.jpg@100h_100w.jpg'},
-          listData:[
-            {'name':'奥迪','moneyScope':'7.5-8.6w','src':'//iconfont.alicdn.com/t/1534822793431.jpg@100h_100w.jpg'},
-            {'name':'奥迪','moneyScope':'7.5-8.6w','src':'//iconfont.alicdn.com/t/1534822793431.jpg@100h_100w.jpg'},
-            {'name':'奥迪','moneyScope':'7.5-8.6w','src':'//iconfont.alicdn.com/t/1534822793431.jpg@100h_100w.jpg'},
-            {'name':'奥迪','moneyScope':'7.5-8.6w','src':'//iconfont.alicdn.com/t/1534822793431.jpg@100h_100w.jpg'},
-            {'name':'奥迪','moneyScope':'7.5-8.6w','src':'//iconfont.alicdn.com/t/1534822793431.jpg@100h_100w.jpg'},
-          ]
-        }
+        listData:[],
+        nowChangeCar:{}
       }
     },
     created() {
@@ -74,7 +67,15 @@
       },
       selectSinger(singer) {
         this.motorcycleTVisible = true
-        console.log(singer)
+        this.nowChangeCar = singer
+        getSeriesGroupByBrandCode({
+          data:{
+            brandCode:singer.brandCode
+          }
+        }).then(res => {
+          console.log(res)
+          this.listData = res.data
+        })
       },
       ...mapMutations({
         setSinger: 'SET_SINGER'
@@ -83,7 +84,7 @@
     components:{
       CommonSearch,
       chooseCar,
-      motorcycleType
+      carSeries
     }
   }
 </script>
@@ -111,8 +112,8 @@
       top 3.2rem
       bottom 55px
       width 100%
-  // 车型列表
-  .motorcycleType
+  // 车系列表
+  .carSeries
     position fixed
     top 0 
     right 0 
