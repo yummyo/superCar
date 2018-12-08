@@ -10,9 +10,11 @@
           <chooseCar @select="selectSinger"  :data="singers" ref="list"></chooseCar>
         </div>
     </div>
-    <div class="carSeries" v-if="motorcycleTVisible">
-      <car-series @close='hideMotorcycle' :nowChangeCar='nowChangeCar' :listData='listData'></car-series>
-    </div>
+    <transition name="carTran">
+      <div class="carSeries" v-if="motorcycleTVisible">
+          <car-series @close='hideMotorcycle' :nowChangeCar='nowChangeCar' :listData='listData'></car-series>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -114,10 +116,17 @@
       width 100%
   // 车系列表
   .carSeries
+    width 100%
     position fixed
     top 0 
-    right 0 
     left 0 
     bottom 0
     z-index 1000
+    transition all .5s 
+  .carTran-enter
+    left 100%
+  .carTran-enter-to
+    left 0
+  .carTran-leave-to
+    left 100%
 </style>

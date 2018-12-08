@@ -108,11 +108,12 @@
         nowFun : null,
         nowFunType : {},
         aspect : 2,
-        state : 6
+        state : 6,
+        tabType: 1
       }
     },
-    props:['tabType'],
     created:function(){
+      this.tabType = this.$route.query.tabType || 1
       this.nowFun = getadvert
       // 文章列表
       this.nowFun({
@@ -135,6 +136,9 @@
       });
     },
     watch:{
+      $route(){
+        this.tabType = this.$route.query.tabType || 1
+      },
       tabType:function(id){
         this.nowPageIndex = 1;
         let that = this;
@@ -229,8 +233,8 @@
                   data['dateTime'] = that.articleData[0]['createTime']
                 }
                 that.nowFun({data}).then((res) => {
-                  if(res['data'].length > 0){
-                    that.articleData =res['data'].concat(that.articleData)
+                  if(res['data'] && res['data'].length > 0){
+                    that.articleData =res['data'].concat(that.articleData || [])
                     that.$toast({
                       message: '更新成功',
                       position: 'bottom',
@@ -252,16 +256,32 @@
                   "pageNo": that.nowPageIndex,
                   "pageSize": 15,
                   "operatorType":"up",
-                  "titleType":"ALL"
+                  [that.nowFunType.k] : that.nowFunType.v
                 }
-                if(that.articleData.length > 0){
-                  data["dateTime"] = that.articleData[that.articleData.length-1].createTime
+                // bug!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                if(that.tabType+"" == '1' || that.tabType == '3' || that.tabType == '4' || that.tabType == '5'){
+                  // 如果页面是最新 增加时间字段
+                  if(that.articleData[that.articleData.length-1]){
+                    data['articleDateTime'] = that.articleData[that.articleData.length-1]['createTime'];
+                  }
+                  if(that.articleData[that.articleData.length-3]){
+                    data['pushDateTime'] =  that.articleData[that.articleData.length-3]['createTime']
+                  }
+                }else if(that.tabType+"" == '2'){
+                  // 如果页面是 视频
+                  data['dateTime'] = that.articleData[that.articleData.length-1].createTime
                 }
                 that.nowFun({data}).then((res) => {
-                  if(res.data.length > 0){
+                  if(res.data && res.data.length > 0){
                     that.articleData = that.articleData.concat(res['data']);
                     that.nowPageIndex += 1;
                     that.toScroll();
+                  }else{
+                    that.$toast({
+                      message: '暂无新数据！',
+                      position: 'bottom',
+                      duration: 2000
+                    });
                   }
                 });
               }

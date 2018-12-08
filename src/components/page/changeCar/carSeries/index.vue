@@ -72,6 +72,8 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  .motorcycleType
+    height 100%
   .listview
     height (100% - 4rem)
     overflow hidden

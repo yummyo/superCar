@@ -50,7 +50,7 @@
     <div>
       <button class="spuerCar_btn" @click="star()">
         <span>
-          <i :class="{iconfont:true,'icon-xihuan2':!this.isLike,'icon-xihuan':this.isLike}"></i>
+          <i :class="{iconfont:true,'icon-xihuan2':!this.userLike,'icon-xihuan':this.userLike}"></i>
           {{likeCount}}
         </span>
         </button>
@@ -85,12 +85,20 @@
         // 相关推荐
         recommendData:[],
         isLike:null,
+        articleList: null,
+        userLike:false,
         likeCount: 0,
         backFun: {}
       }
     },
     created:function (){
       this.pageInit();
+      if(window.localStorage.getItem('articleList')){
+        this.articleList = JSON.parse(window.localStorage.getItem('articleList'))
+      }else{
+        this.articleList = {}
+      }
+      this.userLike = this.articleList[this.$route.query.id]
     },
     watch: {
       $route:function(){
@@ -125,7 +133,7 @@
       },
       star(){
         const that = this
-        if(that.isLike){
+        if(that.userLike){
           // 暂时注释  禁止取消点赞
           // removeLike({
           //   data:{
@@ -143,9 +151,12 @@
             }
           }).then(res => {
             that.likeCount++
+            this.userLike = true
             that.isLike = {
               id: res.data
             }
+            this.articleList[this.$route.query.id] = true
+            window.localStorage.setItem('articleList',JSON.stringify(this.articleList))
             that.$toast({
               message: '点赞成功',
               position: 'bottom',
