@@ -8,7 +8,7 @@
     <ul>
       <li v-for="group in data" class="list-group" ref="listGroup">
         <h2 class="list-group-title">{{group.initials}}</h2>
-        <uL>
+        <uL v-if="group.initials.length == 1">
           <li @click="selectItem(item)" v-for="item in group.brands" class="list-group-item">
             <img class="avatar" v-lazy="item.offLogo">
             <!-- <img class="avatar" v-lazy='imgSrc'> -->
@@ -16,6 +16,14 @@
             <!-- <span class="name">宝马</span> -->
           </li>
         </uL>
+        <ul class="hotName_ul" v-else>
+          <li v-for="(item,index) in group.brands" :key="index">
+            <div class="hotName_item">
+              <img class="avatar" v-lazy="'//iconfont.alicdn.com/t/1534822793431.jpg@100h_100w.jpg'">
+              <span class="name">{{item.brandName}}</span>
+            </div>
+          </li>
+        </ul>
       </li>
     </ul>
     <div class="list-shortcut" @touchstart.stop.prevent="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove"
@@ -245,4 +253,18 @@
       width: 100%
       top: 50%
       transform: translateY(-50%)
+    .hotName_ul
+      display flex
+      flex-wrap wrap
+      >li
+        width 20%
+        .hotName_item
+          display flex
+          flex-direction column
+          align-items center
+          img 
+            border-radius 50%
+            margin .5rem
+            width 3rem
+            height @width
 </style>
