@@ -33,3 +33,12 @@ export  function getCarModelListBySeries(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
+//根据车型查询汽车图片
+export  function getModelImgBySeries(config){
+    let Obj = {
+        'url':URLROUTER+'/app/carInfo/getModelImgBySeries',
+        'method':"get"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+}
+

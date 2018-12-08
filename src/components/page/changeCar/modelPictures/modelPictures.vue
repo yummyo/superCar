@@ -2,31 +2,47 @@
     <div>
         <contentHeader :listdata="{'content':'车型图片'}"></contentHeader>
         <mt-navbar v-model="selected">
-          <mt-tab-item id="1">外观</mt-tab-item>
-          <mt-tab-item id="2">中控</mt-tab-item>
-          <mt-tab-item id="3">细节</mt-tab-item>
-          <mt-tab-item id="4">座椅</mt-tab-item>
-          <mt-tab-item id="5">其他</mt-tab-item>
+          <mt-tab-item id="appearance">外观</mt-tab-item>
+          <mt-tab-item id="centralControl">中控</mt-tab-item>
+          <mt-tab-item id="details">细节</mt-tab-item>
+          <mt-tab-item id="chair">座椅</mt-tab-item>
+          <mt-tab-item id="other">其他</mt-tab-item>
         </mt-navbar>
         <mt-tab-container v-model="selected">
-          <mt-tab-container-item id="1">
+          <mt-tab-container-item id="appearance">
             <div class="appearance">
-               <img src="/static/index/viewOne.jpg"/>
-               <img src="/static/index/viewOne.jpg"/>
-               <img src="/static/index/viewOne.jpg"/>
+              <div v-for="item in pictures">
+                <img v-lazy="item.imgUrl"/>
+              </div>
             </div>
           </mt-tab-container-item>
-          <mt-tab-container-item id="2">
-            2
+          <mt-tab-container-item id="centralControl2">
+           <div class="appearance">
+              <div v-for="item in pictures">
+                <img v-lazy="item.imgUrl"/>
+              </div>
+            </div>
           </mt-tab-container-item>
-          <mt-tab-container-item id="3">
-           3
+          <mt-tab-container-item id="details">
+          <div class="appearance">
+              <div v-for="item in pictures">
+                <img v-lazy="item.imgUrl"/>
+              </div>
+            </div>
           </mt-tab-container-item>
-          <mt-tab-container-item id="4">
-           4
+          <mt-tab-container-item id="chair">
+          <div class="appearance">
+              <div v-for="item in pictures" v-if="item.length>0">
+                <img v-lazy="item.imgUrl"/>
+              </div>
+            </div>
           </mt-tab-container-item>
-          <mt-tab-container-item id="5">
-           5
+          <mt-tab-container-item id="other">
+          <div class="appearance">
+              <div v-for="item in pictures">
+                <img v-lazy="item.imgUrl"/>
+              </div>
+            </div>
           </mt-tab-container-item>
         </mt-tab-container>
     </div>
@@ -34,49 +50,29 @@
   
   <script>
     import contentHeader from '@/common/view/contentHeader';
+     import {getModelImgBySeries} from '@/api/changeCar/index'
     export default {
       data () {
-        // var mapObj = new AMap.Map('iCenter');
-        // mapObj.plugin('AMap.Geolocation', function () {
-        //     geolocation = new AMap.Geolocation({
-        //         enableHighAccuracy: true, // 是否使用高精度定位，默认:true
-        //         timeout: 10000,           // 超过10秒后停止定位，默认：无穷大
-        //         maximumAge: 0,            // 定位结果缓存0毫秒，默认：0
-        //         convert: true,            // 自动偏移坐标，偏移后的坐标为高德坐标，默认：true
-        //         showButton: true,         // 显示定位按钮，默认：true
-        //         buttonPosition: 'LB',     // 定位按钮停靠位置，默认：'LB'，左下角
-        //         buttonOffset: new AMap.Pixel(10, 20), // 定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-        //         showMarker: true,         // 定位成功后在定位到的位置显示点标记，默认：true
-        //         showCircle: true,         // 定位成功后用圆圈表示定位精度范围，默认：true
-        //         panToLocation: true,      // 定位成功后将定位到的位置作为地图中心点，默认：true
-        //         zoomToAccuracy:true       // 定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-        //     });
-        //     mapObj.addControl(geolocation);
-        //     geolocation.getCurrentPosition();
-        //     AMap.event.addListener(geolocation, 'complete', onComplete); // 返回定位信息
-        //     AMap.event.addListener(geolocation, 'error', onError);       // 返回定位出错信息
-        // });
- 
-        // function onComplete(obj){
-        //     var res = '经纬度：' + obj.position + 
-        //             '\n精度范围：' + obj.accuracy + 
-        //             '米\n定位结果的来源：' + obj.location_type + 
-        //             '\n状态信息：' + obj.info + 
-        //             '\n地址：' + obj.formattedAddress + 
-        //             '\n地址信息：' + JSON.stringify(obj.addressComponent, null, 4);
-        //     alert(res);
-        // };
-    
-        // function onError(obj) {
-        //     alert(obj.info + '--' + obj.message);
-        //     console.log(obj);
-        // };
         return {
-          selected:'1'  
+          selected:'appearance',
+          pictures:''
         }
       },
       created:function(){
-        console.log("轮播",this.listdata)
+        console.log(this.$route.query.brandCode)
+        console.log(this.$route.query.seriesCode)
+        getModelImgBySeries({
+          data:{
+            "brandCode":33,
+            "seriesCode":3170,
+            "imgType":'appearance',
+            "imgColor":''
+            }
+        }).then((res) => {
+          console.log(res);
+          this.pictures = res.data.modelImgList;
+        });
+
       },
       props:{
         listdata:{
@@ -90,6 +86,21 @@
        
         
       },
+      watch: {
+          selected: function (val, oldVal) {
+              // 这里就可以通过 val 的值变更来确定
+            getModelImgBySeries({
+              data:{
+                "brandCode":33,
+                "seriesCode":3170,
+                "imgType":val,
+                "imgColor":''
+                }
+            }).then((res) => {
+              this.pictures = res.data.modelImgList;
+            });
+          }
+      },
       components:{
         contentHeader
       }
@@ -97,14 +108,18 @@
   </script>
   <style scoped lang="stylus" rel="stylesheet/stylus">
     .appearance
-      margin 10px
-      display flex
-      justify-content: space-between
-      img
-        width 32%
+      // margin 10px
+      // display flex
+      // justify-content space-between
+      overflow auto
+      margin-top 1rem
+      text-align left
+      div
+        width 31%
         height 4.5rem
-      img:nth-child(2)
-        margin:0 .2rem 
-     
+        display inline-block
+        padding 0 0.2rem
+      img
+        width 100%
   </style>
   

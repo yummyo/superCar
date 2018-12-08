@@ -33,7 +33,7 @@
             <!--  播放次数 -->
             <div>
               <span>
-                {{videoData.borwseCount}}播放
+                {{videoData.playCount}}播放
               </span>
             </div>
             <!--  点赞数量 评论 -->
@@ -71,7 +71,7 @@
   import contentHeader from '@/common/view/contentHeader';
   import commentPublish from './information/commentPublish.vue';
   import listContent from '@/common/view/listContent';
-  import { getArticleDetail,getVideo,similarArticles,giveLike,removeLike,isLiked } from '@/api/recommend/index';
+  import { getArticleDetail,getVideo,similarArticles,giveLike,removeLike,isLiked,getUpdatePlayCount} from '@/api/recommend/index';
   export default {
     name: 'articleDetail',
     data () {
@@ -119,6 +119,13 @@
         })
       },
       playVideo(){
+        getUpdatePlayCount({
+          data:{
+            id : this.$route.query.id
+          }
+        }).then((res)=>{
+          console.log(res)
+        })
         var vdo = document.getElementById("videoPlay");
         this.ifPlay = true;
         vdo.play();
