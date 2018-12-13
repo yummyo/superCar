@@ -248,6 +248,9 @@
           padding .5rem 1rem
           border-bottom 1px solid #ddd
           text-align left
+          align-items center
+          .portrait
+            padding .3rem 0
           img 
             width 3rem 
             height 3rem
@@ -258,11 +261,14 @@
             flex-direction column
             justify-content space-around
             .replyBtn
+              font-size 0.8rem
               color red
         .contentReturn
           margin-left 2rem
           text-align left
           border-bottom 1px solid #ddd
+          .userName
+            font-size .9rem
           .replyName
             font-size .8rem
             color #ddd
