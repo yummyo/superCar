@@ -5,8 +5,9 @@
         <div  v-for="(item,index) of listData" :key="'year'+index" :class="{active: nowShow == index}" @click="dataClick(item,index)">{{item['year']}}款</div>
     </div>
     <div class="Parameter">
+      <div class="horsepower">2.0T涡轮增压184马力</div>
       <div class="itemList" v-for="(val,idx) of nowShowData" :key="idx">
-          <div>
+          <div class="carSeriesName">
             {{ val['model']['carName'] }}
           </div>
           <div> 
@@ -64,21 +65,31 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
   // 年份款型
   .dateList
+    padding-bottom .5rem
     >div
       display inline-block
       padding .5rem 1rem
-      font-size 1.3rem
+      font-size 1rem
+      color #ddd
       &.active
         border-bottom 1px solid blue
+        color #1f71ad
   .Parameter
     background #F8F8F8
     text-align left
     color #949494
     font-size 1.1rem
+    .horsepower
+      background #f8f8f8
+      color #a3a2a2
+      padding .3rem .8rem
     .itemList
         padding 0 0.8rem
-        margin-bottom 2rem
+        margin-bottom 1rem
         background #fff
+        .carSeriesName
+          color #000
+          font-size 1.2rem
         div
           display flex 
           justify-content space-between
@@ -87,4 +98,8 @@ export default {
             text-align right
           .guidePrice
             text-align right
+        ul
+          li
+            font-size 1rem
+            padding .3rem 0
 </style>

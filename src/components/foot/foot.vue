@@ -38,14 +38,35 @@
         'pageShow' : window.localStorage.getItem('tobarList') || "recommend"
       }
     },
+    watch:{
+      $route(){
+        let _path = this.$route.path
+        this.changeTobar(_path)
+      }
+    },
     computed:{
       // ...mapGetters(['pageShow','tobarList']),
     },
+    created(){
+      this.changeTobar(this.$route.path)
+    },
     methods:{
+      changeTobar(_path){
+        let toBarChange = 'recommend';
+        if(_path.indexOf('changeCar') > -1){
+          toBarChange = 'changeCar';
+        }else if(_path.indexOf('market') > -1){
+          toBarChange = 'market';
+        }else if(_path.indexOf('userCenter') > -1){
+          toBarChange = 'userCenter';
+        }
+        this.pageShow = toBarChange
+        window.localStorage.setItem('tobarList',toBarChange)
+      },
       changePageShow : function(data){
         // this.changePage(data);
-        this.pageShow = data;
-        window.localStorage.setItem('tobarList',data);
+        // this.pageShow = data;
+        // window.localStorage.setItem('tobarList',data);
         this.$router.push({path:"/index/"+data})
       },
       ...mapMutations({

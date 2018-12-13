@@ -67,7 +67,11 @@
             "imgColor":''
             }
         }).then((res) => {
-          this.pictures = res.data.modelImgList;
+          let arr = []
+          if(res.data && res.data.modelImgList.length > 0){
+            arr = res.data.modelImgList
+          }
+          this.pictures = arr
         });
 
       },

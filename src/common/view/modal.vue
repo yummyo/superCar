@@ -33,27 +33,25 @@ export default {
     left 100% !important
   .carTran-enter-to
     left 0 !important
-  .commentAll
-    height 100%
-    .alertContent
+  .alertContent
+    transition all .5s 
+    position fixed
+    bottom 0
+    left 0
+    top 0
+    right 0 
+    z-index 10
+    background rgba(0,0,0,.3)
+    width 100%
+    &.carTran-leave-to 
+      .alertRight
+        right -100%
+    .alertRight
       transition all .5s 
-      position fixed
+      position absolute
       bottom 0
-      left 0
       top 0
       right 0 
-      z-index 10
-      background rgba(0,0,0,.3)
-      width 100%
-      &.carTran-leave-to 
-        .alertRight
-          right -100%
-      .alertRight
-        transition all .5s 
-        position absolute
-        bottom 0
-        top 0
-        right 0 
-        width 80%
-        background #fff
+      width 80%
+      background #fff
 </style>

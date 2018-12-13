@@ -12,7 +12,7 @@
           <span :class="{'iconfont':true,'icon-unie601':!isCollect,'icon-shoucang':isCollect}"></span>
         </div>
     </div>
-    <div v-if="CommentVisible">
+    <div v-if="commentVisible">
        <div class="commentInput" @click.self="hideComment">
         <div>
           <textarea placeholder="请输入评论内容" v-model="content" cols="30" rows="10"></textarea>
@@ -26,7 +26,8 @@
 </template>
 
 <script>
-import { isKeeped,keepSource,removeKeep,saveresponse } from '@/api/recommend/index';
+import { isKeeped,keepSource,removeKeep,saveComment } from '@/api/recommend/index';
+import {detectorLogin} from '@/common/js/utils.js';
   export default {
     name: 'commentPublish',
     data () {
@@ -35,7 +36,7 @@ import { isKeeped,keepSource,removeKeep,saveresponse } from '@/api/recommend/ind
         // 是否被收藏
         isCollect: null,
         collectNum : 0,
-        CommentVisible: false,
+        commentVisible: false,
         content: ''
       }
     },
@@ -79,17 +80,20 @@ import { isKeeped,keepSource,removeKeep,saveresponse } from '@/api/recommend/ind
         });
       },
       showComment(){
-        this.CommentVisible = true
+        let that = this
+        detectorLogin(this,function(){
+          that.commentVisible = true
+        })
       },
       hideComment(){
         // 隐藏回复框
-        this.CommentVisible = false
+        this.commentVisible = false
       },
       // 回复
       commont(){
-        const that = this
+        let that = this
         // 评论
-        saveresponse({
+        saveComment({
           data:{
             sourceId:this.$route.query.id,
             sourceType:this.$route.query.pageType,
@@ -103,6 +107,12 @@ import { isKeeped,keepSource,removeKeep,saveresponse } from '@/api/recommend/ind
           });
           that.commentVisible = false
           that.content = ''
+        }).catch(res => {
+          that.$toast({
+            message: '网络异常',
+            position: 'bottom',
+            duration: 2000
+          });
         })
       },
       toggleCollect:function(){

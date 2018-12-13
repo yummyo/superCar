@@ -12,7 +12,7 @@
     </div>
     <transition name="carTran">
       <div class="carSeries" v-if="motorcycleTVisible">
-          <car-series @close='hideMotorcycle' :nowChangeCar='nowChangeCar' :listData='listData'></car-series>
+          <car-series @close='hideMotorcycle' :nowChangeCar='nowChangeCar' :listData='listData' :loadingVisible='loadingVisible'></car-series>
       </div>
     </transition>
   </div>
@@ -36,7 +36,8 @@
         singers:[],
         motorcycleTVisible:false,
         listData:[],
-        nowChangeCar:{}
+        nowChangeCar:{},
+        loadingVisible:false
       }
     },
     created() {
@@ -70,13 +71,16 @@
       selectSinger(singer) {
         this.motorcycleTVisible = true
         this.nowChangeCar = singer
+        this.loadingVisible = true
         getSeriesGroupByBrandCode({
           data:{
             brandCode:singer.brandCode
           }
         }).then(res => {
           console.log(res)
+          this.loadingVisible = false
           this.listData = res.data
+
         })
       },
       ...mapMutations({

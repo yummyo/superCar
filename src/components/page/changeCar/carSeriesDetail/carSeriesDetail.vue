@@ -2,7 +2,7 @@
   <div class="carSeriesDetail">
     <!-- 公共头部 -->
     <contentHeader :listdata='articleContent'></contentHeader>
-    <div class="carSeriesTitle">
+    <div class="carSeriesTitle"  @click="toDO(3)">
       <img :src="carData.imgUrl" alt="">
       <span class="totalStyle">共{{ carData.imgSize }}张</span>
     </div>
@@ -18,17 +18,17 @@
           </ul>
        </div>
        <div>
-          <div class="book">预约试驾</div>
-          <div class="book">置换</div>
-          <div class="price">询底价</div>
+          <div class="book" @click="toDO(1)">预约试驾</div>
+          <!-- <div class="book">置换</div> -->
+          <div class="price" @click="toDO(2)">询底价</div>
        </div>
     </div>
     <div class="contentList">
         <ul>
           <li>降价</li>
           <li>参配</li>
-          <li>点评</li>
-          <li>资讯</li>
+          <li @click="toDO(5)">点评</li>
+          <li @click="toDO(6)">资讯</li>
           <li>经销商</li>
         </ul>
     </div>
@@ -41,6 +41,9 @@
       </ul>
       <motorcycle-type v-if='carData.levelGroupList' :listData='nowChangeLiData'></motorcycle-type>
     </div>
+    <div class="btn">
+      <button @click="toDO(4)">我要点评</button>
+    </div>
   </div>
 </template>
 
@@ -51,13 +54,49 @@ import motorcycleType from './list/motorcycleType';
 export default {
   data () {
     return{
-      articleContent:{'content':'奔驰E系'},
+      articleContent:{'content':this.$route.query.carSeriesName},
       carData: {},
       nowChangeLi:'0',
       nowChangeLiData:[]
     }
   },
   methods: {
+    toDO(type){
+      let _path = '';
+      switch(type){
+        case 1:
+          // 预约试驾
+          _path = 'makeDriver'
+        break;
+        case 2:
+          // 询底价
+          _path = 'floorPrice'
+        break;
+        case 3:
+          // 图片列表
+          _path = 'modelPictures'
+        break;
+        case 4:
+          // 车系评论
+          _path = 'carSeriesComment'
+        break;
+        case 5:
+          // 车系评论列表
+          _path = 'carSeriesCommentList'
+        break;
+        case 6:
+          // 资讯页面
+          _path = 'carArticleList'
+        break;
+        case 7:
+          // 预约试驾
+          _path = ''
+        break;
+      }
+      this.$router.push({
+        path:_path
+      })
+    },
     setName(val){
       switch(val*1){
         case 1:
@@ -1925,6 +1964,8 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  .carSeriesDetail
+    padding-bottom 3rem
   .carSeriesTitle
     position relative
     width 100%
@@ -2003,8 +2044,21 @@ export default {
       li
         padding .5rem 1rem
         display inline-block
-        font-size 1.5rem
+        font-size 1.3rem
         color #ddd
         &.active
           color #000
+  div.btn
+    position fixed
+    bottom 0
+    left 0
+    right 0
+    height 2rem
+    button
+      width 90%
+      height 100%
+      border none
+      background #FC9927
+      color #fff
+      border-radius 5px
 </style>

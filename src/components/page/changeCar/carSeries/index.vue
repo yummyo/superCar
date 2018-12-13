@@ -7,6 +7,7 @@
         </div>
         <!--车系列表  -->
         <Scroll
+          v-if="listData.length > 0"
           :data='listData'
           :listen-scroll="listenScroll"
           :click='true'
@@ -27,12 +28,19 @@
             </div>
           </div>
         </Scroll>
+        <div v-else> 
+          暂无数据
+        </div>
+        <div class="loading-container" v-if="loadingVisible"> 
+          <Loading></Loading>
+        </div>
       </div>
   </div>
 </template>
 
 <script>
 import Scroll from '@/common/scroll/scroll'
+import Loading from '@/common/loading/loading'
 import {getHotBrand,getbrandGroup,getSeriesGroupByBrandCode} from '@/api/changeCar/index'
 export default {
   name:'motorcycleType',
@@ -44,11 +52,14 @@ export default {
     nowChangeCar:{
       type:Object,
       default:()=>{}
+    },
+    loadingVisible:{
+      default:false
     }
   },
   data(){
     return {
-      listenScroll: true
+      listenScroll: true,
     }
   },
   methods:{
@@ -56,22 +67,29 @@ export default {
       this.$emit('close')
     },
     select(data){
+      console.log(data)
       this.$router.push({
         path:'/carSeriesDetail',
         query:{
           brandCode:data.brandCode,
           seriesCode:data.seriesCode,
+          carSeriesName:data.seriesName,
         }
       })
     } 
   },
   components: {
-    Scroll
+    Scroll,Loading
   }
 }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  .loading-container
+    position: absolute
+    width: 100%
+    top: 50%
+    transform: translateY(-50%)
   .motorcycleType
     height 100%
   .listview

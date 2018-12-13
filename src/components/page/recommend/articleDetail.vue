@@ -246,6 +246,12 @@
   }
 </script>
 
+<style lang='css'>
+  .descTitle img{
+    width:100%;
+  }
+</style>
+
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
   // 点赞按钮
@@ -264,6 +270,8 @@
    .descTitle
     padding 1rem
     line-height 2rem
+    img
+        width 100%
     .name
       text-align left
       color #474B4C
@@ -275,8 +283,7 @@
       // 文章内容
     .articleContent
       overflow hidden
-      img
-        width 100%
+      
     .upload
       display flex
       justify-content space-between
