@@ -98,6 +98,18 @@ const floorPrice = (resolve) => {
     resolve(module)
   })
 }
+// 车系评论
+const carSeriesComment = (resolve) => {
+  import('@/components/page/changeCar/carSeriesComment/carSeriesComment').then((module) => {
+    resolve(module)
+  })
+}
+// 车系评论列表
+const carSeriesCommentList = (resolve) => {
+  import('@/components/page/changeCar/carSeriesCommentList/carSeriesCommentList').then((module) => {
+    resolve(module)
+  })
+}
 const router = new Router({
   routes: [
     {
@@ -208,6 +220,16 @@ const router = new Router({
       path: '/floorPrice',
       name: 'floorPrice',
       component: floorPrice,
+    },
+    {
+      path: '/carSeriesComment',
+      name: 'carSeriesComment',
+      component: carSeriesComment,
+    },
+    {
+      path: '/carSeriesCommentList',
+      name: 'carSeriesCommentList',
+      component: carSeriesCommentList,
     },
     {
       path: '*',
