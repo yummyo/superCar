@@ -80,7 +80,7 @@
   import swipe from '@/common/view/swipe.vue';
   import listAdvert from '@/common/view/listAdvert.vue';
   import contentHeader from '@/common/view/contentHeader.vue';
-  import {getIndexLunbo,getadvert,getVideoList,getArticleList,findCityArticle} from '@/api/recommend/index';
+  import {getIndexLunbo,getadvert,getVideoList,getArticleList} from '@/api/recommend/index';
   import Bscroll from 'better-scroll'
   export default {
     name: 'articleContent',
@@ -159,8 +159,8 @@
             break;
           case 3:
             // 拿到本地列表
-            this.nowFun = findCityArticle
-            this.nowFunType = {'k':'cityCode','v':"021"}
+            this.nowFun = getadvert
+            this.nowFunType = {'k':'cityCode','v':"1"}
             break;
           case 4:
             // 拿到评测
@@ -310,5 +310,4 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   .articleContent
     height calc(100% - 5rem)
-    margin-top 5rem
 </style>

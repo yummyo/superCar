@@ -140,6 +140,14 @@ export  function getUpdatePlayCount(config){
   }
   return axiosConfig(Object.assign({},Obj,config))
 }
+  //地方站文章
+export  function findCityArticle(config){
+  let Obj = {
+      'url':URLROUTER+'/app/article/findCityArticle',
+      'method':"get"
+  }
+  return axiosConfig(Object.assign({},Obj,config))
+}
   // export  function getListContent(config){
   //   const url='/api/getListContent'
   //   return axiosConfig(Object.assign({url},config))

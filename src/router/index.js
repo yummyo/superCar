@@ -98,6 +98,12 @@ const floorPrice = (resolve) => {
     resolve(module)
   })
 }
+// 资讯页面
+const carArticleList = (resolve) => {
+  import('@/components/page/changeCar/carSeriesDetail/carArticleList').then((module) => {
+    resolve(module)
+  })
+}
 const router = new Router({
   routes: [
     {
@@ -208,6 +214,12 @@ const router = new Router({
       path: '/floorPrice',
       name: 'floorPrice',
       component: floorPrice,
+    },
+    {
+      // 车辆资讯页面
+      path: '/carArticleList',
+      name: 'carArticleList',
+      component: carArticleList,
     },
     {
       path: '*',
