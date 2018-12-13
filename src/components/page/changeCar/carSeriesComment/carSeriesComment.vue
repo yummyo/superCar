@@ -10,7 +10,7 @@
     </modal>
     <transition 
     name="carTran">
-      <div class="alertContent" v-show="buyCityList" @click.self="buyCityHide">
+      <div class="alertContent" v-show="buyCityList" @click.self="buyCityHide('1')">
           <div class="alertRight" v-show="buyProvince">
             <div class="carSeries" @click="buySite" v-for="(item,index) in listData">
                 {{item.provide}}
@@ -176,7 +176,6 @@ export default {
     return {
       listData : [{provide:'山东'},{provide:'庐舍'},{provide:'黄色'},{provide:'搭理'},{provide:'江南'}],
       listData1 : [{provide:'山东1'},{provide:'庐舍2'},{provide:'黄色3'},{provide:'搭理4'},{provide:'江南5'}],
-      changeCarList:false,
       buyCityList:false,
       buySiteShow:false,
       buyProvince:false,
@@ -200,11 +199,13 @@ export default {
       this.$refs.mychild.modalShow();
     },
     changeCarHide(){
-       this.changeCarList=false;
+       this.$refs.mychild.modalHide();
     },
     // 控制购买地点的显示隐藏
     buyCityHide(value){
-      this.carArrayList.buySite=value
+      if(value==!1){
+        this.carArrayList.buySite=value
+      }
       this.buyCityList=false;
       this.buySiteShow=false;
     },

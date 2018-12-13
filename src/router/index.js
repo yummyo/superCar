@@ -98,6 +98,11 @@ const floorPrice = (resolve) => {
     resolve(module)
   })
 }
+const makeDriver = (resolve) => {
+  import('@/components/page/changeCar/makeDriver/makeDriver').then((module) => {
+    resolve(module)
+  })
+}
 // 车系评论
 const carSeriesComment = (resolve) => {
   import('@/components/page/changeCar/carSeriesComment/carSeriesComment').then((module) => {
@@ -226,6 +231,11 @@ const router = new Router({
       path: '/floorPrice',
       name: 'floorPrice',
       component: floorPrice,
+    },
+    {
+      path: '/makeDriver',
+      name: 'makeDriver',
+      component: makeDriver,
     },
     {
       path: '/carSeriesComment',

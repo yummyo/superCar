@@ -59,17 +59,14 @@
         }
       },
       created:function(){
-        console.log(this.$route.query.brandCode)
-        console.log(this.$route.query.seriesCode)
         getModelImgBySeries({
           data:{
-            "brandCode":33,
-            "seriesCode":3170,
+            "brandCode":this.$route.query.brandCode,
+            "seriesCode":this.$route.query.seriesCode,
             "imgType":'appearance',
             "imgColor":''
             }
         }).then((res) => {
-          console.log(res);
           this.pictures = res.data.modelImgList;
         });
 
@@ -91,8 +88,8 @@
               // 这里就可以通过 val 的值变更来确定
             getModelImgBySeries({
               data:{
-                "brandCode":33,
-                "seriesCode":3170,
+                "brandCode":this.$route.query.brandCode,
+                "seriesCode":this.$route.query.seriesCode,
                 "imgType":val,
                 "imgColor":''
                 }

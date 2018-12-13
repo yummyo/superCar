@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <contentHeader class="topTitle" :listdata="{'content':'询底价'}"></contentHeader>
+    <contentHeader class="topTitle" :listdata="{'content':'预约试驾'}"></contentHeader>
     <modal ref="mychild">
       <div class="carSeries" @click="chooseCarHide(item.provide)" v-for="(item,index) in listData">
           {{item.provide}}
@@ -9,16 +9,16 @@
     <div class="loginIpunt">
       <div class="inputStyle">
         <div @click="chooseCarShow()">
-          <span>选择车型</span><input type="text" v-model="floorPriceList.chooseCar" placeholder="选择车型>">
+          <span>选择车型</span><input type="text" v-model="makeDriverList.chooseCar" placeholder="选择车型>">
         </div>
         <div>
-          <span>姓名</span><input type="text" v-model="floorPriceList.name" placeholder="您的中文姓名">
+          <span>姓名</span><input type="text" v-model="makeDriverList.name" placeholder="您的中文姓名">
         </div>
         <div>
-          <span>电话</span><input type="text" v-model="floorPriceList.tel" placeholder="您的电话">
+          <span>电话</span><input type="text" v-model="makeDriverList.tel" placeholder="您的电话">
         </div>
         <div>
-          <span>城市</span><input type="text" v-model="floorPriceList.city" placeholder=">">
+          <span>城市</span><input type="text" v-model="makeDriverList.city" placeholder=">">
         </div>
       </div>
       <div class="loginButton">
@@ -35,11 +35,11 @@ export default {
   data() {
     return {
       listData : [{provide:'山东'},{provide:'庐舍'},{provide:'黄色'},{provide:'搭理'},{provide:'江南'}],
-      floorPriceList:{
-          chooseCar:'',
-          name:'',
-          tel:'',
-          city:''
+      makeDriverList:{
+        chooseCar:'',
+        name:'',
+        tel:'',
+        city:''
       }
     }
   },
