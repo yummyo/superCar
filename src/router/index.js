@@ -116,6 +116,12 @@ const carSeriesCommentList = (resolve) => {
     resolve(module)
   })
 }
+// 参配详情页面
+const paramDeploy = (resolve) => {
+  import('@/components/page/changeCar/paramDeploy/paramDeploy').then((module) => {
+    resolve(module)
+  })
+}
 // 资讯页面
 const carArticleList = (resolve) => {
   import('@/components/page/changeCar/carSeriesDetail/carArticleList').then((module) => {
@@ -247,7 +253,13 @@ const router = new Router({
       path: '/carSeriesCommentList',
       name: 'carSeriesCommentList',
       component: carSeriesCommentList,
-    },{
+    },
+    {
+      path: '/paramDeploy',
+      name: 'paramDeploy',
+      component: paramDeploy,
+    },
+    {
       // 车辆资讯页面
       path: '/carArticleList',
       name: 'carArticleList',

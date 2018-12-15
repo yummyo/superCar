@@ -26,7 +26,7 @@
     <div class="contentList">
         <ul>
           <li>降价</li>
-          <li>参配</li>
+          <li @click="toDO(7)">参配</li>
           <li @click="toDO(5)">点评</li>
           <li @click="toDO(6)">资讯</li>
           <li>经销商</li>
@@ -89,8 +89,8 @@ export default {
           _path = 'carArticleList'
         break;
         case 7:
-          // 预约试驾
-          _path = ''
+          // 参配页面
+          _path = 'paramDeploy'
         break;
       }
       this.$router.push({

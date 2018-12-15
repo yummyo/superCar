@@ -1,9 +1,22 @@
 <template>
   <div class="login">
     <contentHeader class="topTitle" :listdata="{'content':'询底价'}"></contentHeader>
-    <modal ref="mychild">
+    <modal ref="mychildOne">
       <div class="carSeries" @click="chooseCarHide(item.provide)" v-for="(item,index) in listData">
           {{item.provide}}
+      </div>
+    </modal>
+    <modal ref="mychildTwo">
+      <div class="carSeries" v-show="provideJudge">
+          选择省份
+      </div>
+      <div class="carSeries" @click="chooseCityHide(item.provide)" v-for="(item,index) in listData" v-show="provideJudge">
+          {{item.provide}}
+      </div>
+      <div class="showCity" v-show="cityJudge">
+        <div class="carSeries" @click="clickShow(item.provide)" v-for="(item,index) in listData1">
+            {{item.provide}}
+        </div>
       </div>
     </modal>
     <div class="loginIpunt">
@@ -17,7 +30,7 @@
         <div>
           <span>电话</span><input type="text" v-model="floorPriceList.tel" placeholder="您的电话">
         </div>
-        <div>
+        <div  @click="chooseCityShow()">
           <span>城市</span><input type="text" v-model="floorPriceList.city" placeholder=">">
         </div>
       </div>
@@ -34,22 +47,44 @@ import modal from '@/common/view/modal';
 export default {
   data() {
     return {
-      listData : [{provide:'山东'},{provide:'庐舍'},{provide:'黄色'},{provide:'搭理'},{provide:'江南'}],
+      listData : [{provide:'兰博基尼'},{provide:'凯迪拉克'},{provide:'英菲尼迪'},{provide:'雷克萨斯'},{provide:'劳斯莱斯'}],
+      listData1 : [{provide:'兰博基尼1'},{provide:'凯迪拉克1'},{provide:'英菲尼迪1'},{provide:'雷克萨斯'},{provide:'劳斯莱斯'}],
       floorPriceList:{
-          chooseCar:'',
-          name:'',
-          tel:'',
-          city:''
-      }
+        chooseCar:'',
+        name:'',
+        tel:'',
+        city:''
+      },
+      provideJudge:true,
+      cityJudge:false,
+      provideCity:'',
     }
   },
   methods: {
     chooseCarHide(val){
-      console.log(val)
-      this.$refs.mychild.modalHide();
+      this.floorPriceList.chooseCar=val;
+      this.$refs.mychildOne.modalHide();
     },
     chooseCarShow(){
-      this.$refs.mychild.modalShow();
+      this.$refs.mychildOne.modalShow();
+    },
+    // 点击省份传值
+    chooseCityHide(val){
+      this.provideCity=val;
+      // 隐藏省份显示城市
+      this.provideJudge=false;
+      this.cityJudge=true;
+    },
+    // 点击城市的显示传值
+    clickShow(val){
+      this.floorPriceList.city=this.provideCity+'-'+val;
+      this.provideCity=''
+      this.cityJudge=false;
+      this.$refs.mychildTwo.modalHide();
+    },
+    chooseCityShow(){
+      this.$refs.mychildTwo.modalShow();
+       this.provideJudge=true;
     }
   },
   components: {
@@ -60,6 +95,14 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  .showCity
+      transition all .5s 
+      position absolute
+      bottom 0
+      top 0
+      right 0 
+      width 100%
+      background #fff
   .login
     height 100%
     .carSeries

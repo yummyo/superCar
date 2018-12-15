@@ -4,25 +4,35 @@
 
     <modal ref="mychild">
       <div class="changeCar">选择车型</div>
-      <div class="carSeries" @click="changeCarHide">
+      <div class="carSeries" @click="chooseCarHide">
         <input type="radio" />2018款黄金跑车
       </div>
     </modal>
-    <transition 
-    name="carTran">
-      <div class="alertContent" v-show="buyCityList" @click.self="buyCityHide('1')">
-          <div class="alertRight" v-show="buyProvince">
-            <div class="carSeries" @click="buySite" v-for="(item,index) in listData">
-                {{item.provide}}
-            </div>
-          </div>
-          <div class="alertRight" v-show="buySiteShow">
-            <div class="carSeries" @click="buyCityHide(item.provide)"  v-for="(item,index) in listData1">
-                 {{item.provide}}
-            </div>
-          </div>
+    <modal ref="mychildOne">
+      <div class="carSeries" v-show="provideJudge">
+          选择省份
       </div>
-    </transition>
+      <div class="carSeries" @click="chooseProvideHide(item.provide)" v-for="(item,index) in listData" v-show="provideJudge">
+          {{item.provide}}
+      </div>
+      <div class="showCity" v-show="cityJudge">
+        <div class="carSeries" @click="chooseCityHide(item.provide)" v-for="(item,index) in listData1">
+            {{item.provide}}
+        </div>
+      </div>
+    </modal>
+    <modal ref="mychildTwo">
+      <div class="changeCar">选择经销商</div>
+      <div class="carSeries" @click="chooseDealerHide">
+        <input type="radio" />2018款黄金跑车
+      </div>
+    </modal>
+    <modal ref="mychildThree">
+      <div class="changeCar">购车目的</div>
+      <div class="carSeries" @click="buyGoalHide">
+        <input type="radio" />2018款黄金跑车
+      </div>
+    </modal>
     <mt-datetime-picker
     ref="picker"
     type="date"
@@ -33,7 +43,7 @@
      @confirm="handleConfirm">
   </mt-datetime-picker>
     <div class="inputStyle">
-      <div @click="changeCarShow">
+      <div @click="chooseCarShow">
         <span>购买车型 ：</span><input type="text" v-model="carArrayList.buyCar" placeholder="选择车型>">
       </div>
       <div>
@@ -48,13 +58,13 @@
       <div @click="buyCityShow">
         <span>购买地点 ：</span><input type="text" v-model="carArrayList.buySite" placeholder="请选择城市>">
       </div>
-      <div>
+      <div @click="chooseDealerShow">
         <span>购买经销商 ：</span><input type="text" v-model="carArrayList.buyDealer" placeholder="请选择经销商>">
       </div>
       <div>
         <span>使用油耗 ：</span><input  type="text" v-model="carArrayList.useOil" ><span class="marginRight">L/百公里</span>
       </div>
-      <div>
+      <div @click="buyGoalShow">
         <span>购车目的 ：</span><input type="text" v-model="carArrayList.buyPurpose" placeholder="请选择购车目的>">
       </div>
     </div>
@@ -71,7 +81,7 @@
       </div> 
       <div class="infoList">
           <div>
-            <div>*最满意</div>
+            <div>*最不满意</div>
             <div>用车过程有什么满意地方(30字以内)</div>
           </div>
           <div>
@@ -80,7 +90,7 @@
       </div> 
       <div class="infoList">
           <div>
-            <div>*最满意</div>
+            <div>*其他补充</div>
             <div>用车过程有什么满意地方(30字以内)</div>
           </div>
           <div>
@@ -90,7 +100,7 @@
       <div class="titleInfo">给车评分和描述</div>
       <div class="infoList">
           <div>
-            <div>*最满意</div>
+            <div>*空间(必选)</div>
             <div>用车过程有什么满意地方(30字以内)</div>
           </div>
           <div>
@@ -99,7 +109,7 @@
       </div> 
       <div class="infoList">
           <div>
-            <div>*最满意</div>
+            <div>*动力(必选)</div>
             <div>用车过程有什么满意地方(30字以内)</div>
           </div>
          <div>
@@ -108,7 +118,7 @@
       </div> 
       <div class="infoList">
           <div>
-            <div>*最满意</div>
+            <div>*操控(必选)</div>
             <div>用车过程有什么满意地方(30字以内)</div>
           </div>
          <div>
@@ -117,7 +127,7 @@
       </div>
       <div class="infoList">
           <div>
-            <div>*最满意</div>
+            <div>*油耗(必选)</div>
             <div>用车过程有什么满意地方(30字以内)</div>
           </div>
           <div>
@@ -126,7 +136,7 @@
       </div> 
       <div class="infoList">
           <div>
-            <div>*最满意</div>
+            <div>*舒适性(必选)</div>
             <div>用车过程有什么满意地方(30字以内)</div>
           </div>
           <div>
@@ -135,7 +145,7 @@
       </div> 
       <div class="infoList">
           <div>
-            <div>*最满意</div>
+            <div>*外观(必选)</div>
             <div>用车过程有什么满意地方(30字以内)</div>
           </div>
           <div>
@@ -144,7 +154,7 @@
       </div> 
       <div class="infoList">
           <div>
-            <div>*最满意</div>
+            <div>*内饰(必选)</div>
             <div>用车过程有什么满意地方(30字以内)</div>
           </div>
           <div>
@@ -153,7 +163,7 @@
       </div> 
       <div class="infoList">
           <div>
-            <div>*最满意</div>
+            <div>*性价比(必选)</div>
             <div>用车过程有什么满意地方(30字以内)</div>
           </div>
           <div>
@@ -176,9 +186,8 @@ export default {
     return {
       listData : [{provide:'山东'},{provide:'庐舍'},{provide:'黄色'},{provide:'搭理'},{provide:'江南'}],
       listData1 : [{provide:'山东1'},{provide:'庐舍2'},{provide:'黄色3'},{provide:'搭理4'},{provide:'江南5'}],
-      buyCityList:false,
-      buySiteShow:false,
-      buyProvince:false,
+      provideJudge:false,
+      cityJudge:false,
       pickerValue:'',
       carArrayList:{
         buyCar: "",
@@ -194,28 +203,41 @@ export default {
   },
   methods: {
     // 控制购买车型的显示隐藏
-    changeCarShow(){
+    chooseCarShow(){
       // this.changeCarList=true;
       this.$refs.mychild.modalShow();
     },
-    changeCarHide(){
+    chooseCarHide(){
        this.$refs.mychild.modalHide();
     },
+    // 购买经销商
+    chooseDealerHide(){
+      // this.changeCarList=true;
+      this.$refs.mychildTwo.modalHide();
+    },
+    chooseDealerShow(){
+       this.$refs.mychildTwo.modalShow();
+    },
+    // 购买目的
+    buyGoalShow(){
+      this.$refs.mychildThree.modalShow();
+    },
+    buyGoalHide(){
+       this.$refs.mychildThree.modalHide();
+    },
     // 控制购买地点的显示隐藏
-    buyCityHide(value){
-      if(value==!1){
-        this.carArrayList.buySite=value
-      }
-      this.buyCityList=false;
-      this.buySiteShow=false;
+    chooseProvideHide(value){
+      this.provideJudge=false;
+      this.cityJudge=true;
     },
     buyCityShow(){
-      this.buyCityList=true;
-      this.buyProvince=true;
+      this.$refs.mychildOne.modalShow();
+      this.provideJudge=true;
     },
-    buySite(){
-      this.buySiteShow=true;
-      this.buyProvince=false;
+    chooseCityHide(value){
+      this.$refs.mychildOne.modalHide();
+      this.cityJudge=false;
+      this.carArrayList.buySite=value;
     },
     // 打开时间的模态框
     buyTime(){
@@ -235,41 +257,49 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  .carTran-enter
-    left 100% !important
-  .carTran-enter-to
-    left 0 !important
-  .commentAll
-    height 100%
-    .alertContent
+  // .carTran-enter
+  //   left 100% !important
+  // .carTran-enter-to
+  //   left 0 !important
+  // .commentAll
+  //   height 100%
+  //   .alertContent
+  //     transition all .5s 
+  //     position fixed
+  //     bottom 0
+  //     left 0
+  //     top 0
+  //     right 0 
+  //     z-index 10
+  //     background rgba(0,0,0,.3)
+  //     width 100%
+  //     &.carTran-leave-to 
+  //       .alertRight
+  //         right -100%
+  //     .alertRight
+  //       transition all .5s 
+  //       position absolute
+  //       bottom 0
+  //       top 0
+  //       right 0 
+  //       width 80%
+  //       background #fff
+    .showCity
       transition all .5s 
-      position fixed
+      position absolute
       bottom 0
-      left 0
       top 0
       right 0 
-      z-index 10
-      background rgba(0,0,0,.3)
       width 100%
-      &.carTran-leave-to 
-        .alertRight
-          right -100%
-      .alertRight
-        transition all .5s 
-        position absolute
-        bottom 0
-        top 0
-        right 0 
-        width 80%
-        background #fff
-        .changeCar
-          padding 2rem 0
-          font-size 1.1rem
-        .carSeries
-          font-size 1.1rem
-          padding 0.3rem 0 0.3rem 0.3rem
-          text-align left
-          border-bottom 1px solid #ddd
+      background #fff
+    .changeCar
+      padding 2rem 0
+      font-size 1.1rem
+    .carSeries
+      font-size 1.1rem
+      padding 0.3rem 0 0.3rem 0.3rem
+      text-align left
+      border-bottom 1px solid #ddd
     .inputStyle>div
       border-bottom 2px solid #DDDDDD
       display flex
