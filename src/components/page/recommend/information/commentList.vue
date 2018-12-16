@@ -298,7 +298,7 @@
           right 0
           transform translateX(-30%)
         span.iconfont
-          font-size 1.8rem
+          font-size 1.5rem
           display inline-block
           width 2rem
           height 2rem

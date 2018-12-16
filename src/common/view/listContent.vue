@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="icon">
-          <img v-if="listdata.thumbnailResource" v-lazy="listdata.thumbnailResource[0].thumbnailUrl" alt="">
+          <img v-if="listdata.thumbnailResource && listdata.thumbnailResource.length > 0" v-lazy="listdata.thumbnailResource[0].thumbnailUrl" alt="">
         </div>
       </div>
   </div>
@@ -60,6 +60,7 @@
       padding-left 1rem
       height 4.5rem
       width 7rem
+      border 1px solid #ddd
       img
         width 100%
         height 100%

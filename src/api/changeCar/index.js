@@ -17,7 +17,7 @@ export  function getbrandGroup(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
-//根绝品牌查询车系
+//根据品牌查询车系
 export  function getSeriesGroupByBrandCode(config){
     let Obj = {
         'url':URLROUTER+'/app/carInfo/getSeriesGroupByBrandCode',
@@ -25,7 +25,7 @@ export  function getSeriesGroupByBrandCode(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
-//根绝品牌查询车系
+//根据车系查询车型分组列表
 export  function getCarModelGroupListBySeries(config){
     let Obj = {
         'url':URLROUTER+'/app/carInfo/getCarModelGroupListBySeries',
