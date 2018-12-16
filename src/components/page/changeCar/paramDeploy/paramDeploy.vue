@@ -4,7 +4,7 @@
         <div class="top">
             <div class="top-box" :style="{height: `${headHeight}px`}"></div>
             <div class="top-head" >
-                <div v-for="(item,index) of listData" :key="index" class="right-title" ref='rightHead' id="rightTitle" onscroll="console.log(this.scrollTop)">
+                <div v-for="(item,index) of listData" :key="index" class="right-title" ref='rightHead' id="rightTitle" onscroll="console.log(this.scrollLeft)">
                    <p class="carName">{{ item['carModelInfoBO']['model']['carName'] }}</p>
                    <p class="carOffer">{{ item['carModelInfoBO']['model']['guidePrice'] }}</p>
                 </div>
@@ -82,17 +82,22 @@
                     seriesCode : this.$route.query.seriesCode
                 }
             }).then(res => {
-                console.log(res)
                 let arr = []
-                arr.push(res.data[0])
-                arr.push(res.data[0])
-                this.listData = arr
-                this.$nextTick(()=>{
-                    console.log("height",this.$refs.rightHead[0].offsetHeight)
-                    console.log("width",this.$refs.rightHead[0].offsetWidth)
-                    this.headHeight = this.$refs.rightHead[0].offsetHeight
-                    this.headwidth = this.$refs.rightHead[0].offsetWidth
-                })
+                if(res.data && res.data.length > 0){
+                     arr.push(res.data[0])
+                    arr.push(res.data[0])
+                    this.listData = arr
+                    this.$nextTick(()=>{
+                        this.headHeight = this.$refs.rightHead[0].offsetHeight
+                        this.headwidth = this.$refs.rightHead[0].offsetWidth
+                    })
+                }else{
+                     this.$toast({
+                        message: '暂无数据',
+                        position: 'bottom',
+                        duration: 2000
+                    });
+                }
             })
         },
         computed:{
