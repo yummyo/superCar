@@ -17,7 +17,7 @@
             <li class="typesStyle">油耗:{{carData.minOilWear}}-{{carData.maxOilWear}}L</li>
           </ul>
        </div>
-       <div>
+       <div class="btnList">
           <div class="book" @click="toDO(1)">预约试驾</div>
           <!-- <div class="book">置换</div> -->
           <div class="price" @click="toDO(2)">询底价</div>
@@ -62,7 +62,8 @@ export default {
   },
   methods: {
     toDO(type){
-      let _path = '';
+      let _path = '',
+          query = {};
       switch(type){
         case 1:
           // 预约试驾
@@ -91,10 +92,15 @@ export default {
         case 7:
           // 参配页面
           _path = 'paramDeploy'
+          query = {
+            brandCode : this.$route.query.brandCode,
+            seriesCode : this.$route.query.seriesCode
+          }
         break;
       }
       this.$router.push({
-        path:_path
+        path:_path,
+        query
       })
     },
     setName(val){
@@ -1982,6 +1988,10 @@ export default {
       color white 
       font-weight bold
   .content
+    .btnList
+      >div
+        flex 1
+        padding .5rem
     >div
       display flex
       justify-content space-between
@@ -2001,13 +2011,11 @@ export default {
         color #656565
       .book
         border 2px solid #EFEFEF
-        padding .2rem .5rem
         border-radius 5px
         color #1F71AD
         width 4rem
       .price
         border 2px solid #EFEFEF
-        padding .2rem .5rem
         border-radius 5px
         color #fff
         background #FD9927

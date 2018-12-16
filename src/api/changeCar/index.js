@@ -41,4 +41,20 @@ export  function getModelImgBySeries(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
+//根据车系查询汽车参数配置
+export  function getCarModelInfoBySeries(config){
+    let Obj = {
+        'url':URLROUTER+'/app/carInfo/getCarModelInfoBySeries',
+        'method':"get"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+}
+//根据车型查询汽车参数配置
+export  function getCarModelInfoByModel(config){
+    let Obj = {
+        'url':URLROUTER+'/app/carInfo/getCarModelInfoByModel',
+        'method':"get"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+}
 

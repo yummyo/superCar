@@ -146,21 +146,21 @@ export default {
           text-overflow ellipsis
           white-space nowrap
   .issue
-      text-align center
-      position fixed
-      bottom 0
-      left 0
-      width 100%
-  .issue>button
-    width 95%
-    background #3B5997
-    height 3rem
-    margin-bottom .5rem
-    border-radius .3125rem
-    color #ffffff
-    font-size 1.5rem
-    outline none 
-    border none
+    text-align center
+    position fixed
+    bottom 0
+    left 0
+    width 100%
+    button
+      width 95%
+      background #3B5997
+      height 2rem
+      margin-bottom .5rem
+      border-radius .3125rem
+      color #ffffff
+      font-size 1rem
+      outline none 
+      border none
 </style>
 
 

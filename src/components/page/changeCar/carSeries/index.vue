@@ -7,7 +7,7 @@
         </div>
         <!--车系列表  -->
         <Scroll
-          v-if="listData.length > 0"
+          v-if="listData.length > 0 && !loadingVisible"
           :data='listData'
           :listen-scroll="listenScroll"
           :click='true'
@@ -28,7 +28,7 @@
             </div>
           </div>
         </Scroll>
-        <div v-else> 
+        <div v-else-if='!loadingVisible'>
           暂无数据
         </div>
         <div class="loading-container" v-if="loadingVisible"> 

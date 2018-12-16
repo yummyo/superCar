@@ -1,46 +1,25 @@
 <template>
     <div class="outermost-layer">
-        <!-- <div class="left">
-            <div class="left-head" :style="{height: `${headHeight}px`}"></div>
-             <div class="right-head" >
+        <div class="left">
+            <div class="left-head" :style="{height: `${headHeight}px`}">
+                
+            </div>
+            <div  :style="{height: `${bodyHeight}px`}" class="left-body"  id="leftBodyId" onscroll="rightBodyId.scrollTop = this.scrollTop">
+                <div v-for="(item,index) of titleData" :class="item.className" :key="index" >
+                    {{ item.name }}
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="right-head" >
                 <div v-for="(item,index) of listData" :key="index" class="right-title" ref='rightHead'>
                    <p class="carName">{{ item['carModelInfoBO']['model']['carName'] }}</p>
                    <p class="carOffer">{{ item['carModelInfoBO']['model']['guidePrice'] }}</p>
                 </div>
             </div>
-        </div>
-        <div class="right">
-             <div  :style="{height: `${bodyHeight}px`}" class="left-body"  id="leftBodyId" onscroll="rightBodyId.scrollTop = this.scrollTop">
-                <div v-for="(item,index) of titleData" :class="item.className" :key="index" >
-                    {{ item.name }}
-                </div>
-            </div>
-            <div :style="{height: `${bodyHeight}px`}" class="right-body" id="rightBodyId" onscroll="leftBodyId.scrollTop = this.scrollTop">
+            <div  :style="{height: `${bodyHeight}px`}" class="right-body" id="rightBodyId" onscroll="leftBodyId.scrollTop = this.scrollTop">
                 <div v-for="(item,index) of listData" :key="index" >
                     <div class="rightItem"  :style="{width: `${headwidth}px`}" v-for="(val,idx) of titleData" :key="idx">{{ setVal(val['key'],item) }}</div>
-                </div>
-            </div>
-        </div> -->
-        <div class="top">
-            <div class="top-box" :style="{height: `${headHeight}px`}"></div>
-            <div class="top-head" >
-                <div v-for="(item,index) of listData" :key="index" class="right-title" ref='rightHead' id="rightTitle" onscroll="console.log(this.scrollTop)">
-                   <p class="carName">{{ item['carModelInfoBO']['model']['carName'] }}</p>
-                   <p class="carOffer">{{ item['carModelInfoBO']['model']['guidePrice'] }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="bottom" :style="{height: `${bodyHeight}px`}" >
-            <div>
-                <div class="bottom-title"  >
-                    <div v-for="(item,index) of titleData" :class="item.className" :key="index" >
-                        {{ item.name }}
-                    </div>
-                </div>
-                <div  class="bottom-body" id="rightBodyId" onscroll="rightTitle.scrollLeft = this.scrollLeft">
-                    <div v-for="(item,index) of listData" :key="index" :style="{width: `${headwidth}px`}">
-                        <div class="rightItem"   v-for="(val,idx) of titleData" :key="idx">{{ setVal(val['key'],item) }}</div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -104,10 +83,11 @@
                 let arr = []
                 arr.push(res.data[0])
                 arr.push(res.data[0])
+                console.log(arr)
                 this.listData = arr
                 this.$nextTick(()=>{
-                    console.log("height",this.$refs.rightHead[0].offsetHeight)
-                    console.log("width",this.$refs.rightHead[0].offsetWidth)
+                    console.log(this.$refs.rightHead[0].style)
+                    console.log(this.$refs.rightHead[0].offsetWidth)
                     this.headHeight = this.$refs.rightHead[0].offsetHeight
                     this.headwidth = this.$refs.rightHead[0].offsetWidth
                 })
@@ -125,9 +105,6 @@
                     break;
                 }
                 return '--'
-            },
-            scrollTest(data){
-                console.log(data)
             }
         }
     }
@@ -148,55 +125,22 @@
         align-items: center;
         justify-content: center;
     .outermost-layer
-        *
-            box-sizing border-box
-        .top
-            display flex
+        .left
+            width 6rem
+        .right
             >div
-                vertical-align top
-                display inline-block
-            .top-box
-                width 6rem
-                clear both
-                border-right 1px solid #ddd
-                border-bottom 1px solid #ddd
-            .top-head
-                overflow-x auto 
-                white-space nowrap
-                >div
-                    display inline-block
+                min-width 100%
+            .right-head
                 .right-title
-                    border-bottom 1px solid #ddd
-                    border-right 1px solid #ddd
+                    border-bottom:1px solid #ddd;
                     max-width: 10rem;
-                    padding: 1rem .5rem;
-                    white-space: normal;
-                    text-align left
-
                     .carOffer
                         color red
                     .carName
                         font-size 13px
-        .bottom
-            overflow-y auto
-            >div
-                display flex
-                .bottom-title
-                    width 6rem
-                    >div
-                        border-bottom 1px solid #ddd
-                        border-right 1px solid #ddd
-                .bottom-body
-                    white-space nowrap
-                    overflow-x scroll 
-                    >div
-                        display inline-block
-                        flex-direction column
-                        .rightItem
-                            border-bottom 1px solid #ddd
-                            border-right 1px solid #ddd
-
-                        
+            .right-body 
+                .rightItem
+                    line-height 3rem
 
 </style>
 
@@ -205,6 +149,86 @@
         box-sizing:border-box;
         background-color: white;
         padding: 0px;
+    }
+    .left{
+        box-sizing:border-box;
+        height: 100%;
+        float: left;
+        display: inline-block;
+    }
+    .left-head{
+        box-sizing:border-box;
+        width: 100%;
+        /*height: 30px;*/
+        clear: both;
+        border-right:1px solid #ddd;
+        border-bottom:1px solid #ddd;
+    }
+    .left-body{
+        box-sizing:border-box;
+        clear: both;
+        width: 100%;
+        /*height: 617px;*/
+        /*左边设置滚动条，系统监听左边的滚动条位置，保持高度一致*/
+        overflow-y: scroll;
+        border-right:1px solid #ddd;
+    }
+    .left-body>div{
+      box-sizing:border-box;
+      border-bottom:1px solid #ddd;
+    }
+    .right{
+        /* white-space: nowrap; */
+        box-sizing:border-box;
+        width: calc(100% - 6rem);
+        height: 100%;
+        float: left;
+        overflow-x: scroll;
+        display: inline-block;
+    }
+    .right-head{
+        box-sizing:border-box;
+        text-align:left;
+        z-index: 10;
+        clear: both;
+    }
+    .right-head .right-title{
+        box-sizing:border-box;
+        border-right:1px solid #ddd;
+        display:inline-block;
+        white-space: normal;
+        padding: 1rem .5rem;
+    }
+    .right-body,.right-head{
+        white-space: nowrap;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .right-head>div{
+        display: inline-block; 
+    } 
+    .right-body{
+        box-sizing:border-box;
+        /* width: 1400px; */
+        /*height: 617px;*/
+        clear: both;
+        overflow-x: visible;
+        overflow-y: auto;
+        text-align:left;
+        display: flex;
+        float: left;
+    }
+    .right-body>div{
+        display: flex;
+        flex-direction: column;
+    }
+    .right-body>div>div{
+        box-sizing:border-box;
+        border-right:1px solid #ddd;
+        border-bottom:1px solid #ddd;
+        display:inline-block;
+        text-align:center;
+        line-height:30px
     }
 
 </style>
