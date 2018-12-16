@@ -1,26 +1,6 @@
 <template>
     <div class="outermost-layer">
-        <!-- <div class="left">
-            <div class="left-head" :style="{height: `${headHeight}px`}"></div>
-             <div class="right-head" >
-                <div v-for="(item,index) of listData" :key="index" class="right-title" ref='rightHead'>
-                   <p class="carName">{{ item['carModelInfoBO']['model']['carName'] }}</p>
-                   <p class="carOffer">{{ item['carModelInfoBO']['model']['guidePrice'] }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="right">
-             <div  :style="{height: `${bodyHeight}px`}" class="left-body"  id="leftBodyId" onscroll="rightBodyId.scrollTop = this.scrollTop">
-                <div v-for="(item,index) of titleData" :class="item.className" :key="index" >
-                    {{ item.name }}
-                </div>
-            </div>
-            <div :style="{height: `${bodyHeight}px`}" class="right-body" id="rightBodyId" onscroll="leftBodyId.scrollTop = this.scrollTop">
-                <div v-for="(item,index) of listData" :key="index" >
-                    <div class="rightItem"  :style="{width: `${headwidth}px`}" v-for="(val,idx) of titleData" :key="idx">{{ setVal(val['key'],item) }}</div>
-                </div>
-            </div>
-        </div> -->
+        <contentHeader :listdata='articleContent'></contentHeader>
         <div class="top">
             <div class="top-box" :style="{height: `${headHeight}px`}"></div>
             <div class="top-head" >
@@ -48,6 +28,7 @@
 </template>
 
 <script>
+    import contentHeader from '@/common/view/contentHeader';
     import { getCarModelInfoBySeries } from '@/api/changeCar/index'
     export default {
         name: "home",
@@ -55,6 +36,7 @@
             return {
                 headHeight: 51,
                 headwidth: 51,
+                articleContent:{'content':'详细参数'},
                 listData:[],
                 titleData : [
                     {"name":"车型报价",'className':'titleItem title','key':'guidePrice'},
@@ -117,6 +99,9 @@
             bodyHeight(){
                 return window.innerHeight - this.headHeight
             }
+        },
+        components: {
+            contentHeader
         },
         methods:{
             setVal(key,data){

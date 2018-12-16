@@ -54,4 +54,6 @@ export default {
       right 0 
       width 80%
       background #fff
+      height 100%
+      overflow auto
 </style>
