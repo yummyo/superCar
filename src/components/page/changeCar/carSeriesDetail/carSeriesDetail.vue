@@ -63,8 +63,11 @@ export default {
   methods: {
     toDO(type){
       let _path = '',
-          query = {};
-      switch(type){
+          query = {
+            brandCode : this.$route.query.brandCode,
+            seriesCode : this.$route.query.seriesCode
+          };
+      switch(type){ 
         case 1:
           // 预约试驾
           _path = 'makeDriver'
@@ -92,10 +95,6 @@ export default {
         case 7:
           // 参配页面
           _path = 'paramDeploy'
-          query = {
-            brandCode : this.$route.query.brandCode,
-            seriesCode : this.$route.query.seriesCode
-          }
         break;
       }
       this.$router.push({
