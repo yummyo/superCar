@@ -6,7 +6,7 @@ import router from './router'
 import Vuex from 'vuex'
 import store from './store/index'
 import './mork/index'
-import { Tabbar,TabItem,Swipe, SwipeItem,Badge,Toast,MessageBox,Navbar,TabContainer,TabContainerItem,DatetimePicker} from 'mint-ui';
+import { Tabbar,TabItem,Swipe, SwipeItem,Badge,Toast,MessageBox,Navbar,TabContainer,TabContainerItem,DatetimePicker,Radio} from 'mint-ui';
 import lazyLoad from "vue-lazyload"
 import 'mint-ui/lib/style.css'
 
@@ -23,6 +23,7 @@ Vue.component(Navbar.name, Navbar);
 Vue.component(TabContainer.name, TabContainer);
 Vue.component(TabContainerItem.name, TabContainerItem);
 Vue.component(DatetimePicker.name, DatetimePicker);
+Vue.component(Radio.name, Radio);
 Vue.$toast = Vue.prototype.$toast = Toast;
 Vue.$messageBox = Vue.prototype.$messageBox  = MessageBox;
 Vue.config.productionTip = false
