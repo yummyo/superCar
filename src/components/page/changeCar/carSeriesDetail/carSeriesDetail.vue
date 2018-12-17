@@ -29,7 +29,7 @@
           <li @click="toDO(7)">参配</li>
           <li @click="toDO(5)">点评</li>
           <li @click="toDO(6)">资讯</li>
-          <li>经销商</li>
+          <li @click="toDO(8)">经销商</li>
         </ul>
     </div>
     <div class="levelGroup">
@@ -95,6 +95,10 @@ export default {
         case 7:
           // 参配页面
           _path = 'paramDeploy'
+        break;
+        case 8:
+          // 经销商页面
+          _path = 'dealer'
         break;
       }
       this.$router.push({
