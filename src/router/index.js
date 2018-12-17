@@ -128,6 +128,12 @@ const carArticleList = (resolve) => {
     resolve(module)
   })
 }
+// 资讯页面
+const pictureOption = (resolve) => {
+  import('@/components/page/changeCar/pictureOption').then((module) => {
+    resolve(module)
+  })
+}
 const router = new Router({
   routes: [
     {
@@ -264,6 +270,12 @@ const router = new Router({
       path: '/carArticleList',
       name: 'carArticleList',
       component: carArticleList,
+    },
+    {
+      // 图片综合
+      path: '/pictureOption',
+      name: 'pictureOption',
+      component: pictureOption,
     },
     {
       path: '*',

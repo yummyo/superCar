@@ -109,7 +109,11 @@
         nowFunType : {},
         aspect : 2,
         state : 6,
-        tabType: 1
+        tabType: 1,
+        cityInfo : window.localStorage.getItem('userLocation') || {
+          citycode : '021',
+          city : '上海'
+        }
       }
     },
     created:function(){
@@ -160,7 +164,7 @@
           case 3:
             // 拿到本地列表
             this.nowFun = findCityArticle
-            this.nowFunType = {'k':'cityCode','v':"021"}
+            this.nowFunType = {'k':'cityCode','v':cityInfo['cityCode']}
             break;
           case 4:
             // 拿到评测

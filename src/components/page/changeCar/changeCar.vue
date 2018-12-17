@@ -27,6 +27,9 @@
   import {getHotBrand,getbrandGroup,getSeriesGroupByBrandCode} from '@/api/changeCar/index'
   import {axiosAll} from '@/api/articleList'
   import {mapMutations} from 'vuex'
+
+  
+  import AMap from 'AMap'
   const HOT_SINGER_LEN = 10
   const HOT_NAME = '热门品牌'
   export default {
@@ -48,12 +51,10 @@
           brands: []
         }
         res[0].data.forEach((item, index) => {
-         console.log(item)
             hot.brands.push({
               "brandName":item.brandName,
               "offLogo":item.offLogo
             })
-        // console.log(res)
       })
       this.singers=[hot].concat(res[1].data)
       // this.singers = hot.concat.(list)

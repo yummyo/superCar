@@ -3,8 +3,8 @@
         <contentHeader :listdata='articleContent'></contentHeader>
         <div class="top">
             <div class="top-box" :style="{height: `${headHeight}px`}"></div>
-            <div class="top-head" >
-                <div v-for="(item,index) of listData" :key="index" class="right-title" ref='rightHead' id="rightTitle" onscroll="console.log(this.scrollLeft)">
+            <div class="top-head" id="rightTitle"  onscroll="rightBodyId.scrollLeft = this.scrollLeft">
+                <div v-for="(item,index) of listData" :key="index" class="right-title" ref='rightHead' >
                    <p class="carName">{{ item['carModelInfoBO']['model']['carName'] }}</p>
                    <p class="carOffer">{{ item['carModelInfoBO']['model']['guidePrice'] }}</p>
                 </div>
@@ -71,7 +71,7 @@
                     {"name":"最大载重质量(kg)","className":"titleItem",'key':'guidePrice'},
                     {"name":"货箱尺寸(mm)","className":"titleItem",'key':'guidePrice'},
                     {"name":"发动机","className":"titleItem",'key':'guidePrice'},
-                    {"name":"货箱尺寸(mm)","className":"titleItem",'key':'guidePrice'},
+                    {"name":"货箱尺寸(mm)","className":"titleItem",'key':'guidePrice'}
                 ]
             }
         },

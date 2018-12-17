@@ -3,7 +3,9 @@
       <div class="item">
           <h3 class="name">{{listdata.contentTitle}}</h3>
           <div class="icon">
-            <img v-for='item in listdata.thumbnailResource'  :src="item['thumbnailUrl']" alt="">
+            <div v-if="listdata.thumbnailResource && listdata.thumbnailResource.length > 0" v-for='(item,index) of listdata.thumbnailResource' :key="index">
+              <img :src="item['thumbnailUrl']" alt="">
+            </div>
           </div>
           <p class="desc">{{listdata.describe}}</p>
       </div>
@@ -16,9 +18,6 @@
       return {
       
       }
-    },
-    mounted:function(){
-      console.log(this.listdata.thumbnailResource)
     },
     props:{
       listdata:{
@@ -36,12 +35,18 @@
   .item
     box-sizing border-box
     margin .5rem 1rem
+    padding .5rem 0
     border-bottom 1px solid #E1E1E1
     .icon
-      img
-        width 32%
+      display flex
+      div
+        flex 1
         height 4.5rem
-      img:nth-child(2)
+        border 1px solid #ddd
+        img 
+          width 100%
+          height @width
+      div:nth-child(2)
         margin:0 .2rem 
     .name
       text-align left

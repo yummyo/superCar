@@ -57,7 +57,7 @@
     padding .8rem 0
     border-bottom 1px solid #E1E1E1
     .icon
-      padding-left 1rem
+      // padding-left 1rem
       height 4.5rem
       width 7rem
       border 1px solid #ddd

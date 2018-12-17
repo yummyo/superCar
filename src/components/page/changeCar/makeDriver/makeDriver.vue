@@ -154,8 +154,10 @@ export default {
     submit(){
       postBuyCarPredrive({data:this.makeDriverList}).
       then((res)=>{
-        console.log(res)
         this.$toast('提交成功')
+        this.$router.push({
+          path:"/carSeriesDetail",
+        })
       })
     }
   },

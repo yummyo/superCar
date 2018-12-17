@@ -4,7 +4,10 @@
     <div class="user">
       <!-- 已登录 -->
       <div v-if='isLogin' class="login">
-
+        <div>
+          <img src="/static/index/notLogin.png" alt="">
+          <span>{{userInfo['nickName']}}</span>
+        </div>
       </div>
       <!-- 未登录 -->
       <div v-else class="notLogin">
@@ -37,9 +40,18 @@
     name: 'changeCar',
     data () {
       return {
-        isLogin:false,
+        userInfo: window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo')) : {},
         myAttention:'',
         myCollect:''
+      }
+    },
+    computed:{
+      isLogin(){
+        if(this.userInfo && Object.keys(this.userInfo).length > 0){
+          return true
+        }else{
+          return false
+        }
       }
     },
     methods:{
@@ -68,8 +80,6 @@
       padding-bottom 1rem
       >div
         background #fff
-      // 未登录
-      .notLogin
         padding 2rem 0
         display flex
         justify-content space-around

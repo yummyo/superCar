@@ -1,7 +1,7 @@
 <template>
   <div> 
     <!-- 文章公共头部信息 可返回 -->
-    <div class="contentHeader" >
+    <div class="contentHeader" :class="{noBorder}">
       <div class="desc">
           <div class="point" @click="returnTop()">
               <span class="iconfont icon-zuo"></span>
@@ -37,6 +37,10 @@
         default:function(){
           return {}
         }
+      },
+      noBorder:{
+        type:Boolean,
+        default:false
       },
       backFun:{
         type:Object,
@@ -77,6 +81,8 @@
       .point
         padding .5rem 1.5rem
         font-size 2rem
+  .noBorder
+    border none
   .share
     position fixed
     bottom 0

@@ -6,7 +6,7 @@
       <input type="password" v-model="loginForm.password" placeholder="密码">
     </div>
     <div class="loginButton">
-        <button @click="loginFn" :disabled=loginForm.userName&&loginForm.password?false:true :class={activeLogin:loginForm.userName&&loginForm.password}>登录</button>
+        <button @click="loginFn" :disabled="loginForm.userName&&loginForm.password?false:true" :class="{activeLogin:loginForm.userName&&loginForm.password}">登录</button>
     </div>
     <div class="login-wrapper">
         <div class="links">
@@ -48,7 +48,7 @@ export default {
           console.log(res)
          if(res.code=='0'){
           this.$toast('登录成功')
-          window.localStorage.setItem('userInfo',JSON.stringify(res.data.UserInfo))
+          window.localStorage.setItem('userInfo',JSON.stringify(res.data))
           this.$router.push({path: "/"});
          }else{
           this.$toast('用户名或者密码错误')
