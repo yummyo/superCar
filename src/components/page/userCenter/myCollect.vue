@@ -1,19 +1,23 @@
 <template>
-  <div class="list" >
+  <div class="list" ref="wrapper" >
       <contentHeader :listdata="listContent"></contentHeader>
-      <div class="item" v-for="item in 5">
-        <input class="inputState" type="checkbox" v-show="!choose">
-        <div class="icon">
-          <img src="/static/index/myAttention_1.jpg">
-        </div>
-        <div class="text">
-          <h3 class="name">兰博基尼</h3>
-          <p class="desc">价格：<span>1000万起</span></p>
-        </div>
+      <div class="item" v-for="item of collectList" v-if="item" @click="()=>{clickList&&clickList(item)}">
+        <label>
+          <div  class="inputState">
+            <input v-model='checkedList' :value='item.id' type="checkbox" v-show="!choose">
+          </div>
+          <div class="icon">
+            <img  v-if="item&&item.imgResource[0]" v-lazy="item.imgResource[0].resourceImgUrl">
+          </div>
+          <div class="text">
+            <h3 class="name" v-if="item&&item.title">{{item.title}}</h3>
+            <p class="desc"v-if="item&&item.commentCount">{{item.createTime}}<span>评价:{{item.commentCount}}</span></p>
+          </div>
+        </label>
       </div>
       <div class="footer">
           <div v-show="choose">
-              <span @click="changeState(1)">编辑</span>
+              <span @click="changeState()">编辑</span>
           </div>
           <div v-show="!choose">
               <span @click="deleteRow()" >删除</span>
@@ -26,42 +30,60 @@
 
 <script>
   import contentHeader from '@/common/view/contentHeader';
-  import {myCollect} from '@/api/userCenter/index.js'
+  import {myCollect} from '@/api/userCenter/index';
+  import Bscroll from 'better-scroll'
   export default {
-    name: 'myAttention',
+    name: 'myCollect',
     data () {
       return {
-        listContent : {'content':"车系"},
-        choose:true
+        listContent : {'content':"我的收藏"},
+        choose:true,
+        collectList:'',
+        nowPageIndex:1,
+        clickList:this.toDetail,
+        checkedList:[]
       }
     },
     created() {
-       myCollect({data:{pageNo:1,pageSize:10}}).then(res=>{
-         console.log(res)
+       myCollect({data:{pageNo:this.nowPageIndex,pageSize:10}}).then(res=>{
+         this.collectList=res.data.result
        })
     },
+    watch:{
+      checkedList(){
+        console.log(this.checkedList)
+      }
+    },
     methods:{
-        changeState : function(id){
-          console.log(id)
-          if(id==1){
+        chooseAll(){
+          for(let item of this.collectList){
+            if(item && this.checkedList.indexOf(item.id) == -1){
+              this.checkedList.push(item.id)
+            }
+          }
+        },
+        changeState : function(){
             this.choose=false;
-          }
+            this.clickList=''
         },
-        deleteRow : function(){
-          var inp =document.getElementsByTagName("input");
-          for(var i=0;i<inp.length;i++){
-            if(inp[i].checked==true){
-            }
-          }
-        },
-        chooseAll : function(){
-           var inp =document.getElementsByTagName("input");
-            for(var i=0;i<inp.length;i++){
-              inp[i].checked=true
-            }
-        },
+       
         isOk : function(){
           this.choose=true
+          this.clickList=this.toDetail
+        },
+        toDetail : function(data){
+          // 进入文章喜爱那个IQ那个页面
+          console.log(data)
+          this.$router.push({
+            name:"articleDetail",
+            query:{
+              id:data.id,
+              pageType:data.parPropertyCode
+            }
+          })
+        },
+        changeThi(a,b){
+          console.log(a,b)
         }
     },
     props:{
@@ -81,8 +103,9 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
 .list
+  // height calc(100% - 3rem)
   margin-bottom 3rem
-  .item
+  .item>label
     display flex
     box-sizing border-box
     flex-direction row
@@ -90,24 +113,33 @@
     align-items center */
     padding .5rem 0
     border-bottom 1px solid #E1E1E1
+    .inputState
+      display: flex;
+      align-items: center;
     .icon
+      width 9rem
+      height 6rem
+      padding .5rem
       img
-        width 12rem
-        height 8rem
+        width 100%
+        height 100%
     .text
       display flex
       flex-direction column
       justify-content space-between
-      flex-grow 1
+      flex 1
       padding 1rem 0
       .name
         text-align left
-        color #474B4C
+        font-weight: 500;
+        color: #000;
+        font-size: 1rem;
       .desc
         text-align left
         color #474B4C
+        font-size 0.8rem
         span
-          color red
+          margin-left 0.5rem
   .footer
     border-top 1px solid #E1E1E1
     height 3rem

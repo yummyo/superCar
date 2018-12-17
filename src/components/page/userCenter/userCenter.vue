@@ -45,12 +45,12 @@
     methods:{
       funAttention : function(){
         this.$router.push({
-          name:"myAttention"
+          path:"/myAttention"
         })
       },
       funCollect : function(){
         this.$router.push({
-          name:"myCollect"
+          path:"/myCollect"
         })
       },
       login : function(){

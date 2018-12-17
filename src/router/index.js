@@ -124,7 +124,13 @@ const paramDeploy = (resolve) => {
 }
 // 资讯页面
 const carArticleList = (resolve) => {
-  import('@/components/page/changeCar/carSeriesDetail/carArticleList').then((module) => {
+  import('@/components/page/changeCar/dealer/dealer').then((module) => {
+    resolve(module)
+  })
+}
+// 经销商页面
+const dealer = (resolve) => {
+  import('@/components/page/changeCar/dealer/dealer').then((module) => {
     resolve(module)
   })
 }
@@ -216,7 +222,7 @@ const router = new Router({
     {
       path: '/myCollect',
       name: 'myCollect',
-      component: myAttention,
+      component: myCollect,
     },
     {
       // 车系筛选结果页面
@@ -264,6 +270,11 @@ const router = new Router({
       path: '/carArticleList',
       name: 'carArticleList',
       component: carArticleList,
+    },
+    {
+      path: '/dealer',
+      name: 'dealer',
+      component: dealer,
     },
     {
       path: '*',
