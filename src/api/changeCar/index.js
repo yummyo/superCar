@@ -83,9 +83,17 @@ export  function getCarModelListBySeries(config){
     return axiosConfig(Object.assign({},Obj,config))
 }
     //查询经销商
-export  function getDealersBySeries(config){
+export  function defaultAppList(config){
     let Obj = {
-        'url':URLROUTER+'/app/dealer/getDealersBySeries',
+        'url':URLROUTER+'/app/dealer/defaultAppList',
+        'method':"get"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+}
+// 经销商分页
+export  function appList(config){
+    let Obj = {
+        'url':URLROUTER+'/app/dealer/appList',
         'method':"get"
     }
     return axiosConfig(Object.assign({},Obj,config))

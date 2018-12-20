@@ -1,6 +1,7 @@
 <template>
-  <div class="login">
-    <contentHeader class="topTitle" :listdata="{'content':'询底价'}"></contentHeader>
+  <div>
+    <contentHeader class="topTitle" :listdata="{'content':'询最底价'}"></contentHeader>
+    <div class="subhead">向询最低价</div>
     <modal ref="mychildOne">
       <div class="carSeries" @click="chooseCarHide(item.carName,item.seriesCode,item.brandCode,item.id)" v-for="(item,index) in carData">
           {{item.carName}}
@@ -33,55 +34,6 @@
         <div  @click="chooseCityShow()">
           <span>城市</span><input type="text" v-model="floorPriceList.contactsRegion" placeholder=">">
         </div>
-      </div>
-      <div class="dealerTitle" v-if="dealerData">
-        <div class="chooseDealer"><span>|</span>请选择经销商</div>
-        <mt-navbar v-model="selected">
-          <mt-tab-item id="stores">4S店</mt-tab-item>
-          <mt-tab-item id="composite">综合</mt-tab-item>
-        </mt-navbar>
-        <mt-tab-container v-model="selected">
-          <mt-tab-container-item id="stores">
-            <div class="compositeStores" v-for="item of dealerOne">
-              <div>
-                <input v-model='checkedList' :value='item.id' type="checkbox">
-              </div>
-              <div class="companyName">
-                  <div>
-                    {{item.dealerName}}
-                  </div>
-                  <div class="color">
-                    {{item.companyDesc}} 
-                  </div>
-              </div>
-              <div class="colorRed">
-                {{item.minCarOffer}}万
-              </div>
-            </div>
-            <div v-if="dealerOne&&dealerOne.length==0">暂无经销商</div>
-            <div class="lodding" @click="loddingData(1)" v-if="dealerOne.length>=countOne">点击加载更多</div>
-          </mt-tab-container-item>
-          <mt-tab-container-item id="composite">
-           <div class="compositeStores" v-for="item of dealerData">
-              <div>
-                <input v-model='checkedList' :value='item.id' type="checkbox">
-              </div>
-              <div class="companyName">
-                  <div>
-                    {{item.dealerName}}
-                  </div>
-                  <div class="color">
-                    {{item.companyDesc}} 
-                  </div>
-              </div>
-              <div class="colorRed">
-                {{item.minCarOffer}}万
-              </div>
-            </div>
-            <div v-if="dealerData&&dealerData.length==0">暂无经销商</div>
-            <div class="lodding" @click="loddingData(0)" v-if="dealerData.length>=countZreo">点击加载更多</div>
-          </mt-tab-container-item>
-        </mt-tab-container>
       </div>
       <div class="loginButton">
         <button @click="submit()">提交</button>
@@ -132,41 +84,14 @@ export default {
         this.provideData=res.data
       }).catch(res=>{
       });
+      this.floorPriceList.modelName=this.route.query.carModelName;
+      this.floorPriceList.contactsRegion=this.route.query.regionName;
+      this.floorPriceList.modelId=this.route.query.carModelId;
+      this.floorPriceList.declareId=this.route.query.id;
+      this.floorPriceList.declareName=this.route.query.dealerName;
+      this.floorPriceList.seriesCode=this.route.query.seriesCode;
   },
   methods: {
-    // 加载分页数据方法
-    loddingData(type){
-      // 零为综合，1为4s店
-      if(type==0){
-        this.pageZreo+=1
-        this.countZreo+=5
-        appList({
-          data:{
-            pageNo:this.pageZreo,
-            pageSize:5
-        }}).then((res) => {
-          if(res.data&&res.data.records.length>0){
-            this.loddingMore=res.data.records
-            this.dealerData=this.dealerData.concat(this.loddingMore)
-          }else{
-          }
-        })
-      }else{
-        this.pageOne+=1
-        this.countOne+=5
-        appList({
-          data:{
-            pageNo:this.pageOne,
-            pageSize:5
-        }}).then((res) => {
-          if(res.data&&res.data.records.length>0){
-            this.loddingMore=res.data.records
-            this.dealerOne=this.dealerOne.concat(this.loddingMore)
-          }else{
-          }
-        })
-      }
-    },
     chooseCarHide(modelName,seriesCode,brandCode,modelId){
       this.floorPriceList.modelName=modelName;
       this.floorPriceList.seriesCode=seriesCode;
@@ -273,27 +198,6 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  .compositeStores
-    display flex
-    justify-content flex-start
-    font-size .8rem
-    align-items center
-    margin-top 0.5rem
-    .companyName
-      display flex
-      flex-direction column
-      justify-content space-between
-      flex 1
-      .color  
-        color #ddd
-        font-size 0.5rem
-    .colorRed
-      color red
-  .lodding
-    margin 0.3rem 0
-    text-align center
-  .mint-navbar
-    width 5rem
   .showCity
       transition all .5s 
       position absolute
@@ -302,22 +206,18 @@ export default {
       right 0 
       width 100%
       background #fff
-  .login
-    height 100%
     .carSeries
       font-size 1.1rem
       padding 0.3rem 0 0.3rem 0.3rem
       text-align left
       border-bottom 1px solid #ddd
-    .topTitle
-      // height 10%
+    .subhead
+      text-align center
+      padding .8rem
+      background #ddd
     .loginIpunt
       margin-bottom 2.5rem
       padding 0 1rem
-      // display flex
-      // flex-direction column
-      // height 90%
-      // justify-content: space-between;
       .dealerTitle
         text-align left
         .chooseDealer>span
@@ -334,13 +234,6 @@ export default {
           border none 
           outline none 
           text-align right 
-      // div>input 
-      //   width 100%
-      //   height 3rem
-      //   border none
-      //   border-bottom 2px solid #DDDDDD
-      //   outline none
-      //   font-size 1.2rem
       .loginButton
         position fixed
         bottom 0

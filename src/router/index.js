@@ -134,6 +134,12 @@ const dealer = (resolve) => {
     resolve(module)
   })
 }
+// 经销商询底价页面
+const dealerFloorPrice = (resolve) => {
+  import('@/components/page/changeCar/dealerFloorPrice/dealerFloorPrice').then((module) => {
+    resolve(module)
+  })
+}
 // 资讯页面
 const pictureOption = (resolve) => {
   import('@/components/page/changeCar/pictureOption').then((module) => {
@@ -287,6 +293,11 @@ const router = new Router({
       path: '/dealer',
       name: 'dealer',
       component: dealer,
+    },
+    {
+      path: '/dealerFloorPrice',
+      name: 'dealerFloorPrice',
+      component: dealerFloorPrice,
     },
     {
       path: '*',

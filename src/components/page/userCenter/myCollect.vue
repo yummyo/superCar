@@ -1,20 +1,28 @@
 <template>
   <div class="list" ref="wrapper" >
       <contentHeader :listdata="listContent"></contentHeader>
-      <div class="item" v-for="item of collectList" v-if="item" @click="()=>{clickList&&clickList(item)}">
-        <label>
-          <div  class="inputState">
-            <input v-model='checkedList' :value='item.id' type="checkbox" v-show="!choose">
+      <scroll 
+          @scrollToEnd="scrollUp"
+          :pullup='true'
+          class="listview">
+        <div>
+          <div class="item" v-for="(item,index) of collectList"  @click="()=>{clickList&&clickList(item)}">
+            <label>
+              <div  class="inputState">
+                <span :class= "checkedList.indexOf(item.id)!=-1 ? 'classActive' : 'classNone' " v-show="!choose"></span>
+                <input v-model='checkedList' :value='item.id' type="checkbox" v-show="!choose">
+              </div>
+              <div class="icon">
+                <img  v-if="item&&item.imgResource[0]" v-lazy="item.imgResource[0].resourceImgUrl">
+              </div>
+              <div class="text">
+                <h3 class="name" v-if="item&&item.title">{{item.title}}</h3>
+                <p class="desc"v-if="item&&item.commentCount">{{item.createTime}}<span>评价:{{item.commentCount}}</span></p>
+              </div>
+            </label>
           </div>
-          <div class="icon">
-            <img  v-if="item&&item.imgResource[0]" v-lazy="item.imgResource[0].resourceImgUrl">
-          </div>
-          <div class="text">
-            <h3 class="name" v-if="item&&item.title">{{item.title}}</h3>
-            <p class="desc"v-if="item&&item.commentCount">{{item.createTime}}<span>评价:{{item.commentCount}}</span></p>
-          </div>
-        </label>
-      </div>
+        </div>
+      </scroll>
       <div class="footer">
           <div v-show="choose">
               <span @click="changeState()">编辑</span>
@@ -31,23 +39,23 @@
 <script>
   import contentHeader from '@/common/view/contentHeader';
   import {myCollect} from '@/api/userCenter/index';
-  import Bscroll from 'better-scroll'
+  // import Bscroll from 'better-scroll'
+  import Scroll from '@/common/scroll/scroll'
+  import Vue from 'vue' 
   export default {
     name: 'myCollect',
     data () {
       return {
         listContent : {'content':"我的收藏"},
         choose:true,
-        collectList:'',
-        nowPageIndex:1,
+        collectList:{},
+        nowPageIndex:0,
         clickList:this.toDetail,
         checkedList:[]
       }
     },
     created() {
-       myCollect({data:{pageNo:this.nowPageIndex,pageSize:10}}).then(res=>{
-         this.collectList=res.data.result
-       })
+        this.getList();
     },
     watch:{
       checkedList(){
@@ -55,18 +63,39 @@
       }
     },
     methods:{
-        chooseAll(){
-          for(let item of this.collectList){
-            if(item && this.checkedList.indexOf(item.id) == -1){
-              this.checkedList.push(item.id)
+        getList(){
+           myCollect({data:{pageNo:this.nowPageIndex,pageSize:10}}).then(res=>{
+            let arr = JSON.parse(JSON.stringify(this.collectList))
+            console.log(Object.keys(arr).length)
+            res.data.result.map(v =>{
+              if(v && !this.collectList[v.id]){
+                arr[v.id] = v
+              }
+            })
+            this.collectList  = arr
+            console.log(Object.keys(arr).length)
+          })
+        },
+        scrollUp(){
+          this.nowPageIndex+=1
+          this.getList();
+        },
+        deleteRow(){
+          this.checkedList.map(v=>{
+            if(this.collectList[v]) {
+              // this.$set(this.collectList,v,null)
+              Vue.delete(this.collectList,v);
             }
-          }
+          })
+
+        },
+        chooseAll(){
+          this.checkedList = Object.keys(this.collectList)
         },
         changeState : function(){
             this.choose=false;
             this.clickList=''
         },
-       
         isOk : function(){
           this.choose=true
           this.clickList=this.toDetail
@@ -82,9 +111,6 @@
             }
           })
         },
-        changeThi(a,b){
-          console.log(a,b)
-        }
     },
     props:{
       listdata:{
@@ -95,16 +121,18 @@
       }
     },
     components:{
-      contentHeader
+      contentHeader,Scroll,
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
+.listview
+  height calc(100% - 3rem)
 .list
-  // height calc(100% - 3rem)
   margin-bottom 3rem
+  height calc(100% - 3rem)
   .item>label
     display flex
     box-sizing border-box
@@ -116,6 +144,19 @@
     .inputState
       display: flex;
       align-items: center;
+      input 
+        display none
+      .classActive
+        border 1px solid #ddd
+        width 1rem
+        height 1rem 
+        border-radius 50%
+        background #5BB0F3
+      .classNone
+        border 1px solid #ddd
+        width 1rem
+        height 1rem 
+        border-radius 50%
     .icon
       width 9rem
       height 6rem

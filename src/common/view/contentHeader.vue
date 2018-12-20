@@ -12,6 +12,7 @@
           </div>
       </div>
     </div>
+    <div class="positionHeight">&nbsp;</div>
     <div class="share" v-show="shareList" >
         <div>
             aaaa
@@ -67,9 +68,18 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  .positionHeight
+    // height 3rem
+    line-height 2rem
+    font-size 2rem
+    padding .5rem
   .contentHeader
+    position fixed
+    top 0 
+    z-index 10
     width 100%
     border-bottom 1px solid #E5E5E5
+    background #fff
     .desc
       display flex
       justify-content space-between
@@ -79,7 +89,8 @@
         font-size 1.5rem
         line-height 2
       .point
-        padding .5rem 1.5rem
+        // padding .5rem 1.5rem
+        padding 0 1.5rem
         font-size 2rem
   .noBorder
     border none
