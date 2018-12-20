@@ -10,9 +10,13 @@
       <div>其他</div>
     </div>
     <!-- 图片 -->
-    <div class="imgList">
-      <div>
-        <img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0" alt="">
+    <div class="box">
+      <div class="wrapper" ref='wrapper'>
+        <div  class="imgList">
+          <div v-for="(item,index) of imgList" :key="index" class="item-img">
+            <img v-lazy='item.src' alt="">
+          </div>
+        </div>
       </div>
       <!-- 图片标题 -->
       <p class="text-left">{{ nowImgData['title'] }}</p>
@@ -30,13 +34,58 @@
 
 <script>
 import contentHeader from '@/common/view/contentHeader';
+import BScroll from 'better-scroll'
+
 export default {
   data(){
     return {
       nowImgData:{
         guide:'12.5',
         title:'别克君威 自动先锋版'
-      }
+      },
+      imgList:[
+        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
+        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
+        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
+        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
+        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
+        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
+        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
+        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
+        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
+      ]
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.init()
+    }, 20)
+  },
+  methods:{
+    init(){
+      console.log(BScroll)
+      this.scroll = new BScroll(this.$refs.wrapper, {
+        probeType: 1,
+        click: this.click,
+        scrollX:true,
+        scrollY: false,
+        momentum: false,
+        snap: {
+          loop: true,
+          threshold: 0.5
+        },
+        bounce: false,
+      })
+    },
+    refresh() {
+      this.scroll && this.scroll.refresh()
+    },
+  },
+  watch: {
+    imgList() {
+      setTimeout(() => {
+        this.refresh()
+      }, this.refreshDelay)
     }
   },
   components:{
@@ -56,17 +105,25 @@ export default {
         flex 1
       div:first-child~div
         border-left 1px solid #ddd
-    .imgList
+    .box
       position absolute
       top 50%
       left 0
       right 0
       transform translateY(-50%)
+      .wrapper
+        width 100%
+      .imgList
+        white-space nowrap
+        display inline-block
+        .item-img
+          display inline-block
+          width 100vw
+          img
+            height 15rem
+            width 100%
       p
         margin 2rem 0
-      img
-        height 15rem
-        width 100%
     .bottomInfo
       position absolute
       bottom 0
