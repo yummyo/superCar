@@ -21,11 +21,11 @@ export default {
     defaultRating: {
       // 默认点亮的个数
       type: Number,
-      default: 5,
+      default: 0,
     },
     outIndex: {
       // 外界传进来的一个标识
-      type: Number,
+      type: String,
       default: 0,
     },
     readOnly: {
@@ -51,6 +51,8 @@ export default {
       let mark = parseInt(ev.target.dataset.index) + 1
       this.rating = mark
       this.$emit('starMarkChange', mark, this.outIndex)
+      // console.log(mark)
+      // console.log(this.outIndex)
     },
   }
 };

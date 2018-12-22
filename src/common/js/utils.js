@@ -12,4 +12,20 @@ function detectorLogin(that,fun){
     });
   }
 }
-export { detectorLogin }
+function validForm(that){
+  console.log(that.$refs)
+  if(Object.keys(that.$refs).length > 0){
+    for(let item in that.$refs){
+      if(/^valid-/.test(item)){
+        if(!that.$refs[item].value){
+          that.$toast(that.$refs[item].title)
+          console.log(that.$refs[item])
+          console.log(that.$refs[item].value)
+          return false
+        }
+      }
+    }
+  }
+  return true
+}
+export { detectorLogin,validForm }
