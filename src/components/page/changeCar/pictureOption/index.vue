@@ -84,9 +84,6 @@ export default {
         that.nowSliderIndex = this.scroll.getCurrentPage().pageX
       })
     },
-    search(){
-      this.
-    },
     refresh() {
       this.scroll && this.scroll.refresh()
     },
