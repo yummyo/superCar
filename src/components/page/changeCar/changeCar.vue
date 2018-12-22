@@ -53,7 +53,8 @@
         res[0].data.forEach((item, index) => {
             hot.brands.push({
               "brandName":item.brandName,
-              "offLogo":item.offLogo
+              "offLogo":item.offLogo,
+              "brandCode":item.brandCode,
             })
       })
       this.singers=[hot].concat(res[1].data)

@@ -109,11 +109,7 @@
         nowFunType : {},
         aspect : 2,
         state : 6,
-        tabType: 1,
-        cityInfo : window.localStorage.getItem('userLocation') || {
-          citycode : '021',
-          city : '上海'
-        }
+        tabType: 1
       }
     },
     created:function(){
@@ -164,7 +160,7 @@
           case 3:
             // 拿到本地列表
             this.nowFun = findCityArticle
-            this.nowFunType = {'k':'cityCode','v':cityInfo['cityCode']}
+            this.nowFunType = {'k':'citycode','v':this.cityInfo['citycode']}
             break;
           case 4:
             // 拿到评测
@@ -179,7 +175,9 @@
           default:
             break;
         }
+        console.log(this.nowFunType)
         this.nowFun({
+          
           data:{
             "pageNo": 1,
             "pageSize": 15,
@@ -193,6 +191,19 @@
       }
     },
     mounted:function(){
+    },
+    computed:{
+      cityInfo(){
+        if(window.localStorage.getItem('userLocation')){
+          console.log(JSON.parse(window.localStorage.getItem('userLocation')))
+          return JSON.parse(window.localStorage.getItem('userLocation'))
+        }else{
+          return {
+            citycode : '021',
+            city : '上海'
+          }
+        }
+      }
     },
     methods:{
       toDetail : function(data,type){
