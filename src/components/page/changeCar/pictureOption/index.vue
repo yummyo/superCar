@@ -1,6 +1,6 @@
 <template>
   <div class="pictureOption">
-    <contentHeader :noBorder='true' :listdata="{'content':'车型图片'}"></contentHeader>
+    <contentHeader class="header" blackBg noBorder :listdata="{'content':'车型图片'}"></contentHeader>
     <!-- 图片综合 -->
     <div class="tobar">
       <div>外观</div>
@@ -43,6 +43,8 @@ export default {
         guide:'12.5',
         title:'别克君威 自动先锋版'
       },
+      nowSliderIndex:0,
+      pageIndex:1,
       imgList:[
         {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
         {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
@@ -63,6 +65,7 @@ export default {
   },
   methods:{
     init(){
+      let that = this
       console.log(BScroll)
       this.scroll = new BScroll(this.$refs.wrapper, {
         probeType: 1,
@@ -71,11 +74,18 @@ export default {
         scrollY: false,
         momentum: false,
         snap: {
-          loop: true,
+          // 循环轮播配置
+          // loop: true,
           threshold: 0.5
         },
         bounce: false,
       })
+      this.scroll.on('scrollEnd', () => {
+        that.nowSliderIndex = this.scroll.getCurrentPage().pageX
+      })
+    },
+    search(){
+      this.
     },
     refresh() {
       this.scroll && this.scroll.refresh()
@@ -95,6 +105,9 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  .header 
+    .contentHeader 
+      background #000;
   .pictureOption
     background #000
     height 100%

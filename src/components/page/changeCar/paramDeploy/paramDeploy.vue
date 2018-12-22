@@ -1,25 +1,38 @@
 <template>
     <div class="outermost-layer">
         <contentHeader :listdata='articleContent'></contentHeader>
-        <div class="top">
-            <div class="top-box" :style="{height: `${headHeight}px`}"></div>
-            <div class="top-head" id="rightTitle"  onscroll="rightBodyId.scrollLeft = this.scrollLeft">
-                <div v-for="(item,index) of listData" :key="index" class="right-title" ref='rightHead' >
-                   <p class="carName">{{ item['carModelInfoBO']['model']['carName'] }}</p>
-                   <p class="carOffer">{{ item['carModelInfoBO']['model']['guidePrice'] }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="bottom" :style="{height: `${bodyHeight}px`}" >
-            <div>
-                <div class="bottom-title"  >
-                    <div v-for="(item,index) of titleData" :class="item.className" :key="index" >
-                        {{ item.name }}
+        <div class="contentBox">
+            <div class="top">
+                <div class="top-box" :style="{height: `${headHeight}px`}"></div>
+                <div class="top-head" id="rightTitle"  onscroll="rightBodyId.scrollLeft = this.scrollLeft">
+                    <div v-for="(item,index) of listData" :key="index" class="right-title" ref='rightHead' >
+                    <p class="carName">{{ item['carModelInfoBO'] ? item['carModelInfoBO']['model']['carName'] :'' }}</p>
+                    <p class="carOffer">{{ item['carModelInfoBO'] ? item['carModelInfoBO']['model']['guidePrice'] : '' }}</p>
                     </div>
                 </div>
-                <div  class="bottom-body" id="rightBodyId" onscroll="rightTitle.scrollLeft = this.scrollLeft">
-                    <div v-for="(item,index) of listData" :key="index" :style="{width: `${headwidth}px`}">
-                        <div class="rightItem"   v-for="(val,idx) of titleData" :key="idx">{{ setVal(val['key'],item) }}</div>
+            </div>
+            <div class="bottom" :style="{height: `${bodyHeight}px`}" >
+                <div>
+                    <div class="bottom-title"  >
+                        <div v-for="(item,index) of titleData" :class="item.className"  :key="index" >
+                            <span>{{ item.name }}</span>
+                            <div v-if="item['key'] == 'title'" class="fl-right">
+                                <span>
+                                    <span class="iconfont icon-xuanzhong"></span>标配
+                                </span>
+                                <span>
+                                    <span class="iconfont icon-wxz"></span>选配
+                                </span>
+                                <span>
+                                    -无
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div  class="bottom-body" id="rightBodyId" onscroll="rightTitle.scrollLeft = this.scrollLeft">
+                        <div v-for="(item,index) of listData" :key="index" :style="{width: `${headwidth}px`}">
+                            <div class="rightItem"   v-for="(val,idx) of titleData" :key="idx">{{ setVal(val['key'],item) }}</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -37,24 +50,24 @@
                 headHeight: 51,
                 headwidth: 51,
                 articleContent:{'content':'详细参数'},
-                listData:[],
+                listData:[{}],
                 titleData : [
-                    {"name":"车型报价",'className':'titleItem title','key':'guidePrice'},
+                    {"name":"车型报价",'className':'titleItem title','key':'title'},
                     {"name":"厂商指导价","className":"titleItem",'key':'guidePrice'},
                     {"name":"经销商报价","className":"titleItem",'key':'guidePrice'},
                     {"name":"最大降幅","className":"titleItem",'key':'guidePrice'},
-                    {"name":"主要参数","className":"titleItem title",'key':'guidePrice'},
-                    {"name":"车身结构","className":"titleItem",'key':'modelBody/bodystructure'},
-                    {"name":"驱动方式","className":"titleItem",'key':'modelChassis/drivetype'},
-                    {"name":"排量(ml)","className":"titleItem",'key':'modelEngine/outputvolume'},
+                    {"name":"主要参数","className":"titleItem title",'key':'title'},
+                    {"name":"车身结构","className":"titleItem",'key':'modelBody&bodystructure'},
+                    {"name":"驱动方式","className":"titleItem",'key':'modelChassis&drivetype'},
+                    {"name":"排量(ml)","className":"titleItem",'key':'modelEngine&outputvolume'},
                     {"name":"变速器形式","className":"titleItem",'key':'guidePrice'},
-                    {"name":"最高车速(km/h)","className":"titleItem",'key':'model/maxSpeed'},
+                    {"name":"最高车速(km/h)","className":"titleItem",'key':'model&maxSpeed'},
                     {"name":"100公里加速时间(s)","className":"titleItem",'key':'guidePrice'},
                     {"name":"综合油耗(L/100km)","className":"titleItem",'key':'guidePrice'},
                     {"name":"整车整备质量(kg)","className":"titleItem",'key':'guidePrice'},
                     {"name":"保修里程","className":"titleItem",'key':'guidePrice'},
                     {"name":"能源类型","className":"titleItem",'key':'guidePrice'},
-                    {"name":"车型结构","className":"titleItem",'key':'guidePrice'},
+                    {"name":"车型结构","className":"titleItem title",'key':'title'},
                     {"name":"长(mm)","className":"titleItem",'key':'guidePrice'},
                     {"name":"宽(mm)","className":"titleItem",'key':'guidePrice'},
                     {"name":"高(mm)","className":"titleItem",'key':'guidePrice'},
@@ -70,8 +83,9 @@
                     {"name":"整车整备质量(kg)","className":"titleItem",'key':'guidePrice'},
                     {"name":"最大载重质量(kg)","className":"titleItem",'key':'guidePrice'},
                     {"name":"货箱尺寸(mm)","className":"titleItem",'key':'guidePrice'},
-                    {"name":"发动机","className":"titleItem",'key':'guidePrice'},
-                    {"name":"货箱尺寸(mm)","className":"titleItem",'key':'guidePrice'}
+                    {"name":"发动机","className":"titleItem title",'key':'title'},
+                    {"name":"发动机型号","className":"titleItem bg",'key':'guidePrice'},
+                    {"name":"排量(ml)","className":"titleItem bg",'key':'guidePrice'},
                 ]
             }
         },
@@ -84,7 +98,6 @@
             }).then(res => {
                 let arr = []
                 if(res.data && res.data.length > 0){
-                     arr.push(res.data[0])
                     arr.push(res.data[0])
                     this.listData = arr
                     this.$nextTick(()=>{
@@ -102,7 +115,7 @@
         },
         computed:{
             bodyHeight(){
-                return window.innerHeight - this.headHeight
+                return 'calc(100% - ' + this.headHeight
             }
         },
         components: {
@@ -113,8 +126,12 @@
                 switch(key){
                     case 1 :
                     break;
+                    case 'title' :
+                        return ' '
+                    break;
+                    default:
+                        return '--'
                 }
-                return '--'
             },
             scrollTest(data){
                 console.log(data)
@@ -130,6 +147,9 @@
     }
 </style>
 <style lang="stylus">
+    .contentBox
+        height calc(100% - 3rem)
+        box-sizing border-box
     .rightItem,.titleItem
         padding .5rem
         font-size 10px
@@ -137,11 +157,22 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    .titleItem
+        justify-content space-around
+    .titleItem.title{
+        width 100vw
+        border-top 1px solid #ddd
+        background #fff
+        position relative
+        z-index 10
+    }
     .outermost-layer
+        height 100%
         *
             box-sizing border-box
         .top
             display flex
+            border-bottom 1px solid #ddd
             >div
                 vertical-align top
                 display inline-block
@@ -149,15 +180,13 @@
                 width 6rem
                 clear both
                 border-right 1px solid #ddd
-                border-bottom 1px solid #ddd
             .top-head
                 overflow-x auto 
                 white-space nowrap
+                border-right 1px solid #ddd
                 >div
                     display inline-block
                 .right-title
-                    border-bottom 1px solid #ddd
-                    border-right 1px solid #ddd
                     max-width: 10rem;
                     padding: 1rem .5rem;
                     white-space: normal;

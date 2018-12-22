@@ -1,6 +1,17 @@
 <template>
   <div> 
     <!-- 文章公共头部信息 可返回 -->
+    <div class="contentHeader fixed" :class="{noBorder,blackBg}">
+      <div class="desc">
+          <div class="point" @click="returnTop()">
+              <span class="iconfont icon-zuo"></span>
+          </div>
+          <div class="title">{{listdata ? listdata.content : ""}}</div>
+          <div class="point">
+            <span class="iconfont icon-more" @click="share()"></span>
+          </div>
+      </div>
+    </div>
     <div class="contentHeader" :class="{noBorder}">
       <div class="desc">
           <div class="point" @click="returnTop()">
@@ -12,7 +23,6 @@
           </div>
       </div>
     </div>
-    <div class="positionHeight">&nbsp;</div>
     <div class="share" v-show="shareList" >
         <div>
             aaaa
@@ -38,6 +48,10 @@
         default:function(){
           return {}
         }
+      },
+      blackBg:{
+        type:Boolean,
+        default:false
       },
       noBorder:{
         type:Boolean,
@@ -68,14 +82,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  .positionHeight
-    // height 3rem
-    line-height 2rem
-    font-size 2rem
-    padding .5rem
-  .contentHeader
+  .contentHeader.fixed
     position fixed
     top 0 
+  .contentHeader
+    height 3rem
     z-index 10
     width 100%
     border-bottom 1px solid #E5E5E5
@@ -94,6 +105,9 @@
         font-size 2rem
   .noBorder
     border none
+  .blackBg
+    background #000
+    color #fff
   .share
     position fixed
     bottom 0

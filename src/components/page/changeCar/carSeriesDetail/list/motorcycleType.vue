@@ -5,21 +5,23 @@
         <div  v-for="(item,index) of listData" :key="'year'+index" :class="{active: nowShow == index}" @click="dataClick(item,index)">{{item['year']}}款</div>
     </div>
     <div class="Parameter">
-      <div class="horsepower">2.0T涡轮增压184马力</div>
-      <div class="itemList" v-for="(val,idx) of nowShowData" :key="idx">
-          <div class="carSeriesName">
-            {{ val['model']['carName'] }}
-          </div>
-          <div> 
-            <ul>
-              <li class="typesStyle">九档自动变速箱({{ val['model']['brandCode']}})</li>
-              <li class="typesStyle">油耗:{{ val['model']['officalOilwear']}}(L/100公里)</li>
-            </ul>
-            <ul>
-              <li class="redStyle">{{ val['model']['guidePrice'] }}万起</li>
-              <li class="guidePrice">指导价:{{ val['model']['guidePrice'] }}万</li>
-            </ul>
-          </div>
+      <div v-if="nowShowData.length > 0" v-for="(val,idx) of nowShowData" :key="idx">
+        <div class="horsepower">{{ val['engine'] }}</div>
+        <div class="itemList" v-for="(val,idx) of val.carModelInfoBOList" :key="idx">
+            <div class="carSeriesName">
+              {{ val['model']['carName'] }}
+            </div>
+            <div>
+              <ul>
+                <li class="typesStyle">九档自动变速箱({{ val['model']['brandCode']}})</li>
+                <li class="typesStyle">油耗:{{ val['model']['officalOilwear']}}(L/100公里)</li>
+              </ul>
+              <ul>
+                <li class="redStyle">{{ val['model']['guidePrice'] }}万起</li>
+                <li class="guidePrice">指导价:{{ val['model']['guidePrice'] }}万</li>
+              </ul>
+            </div>
+        </div>
       </div>
     </div>
   </div>
@@ -43,19 +45,20 @@ export default {
   created(){
     console.log('详情信息')
     console.log(this.listData)
-    this.nowShowData = this.listData[0]['carModelInfoBOList']
-    console.log(this.nowShowData)
+    if(this.listData.length > 0){
+      this.nowShowData = this.listData[this.nowShow]['engineGroupVOList']
+      console.log(this.nowShowData)
+    }
   },
   watch:{
     listData(){
-      this.nowShowData = this.listData[0]['carModelInfoBOList']
+      this.nowShowData = this.listData[this.nowShow]['engineGroupVOList']
       this.nowShow = 0
-      console.log(this.nowShow)
     }
   },
   methods:{
     dataClick(item,index){
-      this.nowShowData = item['carModelInfoBOList']
+      this.nowShowData = item['engineGroupVOList']
       this.nowShow = index
     }
   }
@@ -85,7 +88,7 @@ export default {
       padding .3rem .8rem
     .itemList
         padding 0 0.8rem
-        margin-bottom 1rem
+        margin-bottom .5rem
         background #fff
         .carSeriesName
           color #000

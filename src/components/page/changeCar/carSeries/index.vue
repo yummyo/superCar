@@ -22,7 +22,8 @@
                 </div>
                 <div class="carInfo">
                   <div>{{vv.seriesName}}</div>
-                  <div>{{vv.maxDealerCarOffer || 0}}~{{vv.minDealerCarOffer || 0}}万</div>
+                  <div v-if='vv.maxDealerCarOffer'>{{vv.maxDealerCarOffer}}~{{vv.minDealerCarOffer}}万</div>
+                  <div v-else>暂无</div>
                 </div>
               </div>
             </div>
