@@ -115,25 +115,6 @@
     created:function(){
       this.tabType = this.$route.query.tabType || 1
       this.nowFun = getadvert
-      // 文章列表
-      this.nowFun({
-        data:{
-          "pageNo": 1,
-          "pageSize": 15,
-          "operatorType":'default',
-          "titleType":"ALL"
-        }
-      }).then((res) => {
-        this.articleData = res['data'];
-        this.toScroll();
-      }).catch(res=>{
-        console.log('错误2')
-        console.log(res)
-      });
-      // 轮播列表
-      getIndexLunbo().then((res) => {
-        this.swipeData = res['data'];
-      });
     },
     watch:{
       $route(){
@@ -160,7 +141,8 @@
           case 3:
             // 拿到本地列表
             this.nowFun = findCityArticle
-            this.nowFunType = {'k':'citycode','v':this.cityInfo['citycode']}
+            // this.nowFunType = {'k':'cityCode','v':this.cityInfo['adcode']}
+            this.nowFunType = {'k':'cityCode','v':'410100'}
             break;
           case 4:
             // 拿到评测
@@ -175,9 +157,7 @@
           default:
             break;
         }
-        console.log(this.nowFunType)
         this.nowFun({
-          
           data:{
             "pageNo": 1,
             "pageSize": 15,
@@ -195,11 +175,10 @@
     computed:{
       cityInfo(){
         if(window.localStorage.getItem('userLocation')){
-          console.log(JSON.parse(window.localStorage.getItem('userLocation')))
           return JSON.parse(window.localStorage.getItem('userLocation'))
         }else{
           return {
-            citycode : '021',
+            adcode : '021',
             city : '上海'
           }
         }
@@ -266,7 +245,6 @@
                 });
               }
               if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
-                console.log("上拉加载更多")
                 let data = {
                   "pageNo": that.nowPageIndex,
                   "pageSize": 15,
