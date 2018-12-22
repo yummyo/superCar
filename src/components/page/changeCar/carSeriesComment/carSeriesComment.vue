@@ -2,35 +2,36 @@
   <div class="commentAll">
     <contentHeader  :listdata="{'content':'发布点评'}"></contentHeader>
 
-    <modal ref="mychild">
-      <div class="changeCar">选择车型</div>
-      <div class="carSeries" @click="chooseCarHide">
-        <input type="radio" />2018款黄金跑车
-      </div>
-    </modal>
     <modal ref="mychildOne">
-      <div class="carSeries" v-show="provideJudge">
-          选择省份
-      </div>
-      <div class="carSeries" @click="chooseProvideHide(item.provide)" v-for="(item,index) in listData" v-show="provideJudge">
-          {{item.provide}}
-      </div>
-      <div class="showCity" v-show="cityJudge">
-        <div class="carSeries" @click="chooseCityHide(item.provide)" v-for="(item,index) in listData1">
-            {{item.provide}}
-        </div>
+      <div class="changeCar">选择车型</div>
+      <div class="carSeries" @click="chooseCarHide(item.carName,item.seriesCode,item.brandCode,item.id)" v-for="(item,index) in carData">
+          {{item.carName}}
       </div>
     </modal>
     <modal ref="mychildTwo">
-      <div class="changeCar">选择经销商</div>
-      <div class="carSeries" @click="chooseDealerHide">
-        <input type="radio" />2018款黄金跑车
+       <div class="carSeries" v-show="provideJudge">
+          选择省份
+      </div>
+      <div class="carSeries" @click="chooseCityHide(item.name,item.code)" v-for="(item,index) of provideData" v-show="provideJudge">
+          {{item.name}}
+      </div>
+      <div class="showCity" v-show="cityJudge">
+        <div class="carSeries" @click="clickShow(item.name,item.code)" v-for="(item,index) in cityData">
+            {{item.name}}
+        </div>
       </div>
     </modal>
     <modal ref="mychildThree">
-      <div class="changeCar">购车目的</div>
-      <div class="carSeries" @click="buyGoalHide">
-        <input type="radio" />2018款黄金跑车
+      <div class="changeCar">选择经销商</div>
+      <div class="carSeries" @click="chooseDealerHide(item.id,item.dealerName)" v-for="(item,index) in dealerData">
+          {{item.dealerName}}
+      </div>
+      <div class="carSeries" @click="chooseDealerHide(id='',dealerName='')">其它</div>
+    </modal>
+    <modal ref="mychildFour">
+      <div class="changeCar">购车目的  <span @click="buyGoalHide">完成</span></div>
+      <div class="carSeries">
+        <input type="checkbox" />2018款黄金跑车
       </div>
     </modal>
     <mt-datetime-picker
@@ -44,7 +45,7 @@
   </mt-datetime-picker>
     <div class="inputStyle">
       <div @click="chooseCarShow">
-        <span>购买车型 ：</span><input type="text" v-model="carArrayList.buyCar" placeholder="选择车型>">
+        <span>购买车型 ：</span><input type="text" v-model="carArrayList.modelName" placeholder="选择车型>">
       </div>
       <div>
         <span>裸车价格 ：</span><input  type="text" v-model="carArrayList.emptyCar" ><span class="marginRight">万元</span>
@@ -55,11 +56,11 @@
       <div @click="buyTime">
         <span>购买时间 ：</span><input type="text" v-model="carArrayList.buyTime" placeholder="请选择日期>">
       </div>
-      <div @click="buyCityShow">
-        <span>购买地点 ：</span><input type="text" v-model="carArrayList.buySite" placeholder="请选择城市>">
+      <div @click="chooseCityShow()">
+        <span>购买地点 ：</span><input type="text" v-model="carArrayList.contactsRegion" placeholder="请选择城市>">
       </div>
       <div @click="chooseDealerShow">
-        <span>购买经销商 ：</span><input type="text" v-model="carArrayList.buyDealer" placeholder="请选择经销商>">
+        <span>购买经销商 ：</span><input type="text" v-model="carArrayList.dealerName" placeholder="请选择经销商>">
       </div>
       <div>
         <span>使用油耗 ：</span><input  type="text" v-model="carArrayList.useOil" ><span class="marginRight">L/百公里</span>
@@ -181,64 +182,129 @@
 import contentHeader from '@/common/view/contentHeader';
 import star from '@/common/view/star';
 import modal from '@/common/view/modal';
+import {getFindAllProvince,findCitysByRroId,getCarModelListBySeries,defaultAppList,postBuyCarIntention,appList} from '@/api/changeCar/index';
 export default {
   data() {
     return {
-      listData : [{provide:'山东'},{provide:'庐舍'},{provide:'黄色'},{provide:'搭理'},{provide:'江南'}],
-      listData1 : [{provide:'山东1'},{provide:'庐舍2'},{provide:'黄色3'},{provide:'搭理4'},{provide:'江南5'}],
-      provideJudge:false,
+      provideJudge:true,
       cityJudge:false,
+      provideCity:'',
+      provideData:'',
+      cityData:'',
+      carData:'',
+      dealerData:'',
       pickerValue:'',
+      cityCode:'',
       carArrayList:{
-        buyCar: "",
+        modelName:'',
+        modelId:'',
+        brandCode:'',
+        seriesCode:'',
         emptyCar: "",
         travlledDistance: "",
         buyTime: "",
-        buySite: "",
-        buyDealer: "",
+        contactsRegion:'',
+        dealerId: "",
+        dealerName:'',
         useOil: "",
         buyPurpose: "",
       },
     }
   },
+  created() {
+    getFindAllProvince({data:{}}).then((res) => {
+        this.provideData=res.data
+      }).catch(res=>{
+      });
+  },
   methods: {
-    // 控制购买车型的显示隐藏
     chooseCarShow(){
-      // this.changeCarList=true;
-      this.$refs.mychild.modalShow();
+      // 查询车系
+      getCarModelListBySeries({
+        data:{
+          brandCode: 33,
+          seriesCode: 3170,
+      }}).then((res) => {
+        this.carData=res.data
+      })
+      this.$refs.mychildOne.modalShow();
+      // brandCode: this.$route.query.brandCode,
+      //     seriesCode: this.$route.query.seriesCode,
     },
-    chooseCarHide(){
-       this.$refs.mychild.modalHide();
+    chooseCarHide(modelName,seriesCode,brandCode,modelId){
+      this.carArrayList.modelName=modelName;
+      this.carArrayList.seriesCode=seriesCode;
+      this.carArrayList.brandCode=brandCode;
+      this.carArrayList.modelId=modelId;
+      this.$refs.mychildOne.modalHide();
     },
-    // 购买经销商
-    chooseDealerHide(){
-      // this.changeCarList=true;
-      this.$refs.mychildTwo.modalHide();
-    },
-    chooseDealerShow(){
-       this.$refs.mychildTwo.modalShow();
-    },
-    // 购买目的
-    buyGoalShow(){
-      this.$refs.mychildThree.modalShow();
-    },
-    buyGoalHide(){
-       this.$refs.mychildThree.modalHide();
-    },
-    // 控制购买地点的显示隐藏
-    chooseProvideHide(value){
+    // 点击省份传值
+    chooseCityHide(val,code){
+      // 省名称
+      this.provideCity=val;
+      // 省份code
+      findCitysByRroId({data:{proId:code}}).then((res)=>{
+        this.cityData=res.data;
+      })
+      // 隐藏省份显示城市
       this.provideJudge=false;
       this.cityJudge=true;
     },
-    buyCityShow(){
-      this.$refs.mychildOne.modalShow();
-      this.provideJudge=true;
-    },
-    chooseCityHide(value){
-      this.$refs.mychildOne.modalHide();
+    // 点击城市的显示传值
+    clickShow(val,code){
+      this.carArrayList.contactsRegion=this.provideCity+'-'+val;
+      this.provideCity='';
       this.cityJudge=false;
-      this.carArrayList.buySite=value;
+      this.$refs.mychildTwo.modalHide();
+      this.cityData='';
+      this.cityCode=code;
     },
+    chooseCityShow(){
+      this.$refs.mychildTwo.modalShow();
+       this.provideJudge=true;
+    },
+    // 购买经销商
+    chooseDealerHide(id,dealerName){
+      // this.changeCarList=true;
+      this.carArrayList.dealerName=dealerName
+      this.carArrayList.dealerId=id
+      this.$refs.mychildThree.modalHide();
+    },
+    chooseDealerShow(){
+       if(this.carArrayList.modelName==''){
+        this.$toast('请选择车型')
+        return
+      }
+      if(this.carArrayList.contactsRegion==''){
+        this.$toast('请选择城市')
+        return
+      }
+      appList({data:{cityId:this.cityCode,carModelId:this.carArrayList.modelId}}).then((res)=>{
+        this.dealerData=res.data.records;
+      })
+      this.$refs.mychildThree.modalShow();
+    },
+    // 购买目的
+    buyGoalShow(){
+      this.$refs.mychildFour.modalShow();
+    },
+    buyGoalHide(){
+       this.$refs.mychildFour.modalHide();
+    },
+    // // 控制购买地点的显示隐藏
+    // chooseProvideHide(value){
+    //   this.provideJudge=false;
+    //   this.cityJudge=true;
+    // },
+    // buyCityShow(){
+    //   this.$refs.mychildOne.modalShow();
+    //   this.provideJudge=true;
+    // },
+    // chooseCityHide(value){
+    //   this.$refs.mychildOne.modalHide();
+    //   this.cityJudge=false;
+    //   this.carArrayList.buySite=value;
+    // },
     // 打开时间的模态框
     buyTime(){
       this.$refs.picker.open();      
@@ -295,6 +361,11 @@ export default {
     .changeCar
       padding 2rem 0
       font-size 1.1rem
+      span
+        float right
+        font-size 0.5rem
+        padding-right 0.5rem
+        color rgb(34, 130, 232)
     .carSeries
       font-size 1.1rem
       padding 0.3rem 0 0.3rem 0.3rem
