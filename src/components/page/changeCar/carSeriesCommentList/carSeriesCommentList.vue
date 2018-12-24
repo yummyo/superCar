@@ -48,7 +48,7 @@
       <div class="issueListStyle">
           <div>
             <div class="issueHeader">
-              <img src="/static/index/notLogin.png"/>
+              <img :src="'./static/index/notLogin.png'"/>
             </div>
             <div class="issueTime">
               <div>网名</div>

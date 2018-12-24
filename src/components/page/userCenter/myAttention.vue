@@ -4,7 +4,7 @@
       <div class="item" v-for="item in 5">
         <input class="inputState" type="checkbox" v-show="!choose">
         <div class="icon">
-          <img src="/static/index/myAttention_1.jpg">
+          <img :src="'./static/index/myAttention_1.jpg'">
         </div>
         <div class="text">
           <h3 class="name">兰博基尼</h3>

@@ -3,7 +3,7 @@
     <!-- 公共头部 -->
     <contentHeader :listdata='articleContent'></contentHeader>
     <div class="carSeriesTitle"  @click="toDO(3)">
-      <img :src="carData.imgUrl" alt="">
+      <img :src="detailImg" alt="">
       <span class="totalStyle">共{{ carData.imgSize }}张</span>
     </div>
     <div class="content">
@@ -51,6 +51,7 @@
 import contentHeader from '@/common/view/contentHeader';
 import { getCarModelGroupListBySeries } from '@/api/changeCar/index'
 import motorcycleType from './list/motorcycleType';
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return{
@@ -134,10 +135,14 @@ export default {
       console.log(res)
       this.carData = res.data
       this.nowChangeLi = '0'
-      console.log('测试数据')
-      console.log(res.data['levelGroupList'])
       this.nowChangeLiData = res.data['levelGroupList'][0]['carYearGroupList']
     })
+  },
+  computed:{
+    detailImg(){
+      return  this.carDetailImg || this.carData.imgUrl || ''
+    },
+    ...mapGetters(['carDetailImg'])
   },
   components: {
     contentHeader,motorcycleType
@@ -155,6 +160,7 @@ export default {
     height 15rem
     img
       width 100%
+      height 100%
     .totalStyle
       display inline-block
       padding .5rem 1rem

@@ -1,5 +1,7 @@
 import axios from 'axios'
 import router from '../router'
+import { Indicator } from 'mint-ui'
+
 
 
 // export const URLROUTER="http://192.168.1.41:9108"
@@ -23,7 +25,7 @@ axios.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
   ajaxNum++;
   if(ajaxNum == 1){
-    // loadinginstace = Loading.service({ fullscreen: true })
+    Indicator.open();
   }
   return config;
 }, function (error) {
@@ -36,6 +38,7 @@ axios.interceptors.response.use(function (response) {
   // 对响应数据做点什么
   ajaxNum--;
   if(ajaxNum == 0){
+    Indicator.close();
   } 
   return response;
 }, function (error) {

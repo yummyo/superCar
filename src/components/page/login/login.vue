@@ -20,9 +20,9 @@
         <div class="line"></div>
     </div>
     <div class="otherLogin">
-        <div><img src="/static/index/weixin.png" alt=""></div>
-        <div><img src="/static/index/qq.png" alt=""></div>
-        <div><img src="/static/index/weibo.png" alt=""></div>
+        <div><img :src="'./static/index/weixin.png'" alt=""></div>
+        <div><img :src="'./static/index/qq.png'" alt=""></div>
+        <div><img :src="'./static/index/weibo.png'" alt=""></div>
     </div>
   </div>
 </template>

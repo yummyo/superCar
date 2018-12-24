@@ -7,33 +7,45 @@
         <span>{{ item.name }}</span>
       </div>
     </div>
-    <taberList class="dataList" :style="{heihgt : tabListHeight}"></taberList>
+    <div class="bodyBox">
+      <div v-for="(item,index) of boxData" :key="index">
+        <listContent :listdata='item'></listContent>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import contentHeader from '@/common/view/contentHeader';
-import taberList from './taberList';
+import listContent from '@/common/view/listContent';
+import { getadvert } from '@/api/recommend/index';
 export default {
   components:{
-    contentHeader,taberList
+    contentHeader,listContent
   },
   data(){
     return {
       testData:[
-        {'name':"最新",class:'recommend',type:"1",'titleType':"ALL"},
-        {'name':"视频",class:'city',type:"2"},
-        {'name':"上海",class:'movie',type:"3",'cityCode':""},
-        {'name':"测评",class:'car',type:"4",'titleType':"PC"},
-        {'name':"导购",class:'shop',type:"5",'titleType':"DG"},
+        {'name':"文章",class:'recommend',type:"1",'titleType':"ALL"},
       ],
       tabListHeight:'0px',
-      tabType:this.$route.query.tabType || 1
+      tabType: '1',
+      boxData:[]
     }
   },
   mounted(){
     // this.tabListHeight = 'calc(100% - '+(this.$refs.tab.clientHeight + this.$refs.head.$el.clientHeight)+'px)'
     // console.log(this.tabListHeight)
+    getadvert({
+      data:{
+        'titleType':'ALL',
+        "pageNo": 1,
+        "pageSize": 15,
+        "operatorType":'default',
+      }
+    }).then(res => {
+      this.boxData = res.data
+    })
   },
   
   methods:{
@@ -53,15 +65,32 @@ export default {
 
 <style  scoped lang="stylus" rel="stylesheet/stylus">
   .tab
-    background #ddd
+    background #fff
+    border-bottom 2px solid #ddd
+    text-align left
     .tab_item
       display inline-block
       width 20%
       box-sizing border-box
       color #fff
-      padding .2em .5rem
+      padding .2em 1rem
+      position relative
+      text-align center
+      margin .5rem 0
       &.active
-        color red
+        color $color-model-color-blue
+        &::after
+          content ''
+          position  absolute
+          bottom 0
+          left 50%
+          transform translateX(-50%)
+          display inline-block
+          width 30%
+          height 0
+          border-bottom 2px solid $color-model-color-blue
     .tab_item+.tab_item
       border-left 1px solid #000
+  .bodyBox
+    height calc(100% - 5rem)
 </style>

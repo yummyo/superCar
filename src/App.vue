@@ -2,14 +2,40 @@
   <div id="app">
     <keep-alive>
       <router-view v-if="$route.meta.keepAlive"></router-view>
-      </keep-alive>
-       <router-view v-if="!$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created(){
+    let that = this
+    this.$mui.plusReady( () =>{
+      var backcount = 0;
+      this.$mui.back = ()=> {
+        if(this.$route.path.split("/")[1] != 'index'){
+          this.$router.go(-1)
+        }else{
+            if (this.$mui.os.ios) return;
+            if (backcount > 0) {
+              if (window.plus) plus.runtime.quit();
+              return;
+            };
+            this.$toast({
+              message: '再点击一次退出应用!',
+              position: 'bottom',
+              duration: 2000
+            });
+            backcount++;
+            setTimeout( () =>{
+              backcount = 0;
+            }, 2000);
+        }
+      };
+    })
+  }
 }
 </script>
 

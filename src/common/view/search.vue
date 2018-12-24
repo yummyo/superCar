@@ -3,7 +3,8 @@
     <!-- 搜索框 -->
     <div class="content">
       <span class="iconfont icon-sousuo"></span>
-      <input type="text" v-model="data" placeholder="搜车、搜人、搜内容">
+      <!-- <input type="text" v-model="data" placeholder="搜车、搜人、搜内容"> -->
+      <div class="searchDiv" @click="toSearch">搜车、搜人、搜内容</div>
       <span class="iconfont icon-shuaxin"></span>
     </div>
   </div>
@@ -17,6 +18,14 @@
         data : ""
       }
     },
+    methods:{
+      toSearch(){
+        console.log(123)
+        this.$router.push({
+          path:'/searchList'
+        })
+      }
+    }
   }
 </script>
 
@@ -28,13 +37,13 @@
     .content
       background #fff
       border-radius 5px
-    input,span
+    .searchDiv,span
       display inline-block
       border none
       font-size 1rem
       width 80%
-    input
-      font 1.5rem
+    .searchDiv
+      text-align left
       padding .5rem .3rem
       box-sizing border-box
       &:focus

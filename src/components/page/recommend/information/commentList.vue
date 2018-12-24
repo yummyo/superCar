@@ -205,11 +205,14 @@
         }
       },
       reply(item){
-        // 回复时的placeholder
-        this.replyPlaceholder = '回复：'+item.createUserNickName
-        // 点击回复按钮
-        this.replyUserData = item;
-        this.commentVisible = true
+        let that = this
+        detectorLogin(that,function(){
+          // 回复时的placeholder
+          that.replyPlaceholder = '回复：'+item.createUserNickName
+          // 点击回复按钮
+          that.replyUserData = item;
+          that.commentVisible = true
+        })
       },
       hideComment(){
         // 隐藏回复框

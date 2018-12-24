@@ -43,6 +43,7 @@
 import Scroll from '@/common/scroll/scroll'
 import Loading from '@/common/loading/loading'
 import {getHotBrand,getbrandGroup,getSeriesGroupByBrandCode} from '@/api/changeCar/index'
+import { mapMutations } from 'vuex'
 export default {
   name:'motorcycleType',
   props:{
@@ -68,7 +69,8 @@ export default {
       this.$emit('close')
     },
     select(data){
-      console.log(data)
+      console.log(data.seriesLogo)
+      this.setImg(data.seriesLogo)
       this.$router.push({
         path:'/carSeriesDetail',
         query:{
@@ -77,7 +79,10 @@ export default {
           carSeriesName:data.seriesName,
         }
       })
-    } 
+    },
+    ...mapMutations({
+      'setImg':'SET_DETAILIMG'
+    })
   },
   components: {
     Scroll,Loading
@@ -94,7 +99,7 @@ export default {
   .motorcycleType
     height 100%
   .listview
-    height (100% - 4rem)
+    height calc(100% - 4rem)
     overflow hidden
   .box
     float right

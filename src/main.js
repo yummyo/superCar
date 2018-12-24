@@ -9,6 +9,8 @@ import './mork/index'
 import { Tabbar,TabItem,Swipe, SwipeItem,Badge,Toast,MessageBox,Navbar,TabContainer,TabContainerItem,DatetimePicker,Radio} from 'mint-ui';
 import lazyLoad from "vue-lazyload"
 import 'mint-ui/lib/style.css'
+import mui from '../static/js/mui.js'
+Vue.prototype.$mui = mui;
 
 // //懒加载
 Vue.use(lazyLoad,{

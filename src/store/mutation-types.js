@@ -5,3 +5,7 @@ export const CHANGE_TODOLIST='CHANGE_TODOLIST'
 
 //设置显示页面
 export const CHANGE_PAGESHOW='CHANGE_PAGESHOW'
+// 车型详情logo大图
+export const SET_DETAILIMG='SET_DETAILIMG'
+// 车辆图片列表
+export const SET_CARIMGLIST='SET_CARIMGLIST'

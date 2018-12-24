@@ -6,6 +6,10 @@ const state={
   userLogin : 0,
   // 默认选中的
   pageShow:"recommend",
+  // 车型详情logo大图
+  carDetailImg:'',
+  // 车辆图片列表
+  carImgList:{},
   //下方按钮列表
   tobarList:[
     {

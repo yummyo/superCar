@@ -5,14 +5,14 @@
       <!-- 已登录 -->
       <div v-if='isLogin' class="login">
         <div>
-          <img src="/static/index/notLogin.png" alt="">
+          <img :src="'./static/index/notLogin.png'" alt="">
           <span>{{userInfo['nickName']}}</span>
         </div>
       </div>
       <!-- 未登录 -->
       <div v-else class="notLogin">
         <div>
-          <img src="/static/index/notLogin.png" alt="">
+          <img :src="'./static/index/notLogin.png'" alt="">
           <span>未登录</span>
         </div>
         <div>

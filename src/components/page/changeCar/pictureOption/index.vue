@@ -14,7 +14,7 @@
       <div class="wrapper" ref='wrapper'>
         <div  class="imgList">
           <div v-for="(item,index) of imgList" :key="index" class="item-img">
-            <img v-lazy='item.src' alt="">
+            <img v-lazy='item.imgUrl' alt="">
           </div>
         </div>
       </div>
@@ -35,6 +35,7 @@
 <script>
 import contentHeader from '@/common/view/contentHeader';
 import BScroll from 'better-scroll'
+import { mapGetters } from 'vuex'
 
 export default {
   data(){
@@ -45,28 +46,22 @@ export default {
       },
       nowSliderIndex:0,
       pageIndex:1,
-      imgList:[
-        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
-        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
-        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
-        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
-        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
-        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
-        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
-        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
-        {'src':'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1840527508,2735044619&fm=173&app=25&f=JPEG?w=218&h=146&s=85F25C81021001DE58317D18030080C0'},
-      ]
+      imgList:[]
     }
   },
   mounted() {
+    this.imgList = this.carImgList
     setTimeout(() => {
       this.init()
+      this.scroll.goToPage(this.$route.query.imgIndex,0,0)
     }, 20)
+  },
+  computed:{
+    ...mapGetters(['carImgList'])
   },
   methods:{
     init(){
       let that = this
-      console.log(BScroll)
       this.scroll = new BScroll(this.$refs.wrapper, {
         probeType: 1,
         click: this.click,

@@ -49,7 +49,7 @@
         listContent : {'content':"我的收藏"},
         choose:true,
         collectList:{},
-        nowPageIndex:0,
+        nowPageIndex:1,
         clickList:this.toDetail,
         checkedList:[]
       }
@@ -65,15 +65,26 @@
     methods:{
         getList(){
            myCollect({data:{pageNo:this.nowPageIndex,pageSize:10}}).then(res=>{
-            let arr = JSON.parse(JSON.stringify(this.collectList))
-            console.log(Object.keys(arr).length)
-            res.data.result.map(v =>{
-              if(v && !this.collectList[v.id]){
-                arr[v.id] = v
-              }
-            })
-            this.collectList  = arr
-            console.log(Object.keys(arr).length)
+            if(res.data.result.length > 0){
+              this.$toast({
+                message: '加载了'+res.data.result.length+"条数据",
+                position: 'bottom',
+                duration: 2000
+              })
+              let arr = JSON.parse(JSON.stringify(this.collectList))
+              res.data.result.map(v =>{
+                if(v && !this.collectList[v.id]){
+                  arr[v.id] = v
+                }
+              })
+              this.collectList  = arr
+            }else{
+              this.$toast({
+                message: '暂无更多数据！',
+                position: 'bottom',
+                duration: 2000
+              })
+            }
           })
         },
         scrollUp(){

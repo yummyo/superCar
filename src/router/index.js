@@ -124,7 +124,7 @@ const paramDeploy = (resolve) => {
 }
 // 资讯页面
 const carArticleList = (resolve) => {
-  import('@/components/page/changeCar/dealer/dealer').then((module) => {
+  import('@/components/page/changeCar/carSeriesDetail/carArticleList').then((module) => {
     resolve(module)
   })
 }
@@ -143,6 +143,12 @@ const dealerFloorPrice = (resolve) => {
 // 资讯页面
 const pictureOption = (resolve) => {
   import('@/components/page/changeCar/pictureOption').then((module) => {
+    resolve(module)
+  })
+}
+// 搜索页面
+const searchList = (resolve) => {
+  import('@/common/view/searchList').then((module) => {
     resolve(module)
   })
 }
@@ -298,6 +304,12 @@ const router = new Router({
       path: '/dealerFloorPrice',
       name: 'dealerFloorPrice',
       component: dealerFloorPrice,
+    },
+    {
+      // 搜索结果页
+      path: '/searchList',
+      name: 'searchList',
+      component: searchList,
     },
     {
       path: '*',

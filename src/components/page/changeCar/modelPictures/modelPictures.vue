@@ -11,36 +11,36 @@
         <mt-tab-container v-model="selected">
           <mt-tab-container-item id="appearance">
             <div class="appearance">
-              <div v-for="item in pictures">
-                <img v-lazy="item.imgUrl" @click="showDatil"/>
+              <div v-for="(item,index) in pictures">
+                <img v-lazy="item.imgUrl" @click="showDatil(index)"/>
               </div>
             </div>
           </mt-tab-container-item>
           <mt-tab-container-item id="centralControl2">
            <div class="appearance">
-              <div v-for="item in pictures">
-                <img v-lazy="item.imgUrl" @click="showDatil"/>
+              <div v-for="(item,index) in pictures">
+                <img v-lazy="item.imgUrl" @click="showDatil(index)"/>
               </div>
             </div>
           </mt-tab-container-item>
           <mt-tab-container-item id="details">
           <div class="appearance">
-              <div v-for="item in pictures">
-                <img v-lazy="item.imgUrl" @click="showDatil"/>
+              <div v-for="(item,index) in pictures">
+                <img v-lazy="item.imgUrl" @click="showDatil(index)"/>
               </div>
             </div>
           </mt-tab-container-item>
           <mt-tab-container-item id="chair">
           <div class="appearance">
-              <div v-for="item in pictures" v-if="item.length>0">
-                <img v-lazy="item.imgUrl" @click="showDatil"/>
+              <div v-for="(item,index) in pictures" v-if="item.length>0">
+                <img v-lazy="item.imgUrl" @click="showDatil(index)"/>
               </div>
             </div>
           </mt-tab-container-item>
           <mt-tab-container-item id="other">
           <div class="appearance">
-              <div v-for="item in pictures">
-                <img v-lazy="item.imgUrl" @click="showDatil"/>
+              <div v-for="(item,index) in pictures">
+                <img v-lazy="item.imgUrl" @click="showDatil(index)"/>
               </div>
             </div>
           </mt-tab-container-item>
@@ -51,6 +51,7 @@
 <script>
   import contentHeader from '@/common/view/contentHeader';
   import {getModelImgBySeries} from '@/api/changeCar/index'
+  import { mapMutations } from 'vuex'
   export default {
     data () {
       return {
@@ -70,16 +71,23 @@
         let arr = []
         if(res.data && res.data.modelImgList.length > 0){
           arr = res.data.modelImgList
+          this.setCarImgList(arr)
         }
         this.pictures = arr
       });
     },
     methods:{
-      showDatil(){
+      showDatil(index){
         this.$router.push({
-          path:'/pictureOption'
+          path:'/pictureOption',
+          query:{
+            imgIndex:index
+          }
         })
-      }
+      },
+      ...mapMutations({
+        'setCarImgList':'SET_CARIMGLIST'
+      })
     },
     props:{
       listdata:{
@@ -128,5 +136,6 @@
       padding 0 0.2rem
     img
       width 100%
+      height 100%
 </style>
   

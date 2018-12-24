@@ -17,5 +17,13 @@ const mutations={
   [types.CHANGE_PAGESHOW](state,_data){
     state.pageShow = _data;
   },
+  // 车辆logo大图
+  [types.SET_DETAILIMG](state,imgUrl){
+    state.carDetailImg = imgUrl;
+  },
+  // 车辆图片列表
+  [types.SET_CARIMGLIST](state,data){
+    state.carImgList = data;
+  },
 }
 export default mutations
