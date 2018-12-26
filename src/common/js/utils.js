@@ -17,10 +17,13 @@ function validForm(that){
   if(Object.keys(that.$refs).length > 0){
     for(let item in that.$refs){
       if(/^valid-/.test(item)){
-        if(!that.$refs[item].value){
-          that.$toast(that.$refs[item].title)
-          console.log(that.$refs[item])
-          console.log(that.$refs[item].value)
+        let DOM = that.$refs[item].length ? that.$refs[item][0] : that.$refs[item]
+        if(!DOM.value){
+          // 如果是原生dom 直接拿对应title
+            // that.$toast(DOM.title)
+            // 如果是vueDom 或者 数组DOM 拿到第一位再取Title
+          console.log(DOM)
+          that.$toast(DOM.$el ? DOM.$el.title : DOM.title)
           return false
         }
       }

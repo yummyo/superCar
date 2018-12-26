@@ -30,8 +30,13 @@
     </modal>
     <modal ref="mychildFour">
       <div class="changeCar">购车目的  <span @click="buyGoalHide">完成</span></div>
-      <div class="carSeries">
-        <input type="checkbox" />2018款黄金跑车
+      <div v-for="item in buyPurposeData">
+        <label >
+          <div class="carSeries">
+            <span :class= "checkedList.indexOf(item.id)!=-1 ? 'classActive' : 'classNone' "></span>{{item.name}}
+            <input class="displayNone" v-model='checkedList' :value='item.id' type="checkbox">
+          </div>
+        </label>
       </div>
     </modal>
     <mt-datetime-picker
@@ -74,12 +79,13 @@
       <div class="infoList" v-for="comment of item.list">
           <div class="infoListOne">
             <div class="commentTitle">{{comment.commentTitle}}</div>
-            <input class="commentInput"  :ref='"valid-"+comment.star.slice(0,-3)+"valid"' :title='comment.commentTitle' v-model="carArrayList[comment.star.slice(0,-3)]" :placeholder="comment.commentInput" />
+            <input class="commentInput"  :ref='"valid-"+comment.star.slice(0,-3)+"valid"' :title='"请输入"+comment.commentTitle+"内容"' v-model="carArrayList[comment.star.slice(0,-3)]" :placeholder="comment.commentInput" />
           </div>
           <div class="infoListTwo">
               <star @starMarkChange="markChange" 
-                    :outIndex="comment.star" :ref='"valid-"+comment.star' :title='comment.commentTitle'>
+                    :outIndex="comment.star" >
               </star>
+              <input v-show='false' :ref='"valid-"+comment.star' :title='"请选择"+comment.commentTitle+"评分"' :value='carArrayList[comment.star]'>
           </div>
       </div> 
     </div>   
@@ -93,26 +99,27 @@
 import contentHeader from '@/common/view/contentHeader';
 import star from '@/common/view/star';
 import modal from '@/common/view/modal';
-import {validForm} from '@/common/js/utils.js';
-import {getFindAllProvince,findCitysByRroId,getCarModelListBySeries,defaultAppList,postBuyCarIntention,appList} from '@/api/changeCar/index';
+import {validForm,detectorLogin} from '@/common/js/utils.js';
+import {postModelComment,getFindDics,getFindAllProvince,findCitysByRroId,getCarModelListBySeries,defaultAppList,postBuyCarIntention,appList} from '@/api/changeCar/index';
 export default {
   data() {
     return {
+      buyPurposeData:'',
       commentList:[
         {title:"旧车信息",list:[
-           {commentTitle:"*最满意:",commentInput:"用车过程有什么满意的地方(30字以内)",star:'satisfyNum'},
-           {commentTitle:"*最不满意:",commentInput:"用车过程有什么不满意的地方(30字以内)",star:'unsatisfyNum'},
-           {commentTitle:"其他补充:", commentInput:"其他补充",star:'otherNum'},
+           {commentTitle:"*最满意",commentInput:"用车过程有什么满意的地方(30字以内)",star:'satisfyNum'},
+           {commentTitle:"*最不满意",commentInput:"用车过程有什么不满意的地方(30字以内)",star:'unsatisfyNum'},
+           {commentTitle:"其他补充", commentInput:"其他补充",star:'otherNum'},
         ]},
         {title:"给车评分和描述",list:[
-           {commentTitle:"*空间(必选):",commentInput:"后备箱空间怎么样",star:'spaceNum'},
-           {commentTitle:"*动力(必选):",commentInput:"动力怎么样",star:'powerNum'},
-           {commentTitle:"*操控(必选):",commentInput:"操控怎么样",star:'manipulationNum'},
-           {commentTitle:"*油耗(必选):",commentInput:"油耗怎么样",star:'oliNum '},
-           {commentTitle:"*舒适性(必选):",commentInput:"舒适性怎么样",star:'comfortableNum'},
-           {commentTitle:"*外观(必选):",commentInput:"外观怎么样",star:'appearanceNum'},
-           {commentTitle:"*内饰(必选):",commentInput:"内饰怎么样",star:'trimNum'},
-           {commentTitle:"*性价比(必选):",commentInput:"性价比怎么样",star:'costPerformanceNum'},
+           {commentTitle:"*空间(必选)",commentInput:"后备箱空间怎么样",star:'spaceNum'},
+           {commentTitle:"*动力(必选)",commentInput:"动力怎么样",star:'powerNum'},
+           {commentTitle:"*操控(必选)",commentInput:"操控怎么样",star:'manipulationNum'},
+           {commentTitle:"*油耗(必选)",commentInput:"油耗怎么样",star:'oliNum'},
+           {commentTitle:"*舒适性(必选)",commentInput:"舒适性怎么样",star:'comfortableNum'},
+           {commentTitle:"*外观(必选)",commentInput:"外观怎么样",star:'appearanceNum'},
+           {commentTitle:"*内饰(必选)",commentInput:"内饰怎么样",star:'trimNum'},
+           {commentTitle:"*性价比(必选)",commentInput:"性价比怎么样",star:'costPerformanceNum'},
         ]},
       ],
       provideJudge:true,
@@ -124,6 +131,7 @@ export default {
       dealerData:'',
       pickerValue:'',
       cityCode:'',
+      checkedList:[],
       carArrayList:{
         satisfy:'',
         satisfyNum:'',
@@ -162,6 +170,18 @@ export default {
       },
     }
   },
+   watch:{
+    //  判断多选最多为五个
+    checkedList(){
+      for(var i in this.checkedList){
+        console.log(this.checkedList)
+        if(i==5){
+          this.checkedList.pop()
+          this.$toast('最多选中五项')
+        }
+      }
+    }
+  },
   created() {
     getFindAllProvince({data:{}}).then((res) => {
         this.provideData=res.data
@@ -169,8 +189,16 @@ export default {
       });
   },
   methods: {
+    // 提交事件
     submit(){
-      validForm(this)
+     detectorLogin(this);
+     console.log(window.localStorage.getItem('userInfo')) 
+      if(validForm(this)){
+        postModelComment({data:this.carArrayList}).then((res) => {
+          console.log(res)
+        })
+      }
+      
     },
     // 点击星星触发事件
     markChange(code,key){
@@ -245,10 +273,24 @@ export default {
     // 购买目的
     buyGoalShow(){
       this.$refs.mychildFour.modalShow();
+      getFindDics({data:{groupCode:'buyPurpose'}}).then((res) => {
+          this.buyPurposeData=res.data
+      })
     },
     buyGoalHide(){
+      let arr=[]
+      var that = this
+      this.checkedList.forEach(function(value,i){
+          that.buyPurposeData.forEach(function(dataVal,dataIndex){
+             if(value==dataVal.id){
+                arr.push(dataVal.name)
+              }
+          })
+      }) 
+      console.log(arr) 
+
+       this.carArrayList.buyPurpose=arr.toString()
        this.$refs.mychildFour.modalHide();
-       this.carArrayList.buyPurpose="aaa"
     },
     // // 控制购买地点的显示隐藏
     // chooseProvideHide(value){
@@ -282,33 +324,25 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  // .carTran-enter
-  //   left 100% !important
-  // .carTran-enter-to
-  //   left 0 !important
-  // .commentAll
-  //   height 100%
-  //   .alertContent
-  //     transition all .5s 
-  //     position fixed
-  //     bottom 0
-  //     left 0
-  //     top 0
-  //     right 0 
-  //     z-index 10
-  //     background rgba(0,0,0,.3)
-  //     width 100%
-  //     &.carTran-leave-to 
-  //       .alertRight
-  //         right -100%
-  //     .alertRight
-  //       transition all .5s 
-  //       position absolute
-  //       bottom 0
-  //       top 0
-  //       right 0 
-  //       width 80%
-  //       background #fff
+    .displayNone
+      display none
+    .classActive
+        border 1px solid #ddd
+        width 1rem
+        height 1rem 
+        border-radius 50%
+        background #5BB0F3
+        display inline-block
+        vertical-align text-bottom
+    .classNone
+      border 1px solid #ddd
+      width 1rem
+      height 1rem 
+      border-radius 50%
+      display inline-block
+      vertical-align text-bottom
+    .commentAll   
+      margin-bottom 3rem
     .showCity
       transition all .5s 
       position absolute

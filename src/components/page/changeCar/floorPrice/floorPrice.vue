@@ -118,7 +118,7 @@ export default {
       carData:'',
       dealerData:'',
       dealerOne:'',
-      checkedList:'',
+      checkedList:[],
       loddingMore:'',
       pageZreo:0,
       pageOne:0,
