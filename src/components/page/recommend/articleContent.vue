@@ -141,8 +141,8 @@
           case 3:
             // 拿到本地列表
             this.nowFun = findCityArticle
-            // this.nowFunType = {'k':'cityCode','v':this.cityInfo['adcode']}
-            this.nowFunType = {'k':'cityCode','v':'410100'}
+            this.nowFunType = {'k':'cityCode','v':this.cityInfo['adcode']}
+            // this.nowFunType = {'k':'cityCode','v':'410100'}
             break;
           case 4:
             // 拿到评测

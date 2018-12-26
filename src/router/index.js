@@ -147,8 +147,8 @@ const pictureOption = (resolve) => {
   })
 }
 // 搜索页面
-const searchList = (resolve) => {
-  import('@/common/view/searchList').then((module) => {
+const searchResult = (resolve) => {
+  import('@/components/page/searchResult').then((module) => {
     resolve(module)
   })
 }
@@ -307,9 +307,9 @@ const router = new Router({
     },
     {
       // 搜索结果页
-      path: '/searchList',
-      name: 'searchList',
-      component: searchList,
+      path: '/searchResult',
+      name: 'searchResult',
+      component: searchResult,
     },
     {
       path: '*',

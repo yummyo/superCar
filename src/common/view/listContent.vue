@@ -14,14 +14,14 @@
       </ul> -->
       <div class="item">
         <div class="text">
-          <h3 class="comment-Title">{{listdata.contentTitle}}</h3>
+          <h3 class="comment-Title">{{ contentTitle }}</h3>
           <div class="comment">
             <div>{{listdata.commentCount }}评论</div>
             <div>{{listdata.createUserId }}</div>
           </div>
         </div>
         <div class="icon">
-          <img v-if="listdata.thumbnailResource && listdata.thumbnailResource.length > 0" v-lazy="listdata.thumbnailResource[0].thumbnailUrl" alt="">
+          <img v-if="imgUrl" v-lazy="imgUrl" alt="">
         </div>
       </div>
   </div>
@@ -39,6 +39,22 @@
         type:Object,
         default:function(){
           return {}
+        }
+      }
+    },
+    computed:{
+      imgUrl(){
+        if(this.listdata.thumbnailResource && this.listdata.thumbnailResource.length > 0){
+          return this.listdata.thumbnailResource[0].thumbnailUrl
+        }else if(this.listdata.seriesLogo){
+          return this.listdata.seriesLogo
+        }
+      },
+      contentTitle(){
+        if(this.listdata.contentTitle){
+          return this.listdata.contentTitle
+        }else if(this.listdata.seriesName){
+          return this.listdata.seriesName
         }
       }
     }

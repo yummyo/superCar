@@ -106,11 +106,19 @@ export  function postBuyCarIntention(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
-    //预约试驾提交接口
+//预约试驾提交接口
 export  function postBuyCarPredrive(config){
     let Obj = {
         'url':URLROUTER+'/app/buyCarPredrive',
         'method':"post"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+}
+//预约试驾提交接口
+export  function getBySeriesNameLike(config){
+    let Obj = {
+        'url':URLROUTER+'/app/carInfo/getBySeriesNameLike',
+        'method':"get"
     }
     return axiosConfig(Object.assign({},Obj,config))
 }

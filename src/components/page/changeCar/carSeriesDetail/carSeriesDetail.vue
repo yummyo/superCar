@@ -28,7 +28,7 @@
           <li>降价</li>
           <li @click="toDO(7)">参配</li>
           <li @click="toDO(5)">点评</li>
-          <li @click="toDO(6)">资讯</li>
+          <li @click="toDO(6)">文章</li>
           <li @click="toDO(8)">经销商</li>
         </ul>
     </div>
@@ -92,6 +92,9 @@ export default {
         case 6:
           // 资讯页面
           _path = 'carArticleList'
+          query = {
+            seriesName:this.$route.query.carSeriesName
+          }
         break;
         case 7:
           // 参配页面

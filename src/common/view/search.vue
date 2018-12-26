@@ -22,7 +22,7 @@
       toSearch(){
         console.log(123)
         this.$router.push({
-          path:'/searchList'
+          path:'/searchResult'
         })
       }
     }

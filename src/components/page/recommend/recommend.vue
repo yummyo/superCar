@@ -28,7 +28,7 @@
         tobarData: {
           "tobar_1":{'name':"最新",class:'recommend',type:"1",'titleType':"ALL"},
           "tobar_2":{'name':"视频",class:'city',type:"2"},
-          "tobar_3":{'name':"上海111",class:'movie',type:"3",'cityCode':""},
+          "tobar_3":{'name':"上海",class:'movie',type:"3",'cityCode':""},
           "tobar_4":{'name':"测评",class:'car',type:"4",'titleType':"PC"},
           "tobar_5":{'name':"导购",class:'shop',type:"5",'titleType':"DG"}
         },

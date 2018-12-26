@@ -1,48 +1,33 @@
 <template>
   <div class="searchList">
-    <div class="content">
-      <div>
-        <span class="iconfont icon-sousuo"></span>
-        <input type="text" v-model="searchText" placeholder="搜车、搜人、搜内容">
+    <!-- 资讯页面 -->
+    <div class="tab" ref='tab'>
+      <div v-for="item of testData" :class="{active : tabType==item.type,tab_item : true}" @click="changeActive(item.class,item.type)" :key="item.name">
+        <span>{{ item.name }}</span>
       </div>
-      <span class="close">取消</span>
     </div>
-   <div v-if="searchData.length == 0">
-      <!--  热门搜索 -->
-    <div class="hotSearch">
-      <p class="infoTitle">热门搜索</p>
-      <span v-for="(item,index) of hotSearch" :key="index">
-        <span>{{ item['name'] }}</span>
-      </span>
-    </div>
-    <!-- 历史记录 -->
-    <div class="historySearch">
-      <p class="infoTitle">历史记录</p>
-      <ul>
-        <li v-for="(item,index) of historySearchData" :key="index">
-          <span class="iconfont icon-history"></span>
-          <p class="content">{{ item['content'] }}</p>
-          <span class="iconfont icon-fanhui"></span>
-        </li>
-      </ul>
-      <p class="text-center">
-        <span class="clearHistory">清除历史记录</span>
-      </p>
-    </div>
-   </div>
-    <!-- 搜索结果 -->
-    <div v-else>
-
+    <div class="bodyBox">
+      <div v-for="(item,index) of listdata" :key="index" @click="toDetail(item)">
+        <listContent :listdata='item'></listContent>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import listContent from '@/common/view/listContent';
 export default {
+  components:{
+    listContent
+  },
   data(){
     return {
       searchText:'',
       searchData:[],
+      testData:[
+        {'name':"文章",class:'recommend',type:"1",'titleType':"ALL"},
+      ],
+      tabType: '1',
       hotSearch:[
         {'name':'骐达'},
         {'name':'迈腾'},
@@ -56,73 +41,65 @@ export default {
       ]
     }
   },
+  props:{
+    listdata:{
+      type:Array,
+      default: () => {}
+    }
+  },
   methods: {
-
+    changeActive:function(cla,type){
+      this.nowActive = cla;
+      this.tabType = type
+      this.$router.push({
+        path:'/carArticleList',
+        query:{
+          tabType:type
+        }
+      })
+    },
+    toDetail(item){
+      // 文章详情
+      this.$router.push({
+        path:'/articleDetail',
+        query:{
+          id:item.id,
+          pageType:'article'
+        }
+      })
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  // 提示字体
-  .infoTitle
-    font-size .8rem
-    color #ddd
+  .tab
+    background #fff
+    border-bottom 2px solid #ddd
     text-align left
-  .searchList
-    // font-size 0
-    padding .5rem 1rem 0
-    .content
-      background #fff
-      border-radius 5px
-      display flex
-      align-items center
-      >div
-        flex-grow 1
-        background #efebeb
-        display flex
-        justify-content center
-        align-items center
-        .icon-sousuo
-          padding 0 .5rem
-        input
-          text-align left
-          padding .5rem .3rem
-          box-sizing border-box
-          background #efebeb
-          flex-grow 1
-          &:focus
-            outline none
-      input,span
-        display inline-block
-        border none
-        font-size 1rem
-      .close
-        padding 0 1rem
-  .hotSearch
-    text-align left 
-    >span
-      min-width 20%
-      display inline-block  
+    .tab_item
+      display inline-block
+      width 20%
+      box-sizing border-box
+      color #fff
+      padding .2em 1rem
+      position relative
       text-align center
-      padding 0 .5rem
-      span 
-        background #ddd
-        display block
-        padding .3rem 0 
-  .historySearch
-    margin-top 1rem
-    ul
-      li
-        display flex
-        justify-content center
-        align-items center
-        line-height 2rem
-        border-bottom 1px solid #ddd
-        .content
-          flex-grow 1
-          padding .5rem
-    .clearHistory
-      color #ddd
+      margin .5rem 0
+      &.active
+        color $color-model-color-blue
+        &::after
+          content ''
+          position  absolute
+          bottom 0
+          left 50%
+          transform translateX(-50%)
+          display inline-block
+          width 30%
+          height 0
+          border-bottom 2px solid $color-model-color-blue
+    .tab_item+.tab_item
+      border-left 1px solid #000
 </style>  
 

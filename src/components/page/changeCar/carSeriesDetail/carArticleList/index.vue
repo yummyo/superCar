@@ -1,27 +1,29 @@
 <template>
   <div>
-    <contentHeader ref='head' :listdata="{'content':'资讯'}" ></contentHeader>
-    <!-- 资讯页面 -->
+    <contentHeader ref='head' :listdata="{'content':$route.query.seriesName+'文章'}" ></contentHeader>
+    <!-- 资讯页面
     <div class="tab" ref='tab'>
       <div v-for="item of testData" :class="{active : tabType==item.type,tab_item : true}" @click="changeActive(item.class,item.type)" :key="item.name">
         <span>{{ item.name }}</span>
       </div>
     </div>
     <div class="bodyBox">
-      <div v-for="(item,index) of boxData" :key="index">
+      <div v-for="(item,index) of boxData" :key="index" @click="toDetail(item)">
         <listContent :listdata='item'></listContent>
       </div>
-    </div>
+    </div> -->
+    <search-list :listdata='boxData'></search-list>
   </div>
 </template>
 
 <script>
 import contentHeader from '@/common/view/contentHeader';
 import listContent from '@/common/view/listContent';
-import { getadvert } from '@/api/recommend/index';
+import searchList from '@/common/view/searchList';
+import { getBySeriesNameLike } from '@/api/changeCar/index';
 export default {
   components:{
-    contentHeader,listContent
+    contentHeader,listContent,searchList
   },
   data(){
     return {
@@ -36,18 +38,14 @@ export default {
   mounted(){
     // this.tabListHeight = 'calc(100% - '+(this.$refs.tab.clientHeight + this.$refs.head.$el.clientHeight)+'px)'
     // console.log(this.tabListHeight)
-    getadvert({
+    getBySeriesNameLike({
       data:{
-        'titleType':'ALL',
-        "pageNo": 1,
-        "pageSize": 15,
-        "operatorType":'default',
+        seriesName: this.$route.query.seriesName
       }
     }).then(res => {
       this.boxData = res.data
     })
   },
-  
   methods:{
     changeActive:function(cla,type){
       this.nowActive = cla;
@@ -56,6 +54,16 @@ export default {
         path:'/carArticleList',
         query:{
           tabType:type
+        }
+      })
+    },
+    toDetail(item){
+      // 文章详情
+      this.$router.push({
+        path:'/articleDetail',
+        query:{
+          id:item.id,
+          pageType:'article'
         }
       })
     }
