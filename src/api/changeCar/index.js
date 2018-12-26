@@ -118,8 +118,31 @@ export  function postBuyCarPredrive(config){
 export  function getBySeriesNameLike(config){
     let Obj = {
         'url':URLROUTER+'/app/carInfo/getBySeriesNameLike',
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+}
+//车主点评
+export  function postModelComment(config){
+    let Obj = {
+        'url':URLROUTER+'/app/modelComment',
+        'method':"post"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+}
+//车主点评查询
+export  function getSeachComment(config){
+    let Obj = {
+        'url':URLROUTER+'/app/modelComment/search',
         'method':"get"
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
 
+// 购车目的
+export  function getFindDics(config){
+    let Obj = {
+        'url':URLROUTER+'/app/dataDic/findDics',
+        'method':"get"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+}

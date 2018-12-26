@@ -1,7 +1,7 @@
 <template>
   <div>
     <contentHeader class="topTitle" :listdata="{'content':'询最底价'}"></contentHeader>
-    <div class="subhead">向询最低价</div>
+    <div class="subhead">向{{floorPriceList.declareName}}询最低价</div>
     <modal ref="mychildOne">
       <div class="carSeries" @click="chooseCarHide(item.carName,item.seriesCode,item.brandCode,item.id)" v-for="(item,index) in carData">
           {{item.carName}}
@@ -84,12 +84,15 @@ export default {
         this.provideData=res.data
       }).catch(res=>{
       });
-      this.floorPriceList.modelName=this.route.query.carModelName;
-      this.floorPriceList.contactsRegion=this.route.query.regionName;
-      this.floorPriceList.modelId=this.route.query.carModelId;
-      this.floorPriceList.declareId=this.route.query.id;
-      this.floorPriceList.declareName=this.route.query.dealerName;
-      this.floorPriceList.seriesCode=this.route.query.seriesCode;
+      this.floorPriceList.modelName=this.$route.query.carModelName;
+      this.floorPriceList.contactsRegion=this.$route.query.regionName;
+      this.floorPriceList.modelId=this.$route.query.carModelId;
+      this.floorPriceList.declareId=this.$route.query.id;
+      this.floorPriceList.declareName=this.$route.query.dealerName;
+      this.floorPriceList.seriesCode=this.$route.query.seriesCode;
+      console.log(this.$route.query.carModelName)
+      console.log(this.$route.query.regionName)
+      console.log(this.$route.query.carModelId)
   },
   methods: {
     chooseCarHide(modelName,seriesCode,brandCode,modelId){

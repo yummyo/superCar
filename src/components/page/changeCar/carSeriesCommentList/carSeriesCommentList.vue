@@ -1,78 +1,78 @@
 <template>
   <div>
     <contentHeader  :listdata="{'content':'车主点评'}"></contentHeader>
-    <div class="commentList">综合评分:<span>4.6</span>分</div>
-    <div class="commentListTitle">
-      <div>同系排名:<span>16</span>名</div>
-      <div>网友油耗:<span>5.2-10.4L</span></div>
-    </div>
-    <div class="commentTable">
-      <table>
-      　　<tr>
-      　　　　<td align="center">aaa</td>
-      　　　　<td align="center">bbbb</td>
-      　　</tr>
-      　　<tr>
-      　　　　<td align="center">aaa</td>
-      　　　　<td align="center">bbbb</td>
-      　　</tr>
-      　　<tr>
-      　　　　<td align="center">aaa</td>
-      　　　　<td align="center">bbbb</td>
-      　　</tr>
-      　　<tr>
-      　　　　<td align="center">aaa</td>
-      　　　　<td align="center">bbbb</td>
-      　　</tr>
-      　　<tr>
-      　　　　<td align="center">aaa</td>
-      　　　　<td align="center">bbbb</td>
-      　　</tr>
-      　　<tr>
-      　　　　<td align="center">aaa</td>
-      　　　　<td align="center">bbbb</td>
-      　　</tr>
-      　　<tr>
-      　　　　<td align="center">aaa</td>
-      　　　　<td align="center">bbbb</td>
-      　　</tr>
-      　　<tr>
-      　　　　<td align="center">aaa</td>
-      　　　　<td align="center">bbbb</td>
-      　　</tr>
-      </table>
-    </div>
-    <div class="emptyStyle">
-    </div>
-    <div class="issueList">
-      <div class="issueListStyle">
-          <div>
-            <div class="issueHeader">
-              <img :src="'./static/index/notLogin.png'"/>
-            </div>
-            <div class="issueTime">
-              <div>网名</div>
-              <div>发布时间</div>
-            </div>
-          </div>
-          <div>
-            <div>最满意:</div>
-            <div class="overflowStyle">氨基酸了的房间辣四大皆空法拉盛剪短发了降落伞的沙发上的</div>
-          </div>
-          <div>
-            <div>最不满意:</div>
-            <div class="overflowStyle">阿斯顿发阿斯顿发阿斯顿发爱的色放阿斯顿发阿斯顿发</div>
-          </div>
-          <div>
-            <div>价格:</div>
-            <div>50万</div>
-          </div>
-          <div>
-            <div>车型:</div>
-            <div>2018款自动技术型</div>
-          </div>
+      <div class="commentList">综合评分:<span>{{seachComment.compositeScore}}</span>分</div>
+      <div class="commentListTitle">
+        <div>同系排名:<span>{{seachComment.ranking}}</span>名</div>
+        <div>网友油耗:<span>{{seachComment.minUseOil}}-{{seachComment.maxUseOil}}</span></div>
       </div>
-    </div>
+      <div class="commentTable">
+        <table>
+        　　<tr>
+        　　　　<td align="center">空间</td>
+        　　　　<td align="center">{{seachComment.space}}</td>
+        　　</tr>
+        　　<tr>
+        　　　　<td align="center">动力</td>
+        　　　　<td align="center">{{seachComment.power}}</td>
+        　　</tr>
+        　　<tr>
+        　　　　<td align="center">操控</td>
+        　　　　<td align="center">{{seachComment.manipulation}}</td>
+        　　</tr>
+        　　<tr>
+        　　　　<td align="center">油耗</td>
+        　　　　<td align="center">{{seachComment.oli}}</td>
+        　　</tr>
+        　　<tr>
+        　　　　<td align="center">舒适性</td>
+        　　　　<td align="center">{{seachComment.comfortable}}</td>
+        　　</tr>
+        　　<tr>
+        　　　　<td align="center">外观</td>
+        　　　　<td align="center">{{seachComment.appearance}}</td>
+        　　</tr>
+        　　<tr>
+        　　　　<td align="center">内饰</td>
+        　　　　<td align="center">{{seachComment.trim}}</td>
+        　　</tr>
+        　　<tr>
+        　　　　<td align="center">性价比</td>
+        　　　　<td align="center">{{seachComment.costPerformance}}</td>
+        　　</tr>
+        </table>
+      </div>
+      <div class="emptyStyle">
+      </div>
+      <div class="issueList">
+        <div class="issueListStyle" v-for="item of seachComment.commentList" v-if="seachComment.commentList">
+            <div>
+              <div class="issueHeader">
+                <img :src="'./static/index/notLogin.png'"/>
+              </div>
+              <div class="issueTime">
+                <div>{{item.createUserName}}</div>
+                <div>{{item.createTime}}</div>
+              </div>
+            </div>
+            <div>
+              <div>最满意:</div>
+              <div class="overflowStyle">{{item.satisfy}}</div>
+            </div>
+            <div>
+              <div>最不满意:</div>
+              <div class="overflowStyle">{{item.unsatisfy}}</div>
+            </div>
+            <div>
+              <div>价格:</div>
+              <div>{{item.price}}万</div>
+            </div>
+            <div>
+              <div>车型:</div>
+              <div class="overflowStyle">{{item.modelName}}</div>
+            </div>
+        </div>
+      </div>
     <div class="issue">
       <button>发布点评</button>
     </div>
@@ -81,10 +81,19 @@
 
 <script type="text/ecmascript-6">
 import contentHeader from '@/common/view/contentHeader';
+import {getSeachComment} from '@/api/changeCar/index';
 export default {
   data() {
     return {
+      seachComment:''
     }
+  },
+   created() {
+    getSeachComment({data:{brandCode:33,seriesCode:3170}}).then((res) => {
+        this.seachComment=res.data
+        console.log(res.data)
+      }).catch(res=>{
+      });
   },
   methods: {
     
@@ -145,6 +154,7 @@ export default {
           overflow hidden
           text-overflow ellipsis
           white-space nowrap
+          text-align left
   .issue
     text-align center
     position fixed
