@@ -31,7 +31,7 @@
                     </div>
                     <div  class="bottom-body" id="rightBodyId" onscroll="rightTitle.scrollLeft = this.scrollLeft">
                         <div v-for="(item,index) of listData" :key="index" :style="{width: `${headwidth}px`}">
-                            <div class="rightItem"   v-for="(val,idx) of titleData" :key="idx">{{ setVal(val['key'],item) }}</div>
+                            <div class="rightItem" v-for="(val,idx) of titleData" :key="idx">{{ setVal(val['key'],item) }}</div>
                         </div>
                     </div>
                 </div>
@@ -124,13 +124,17 @@
         methods:{
             setVal(key,data){
                 switch(key){
-                    case 1 :
-                    break;
                     case 'title' :
                         return ' '
-                    break;
                     default:
-                        return '--'
+                        if(key.indexOf("&")>-1){
+                            let str = ''
+                            key.split('&').map( v => str+="[\'"+v+"\']" )
+                            return eval(`data${str}`)
+                        }else{
+                            return data[key]
+                        }
+                    break
                 }
             },
             scrollTest(data){
