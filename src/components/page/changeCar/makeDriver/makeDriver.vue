@@ -118,7 +118,7 @@ export default {
       carData:'',
       dealerData:'',
       dealerOne:'',
-      checkedList:'',
+      checkedList:[],
       loddingMore:'',
       pageZreo:0,
       pageOne:0,
@@ -136,6 +136,7 @@ export default {
       });
   },
   methods: {
+    
      // 加载分页数据方法
     loddingData(type){
       // 零为综合，1为4s店
@@ -255,6 +256,30 @@ export default {
         this.$toast('请选择城市')
         return
       }
+      // 保存经销商的名称和id
+      let arrId=[],arrName=[];
+      var that = this
+      if(this.selected="stores"){
+        this.checkedList.forEach(function(value,i){
+            that.dealerOne.forEach(function(dataVal,dataIndex){
+              if(value==dataVal.id){
+                  arrId.push(dataVal.id)
+                  arrName.push(dataVal.name)
+                }
+            })
+        }) 
+      }else{
+        this.checkedList.forEach(function(value,i){
+            that.dealerData.forEach(function(dataVal,dataIndex){
+              if(value==dataVal.id){
+                  arrId.push(dataVal.id)
+                  arrName.push(dataVal.declareName)  
+                }
+            })
+        }) 
+      }
+      this.makeDriverList.declareId=arrId.toString()
+      this.makeDriverList.declareName=arrName.toString()
       postBuyCarPredrive({data:this.makeDriverList}).
       then((res)=>{
         this.$toast('提交成功')

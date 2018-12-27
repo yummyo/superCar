@@ -255,6 +255,30 @@ export default {
         this.$toast('请选择城市')
         return
       }
+      // 保存经销商的名称和id
+      let arrId=[],arrName=[];
+      var that = this
+      if(this.selected="stores"){
+        this.checkedList.forEach(function(value,i){
+            that.dealerOne.forEach(function(dataVal,dataIndex){
+              if(value==dataVal.id){
+                  arrId.push(dataVal.id)
+                  arrName.push(dataVal.name)
+                }
+            })
+        }) 
+      }else{
+        this.checkedList.forEach(function(value,i){
+            that.dealerData.forEach(function(dataVal,dataIndex){
+              if(value==dataVal.id){
+                  arrId.push(dataVal.id)
+                  arrName.push(dataVal.declareName)  
+                }
+            })
+        }) 
+      }
+      this.floorPriceList.declareId=arrId.toString()
+      this.floorPriceList.declareName=arrName.toString()
       postBuyCarIntention({data:this.floorPriceList}).
       then((res)=>{
         console.log(res)

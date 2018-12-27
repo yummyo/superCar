@@ -167,6 +167,7 @@ export default {
         buyDealer:'',
         useOil: "",
         buyPurpose: "",
+        createUserId:"",
       },
     }
   },
@@ -191,14 +192,14 @@ export default {
   methods: {
     // 提交事件
     submit(){
-     detectorLogin(this);
-     console.log(window.localStorage.getItem('userInfo')) 
+     detectorLogin(this,function(){
+        console.log(window.localStorage.getItem('userInfo')) 
       if(validForm(this)){
         postModelComment({data:this.carArrayList}).then((res) => {
           console.log(res)
         })
       }
-      
+     });    
     },
     // 点击星星触发事件
     markChange(code,key){
