@@ -106,11 +106,18 @@ export  function postBuyCarIntention(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
-    //预约试驾提交接口
+//预约试驾提交接口
 export  function postBuyCarPredrive(config){
     let Obj = {
         'url':URLROUTER+'/app/buyCarPredrive/batchInsert',
         'method':"post"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+}
+//预约试驾提交接口
+export  function getBySeriesNameLike(config){
+    let Obj = {
+        'url':URLROUTER+'/app/carInfo/getBySeriesNameLike',
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
@@ -130,6 +137,7 @@ export  function getSeachComment(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
+
 // 购车目的
 export  function getFindDics(config){
     let Obj = {
