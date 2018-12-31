@@ -5,9 +5,9 @@
             <div class="top">
                 <div class="top-box" :style="{height: `${headHeight}px`}"></div>
                 <div class="top-head" id="rightTitle"  onscroll="rightBodyId.scrollLeft = this.scrollLeft">
-                    <div v-for="(item,index) of listData" :key="index" class="right-title" ref='rightHead' >
-                    <p class="carName">{{ item['carModelInfoBO'] ? item['carModelInfoBO']['model']['carName'] :'' }}</p>
-                    <p class="carOffer">{{ item['carModelInfoBO'] ? item['carModelInfoBO']['model']['guidePrice'] : '' }}</p>
+                    <div  v-for="(item,index) of listData" :key="index" class="right-title" ref='rightHead' >
+                    <p class="carName">{{ item['model'] ? item['model']['carName'] : '' }}</p>
+                    <p class="carOffer">{{ item['model'] ? item['model']['guidePrice'] : '' }}</p>
                     </div>
                 </div>
             </div>
@@ -50,14 +50,14 @@
                 headHeight: 51,
                 headwidth: 51,
                 articleContent:{'content':'详细参数'},
-                listData:[{}],
+                listData:[],
                 titleData : [
                     {"name":"车型报价",'className':'titleItem title','key':'title'},
                     {"name":"厂商指导价","className":"titleItem",'key':'guidePrice'},
                     {"name":"经销商报价","className":"titleItem",'key':'guidePrice'},
                     {"name":"最大降幅","className":"titleItem",'key':'guidePrice'},
                     {"name":"主要参数","className":"titleItem title",'key':'title'},
-                    {"name":"车身结构","className":"titleItem",'key':'modelBody&bodystructure'},
+                    {"name":"车身结构","className":"titleItem",'key':'modelBody&bodyStructure'},
                     {"name":"驱动方式","className":"titleItem",'key':'modelChassis&drivetype'},
                     {"name":"排量(ml)","className":"titleItem",'key':'modelEngine&outputvolume'},
                     {"name":"变速器形式","className":"titleItem",'key':'guidePrice'},
@@ -96,10 +96,8 @@
                     seriesCode : this.$route.query.seriesCode
                 }
             }).then(res => {
-                let arr = []
                 if(res.data && res.data.length > 0){
-                    arr.push(res.data[0])
-                    this.listData = arr
+                    this.listData = res.data
                     this.$nextTick(()=>{
                         this.headHeight = this.$refs.rightHead[0].offsetHeight
                         this.headwidth = this.$refs.rightHead[0].offsetWidth
@@ -130,7 +128,14 @@
                         if(key.indexOf("&")>-1){
                             let str = ''
                             key.split('&').map( v => str+="[\'"+v+"\']" )
-                            return eval(`data${str}`)
+                            let val = ''
+                            try{
+                                val = eval(`data${str}`);
+                            }catch (e){
+                                val = '--'
+                            }
+                            console.log(val)
+                            return val
                         }else{
                             return data[key]
                         }
@@ -175,11 +180,14 @@
         *
             box-sizing border-box
         .top
-            display flex
+            // display flex
             border-bottom 1px solid #ddd
+            font-size 0
+            white-space nowrap
             >div
                 vertical-align top
                 display inline-block
+                font-size 1rem
             .top-box
                 width 6rem
                 clear both
@@ -188,6 +196,7 @@
                 overflow-x auto 
                 white-space nowrap
                 border-right 1px solid #ddd
+                width calc(100% - 6rem)
                 >div
                     display inline-block
                 .right-title
@@ -195,7 +204,7 @@
                     padding: 1rem .5rem;
                     white-space: normal;
                     text-align left
-
+                    border-right 1px solid #ddd
                     .carOffer
                         color red
                     .carName

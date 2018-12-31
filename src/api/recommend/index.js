@@ -148,6 +148,22 @@ export  function findCityArticle(config){
   }
   return axiosConfig(Object.assign({},Obj,config))
 }
+  //按搜索条件搜索文章数据
+export  function getBySearchLike(config){
+  let Obj = {
+      'url':URLROUTER+'/app/article/getBySearchLike',
+      'method':"POST"
+  }
+  return axiosConfig(Object.assign({},Obj,config))
+}
+  //按搜索条件搜索及Tab页分页查询文章数据
+export  function getBySearchLikeTabName(config){
+  let Obj = {
+      'url':URLROUTER+'/app/article/getBySearchLikeTabName',
+      'method':"POST"
+  }
+  return axiosConfig(Object.assign({},Obj,config))
+}
   // export  function getListContent(config){
   //   const url='/api/getListContent'
   //   return axiosConfig(Object.assign({url},config))

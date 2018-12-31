@@ -20,7 +20,7 @@
 import contentHeader from '@/common/view/contentHeader';
 import listContent from '@/common/view/listContent';
 import searchList from '@/common/view/searchList';
-import { getBySeriesNameLike } from '@/api/changeCar/index';
+import { getBySearchLike } from '@/api/recommend/index';
 export default {
   components:{
     contentHeader,listContent,searchList
@@ -38,7 +38,7 @@ export default {
   mounted(){
     // this.tabListHeight = 'calc(100% - '+(this.$refs.tab.clientHeight + this.$refs.head.$el.clientHeight)+'px)'
     // console.log(this.tabListHeight)
-    getBySeriesNameLike({
+    getBySearchLike({
       data:{
         seriesName: this.$route.query.seriesName
       }
