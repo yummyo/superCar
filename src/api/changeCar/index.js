@@ -101,7 +101,7 @@ export  function appList(config){
     //询底价提交接口
 export  function postBuyCarIntention(config){
     let Obj = {
-        'url':URLROUTER+'/app/buyCarIntention',
+        'url':URLROUTER+'/app/buyCarIntention/batchInsert',
         'method':"post"
     }
     return axiosConfig(Object.assign({},Obj,config))
@@ -109,7 +109,7 @@ export  function postBuyCarIntention(config){
 //预约试驾提交接口
 export  function postBuyCarPredrive(config){
     let Obj = {
-        'url':URLROUTER+'/app/buyCarPredrive',
+        'url':URLROUTER+'/app/buyCarPredrive/batchInsert',
         'method':"post"
     }
     return axiosConfig(Object.assign({},Obj,config))
