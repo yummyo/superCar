@@ -310,6 +310,9 @@ const router = new Router({
       path: '/searchResult',
       name: 'searchResult',
       component: searchResult,
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path: '*',

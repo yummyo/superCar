@@ -139,10 +139,11 @@ export  function postBuyCarPredrive(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
-//预约试驾提交接口
+//根据车系名称模糊查询获取车系表信息
 export  function getBySeriesNameLike(config){
     let Obj = {
         'url':URLROUTER+'/app/carInfo/getBySeriesNameLike',
+        'method':"get"
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
