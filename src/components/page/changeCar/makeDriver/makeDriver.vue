@@ -22,7 +22,7 @@
     <div class="loginIpunt">
       <div class="inputStyle">
         <div @click="chooseCarShow()">
-          <span>选择车型</span><input type="text" v-model="makeDriverList.modelName" placeholder="选择车型>">
+          <span>选择车型</span><input readonly="readonly" type="text" v-model="makeDriverList.modelName" placeholder="选择车型>">
         </div>
         <div>
           <span>姓名</span><input type="text" v-model="makeDriverList.contactsName" placeholder="您的中文姓名">
@@ -31,7 +31,7 @@
           <span>电话</span><input type="text" v-model="makeDriverList.contactsPhone" placeholder="您的电话">
         </div>
         <div  @click="chooseCityShow()">
-          <span>城市</span><input type="text" v-model="makeDriverList.contactsRegion" placeholder=">">
+          <span>城市</span><input readonly="readonly" type="text" v-model="makeDriverList.contactsRegion" placeholder=">">
         </div>
       </div>
       <div class="dealerTitle"  v-if="dealerData">
@@ -93,7 +93,7 @@
 <script type="text/ecmascript-6">
 import contentHeader from '@/common/view/contentHeader';
 import modal from '@/common/view/modal';
-import {getFindAllProvince,findCitysByRroId,getCarModelListBySeries,defaultAppList,postBuyCarPredrive,appList} from '@/api/changeCar/index';
+import {getFindAllProvince,findCitysByRroId,getCarModelListBySeries,defaultAppList,postBuyCarPredrive,appList,postDealersByModelId} from '@/api/changeCar/index';
 export default {
   data() {
     return {
@@ -143,13 +143,15 @@ export default {
       if(type==0){
         this.pageZreo+=1
         this.countZreo+=5
-        appList({
+        postDealersByModelId({
           data:{
+            modelId: this.makeDriverList.modelId ? this.makeDriverList.modelId:null,
+            cityId: this.cityCode ? this.cityCode:null,
             pageNo:this.pageZreo,
             pageSize:5
         }}).then((res) => {
           if(res.data&&res.data.records.length>0){
-            this.loddingMore=res.data.records
+            this.loddingMore=res.data.result.dealerInfoOfferList
             this.dealerData=this.dealerData.concat(this.loddingMore)
           }else{
           }
@@ -157,13 +159,15 @@ export default {
       }else{
         this.pageOne+=1
         this.countOne+=5
-        appList({
+        postDealersByModelId({
           data:{
+            modelId: this.makeDriverList.modelId ? this.makeDriverList.modelId:null,
+            cityId: this.cityCode ? this.cityCode:null,
             pageNo:this.pageOne,
             pageSize:5
         }}).then((res) => {
           if(res.data&&res.data.records.length>0){
-            this.loddingMore=res.data.records
+            this.loddingMore=res.data.result.dealerInfoOfferList
             this.dealerOne=this.dealerOne.concat(this.loddingMore)
           }else{
           }
@@ -181,14 +185,16 @@ export default {
     },
     // 默认查询经销商方法
     defaultSearch(){
-         defaultAppList({
+         postDealersByModelId({
           data:{
-            carModelId: this.makeDriverList.modelId ? this.makeDriverList.modelId:null,
+            pageNo:1,
+            pageSize:10,
+            modelId: this.makeDriverList.modelId ? this.makeDriverList.modelId:null,
             cityId: this.cityCode ? this.cityCode:null
         }}).then((res) => {
           if(res.data[0]&&res.data[1]){
-            this.dealerData=res.data[0].records
-            this.dealerOne=res.data[1].records
+            this.dealerData=res.data.result[0].dealerInfoOfferList
+            this.dealerOne=res.data.result[1].dealerInfoOfferList
           }else{
           }
         })

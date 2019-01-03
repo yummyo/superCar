@@ -82,22 +82,47 @@ export  function getCarModelListBySeries(config){
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
-    //查询经销商
-export  function defaultAppList(config){
+//     //查询经销商
+// export  function defaultAppList(config){
+//     let Obj = {
+//         'url':URLROUTER+'/app/dealer/defaultAppList',
+//         'method':"get"
+//     }
+//     return axiosConfig(Object.assign({},Obj,config))
+// }
+// // 经销商分页
+// export  function appList(config){
+//     let Obj = {
+//         'url':URLROUTER+'/app/dealer/appList',
+//         'method':"get"
+//     }
+//     return axiosConfig(Object.assign({},Obj,config))
+// }
+    //询底价，预约试驾经销商列表查询
+export  function postDealersByModelId(config){
     let Obj = {
-        'url':URLROUTER+'/app/dealer/defaultAppList',
+        'url':URLROUTER+'/app/dealerInfo/getDealersByModelId',
+        'method':"post"
+    }
+    return axiosConfig(Object.assign({},Obj,config))
+}
+// 点评里的经销商
+export  function getByModelIdAndProvince(config){
+    let Obj = {
+        'url':URLROUTER+'/app/dealerInfo/getByModelIdAndProvince',
         'method':"get"
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
-// 经销商分页
-export  function appList(config){
+// 经销商里面的经销商查询
+export  function postBySeriesId(config){
     let Obj = {
-        'url':URLROUTER+'/app/dealer/appList',
-        'method':"get"
+        'url':URLROUTER+'/app/dealerInfo/getBySeriesId',
+        'method':"post"
     }
     return axiosConfig(Object.assign({},Obj,config))
 }
+
     //询底价提交接口
 export  function postBuyCarIntention(config){
     let Obj = {

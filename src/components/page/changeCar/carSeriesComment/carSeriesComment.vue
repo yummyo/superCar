@@ -50,7 +50,7 @@
   </mt-datetime-picker>
     <div class="inputStyle">
       <div @click="chooseCarShow">
-        <span>购买车型 ：</span><input type="text" ref='valid-modelName' title='请输入购买车型'  v-model="carArrayList.modelName" placeholder="选择车型>">
+        <span>购买车型 ：</span><input readonly="readonly" type="text" ref='valid-modelName' title='请输入购买车型'  v-model="carArrayList.modelName" placeholder="选择车型>">
       </div>
       <div>
         <span>裸车价格 ：</span><input  type="text" ref='valid-price' title='请输入裸车价格' v-model="carArrayList.price" ><span class="marginRight">万元</span>
@@ -59,19 +59,19 @@
         <span>行驶里程 ：</span><input  type="text" ref='valid-mileage' title='请输入行驶里程' v-model="carArrayList.mileage"><span class="marginRight">万公里</span>
       </div>
       <div @click="buyTime">
-        <span>购买时间 ：</span><input type="text" ref='valid-buyDate' title='请选择日期' v-model="carArrayList.buyDate" placeholder="请选择日期>">
+        <span>购买时间 ：</span><input type="text" readonly="readonly" ref='valid-buyDate' title='请选择日期' v-model="carArrayList.buyDate" placeholder="请选择日期>">
       </div>
       <div @click="chooseCityShow()">
-        <span>购买地点 ：</span><input type="text" ref='valid-buyAddress' title='请选择城市' v-model="carArrayList.buyAddress" placeholder="请选择城市>">
+        <span>购买地点 ：</span><input type="text" readonly="readonly" ref='valid-buyAddress' title='请选择城市' v-model="carArrayList.buyAddress" placeholder="请选择城市>">
       </div>
       <div @click="chooseDealerShow">
-        <span>购买经销商 ：</span><input type="text" ref='valid-buyDealer' title='请选择经销商' v-model="carArrayList.buyDealer" placeholder="请选择经销商>">
+        <span>购买经销商 ：</span><input type="text" readonly="readonly" ref='valid-buyDealer' title='请选择经销商' v-model="carArrayList.buyDealer" placeholder="请选择经销商>">
       </div>
       <div>
         <span>使用油耗 ：</span><input  type="text" ref='valid-useOil' title='请输入油耗' v-model="carArrayList.useOil" ><span class="marginRight">L/百公里</span>
       </div>
       <div @click="buyGoalShow">
-        <span>购车目的 ：</span><input type="text" ref='valid-buyPurpose' title='请选择购车目的' v-model="carArrayList.buyPurpose"  placeholder="请选择购车目的>">
+        <span>购车目的 ：</span><input type="text" readonly="readonly" ref='valid-buyPurpose' title='请选择购车目的' v-model="carArrayList.buyPurpose"  placeholder="请选择购车目的>">
       </div>
     </div>
     <div class="marginBottom"  v-for="item of commentList">    
@@ -100,7 +100,7 @@ import contentHeader from '@/common/view/contentHeader';
 import star from '@/common/view/star';
 import modal from '@/common/view/modal';
 import {validForm,detectorLogin} from '@/common/js/utils.js';
-import {postModelComment,getFindDics,getFindAllProvince,findCitysByRroId,getCarModelListBySeries,defaultAppList,postBuyCarIntention,appList} from '@/api/changeCar/index';
+import {postModelComment,getFindDics,getFindAllProvince,findCitysByRroId,getCarModelListBySeries,defaultAppList,postBuyCarIntention,getByModelIdAndProvince} from '@/api/changeCar/index';
 export default {
   data() {
     return {
@@ -192,13 +192,15 @@ export default {
   methods: {
     // 提交事件
     submit(){
+      var that =this
      detectorLogin(this,function(){
-        console.log(window.localStorage.getItem('userInfo')) 
-      if(validForm(this)){
-        postModelComment({data:this.carArrayList}).then((res) => {
-          console.log(res)
-        })
-      }
+        var loginId=JSON.parse(window.localStorage.getItem('userInfo'))
+        that.carArrayList.createUserId=loginId.id
+        if(validForm(that)){
+          postModelComment({data:that.carArrayList}).then((res) => {
+            console.log(res)
+          })
+        }
      });    
     },
     // 点击星星触发事件
@@ -266,8 +268,8 @@ export default {
         this.$toast('请选择城市')
         return
       }
-      appList({data:{cityId:this.cityCode,carModelId:this.carArrayList.modelId}}).then((res)=>{
-        this.dealerData=res.data.records;
+      getByModelIdAndProvince({data:{provinceId:this.cityCode,modelId:this.carArrayList.modelId}}).then((res)=>{
+        this.dealerData=res.data;
       })
       this.$refs.mychildThree.modalShow();
     },

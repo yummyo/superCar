@@ -63,7 +63,7 @@
 import contentHeader from '@/common/view/contentHeader';
 import modal from '@/common/view/modal';
 import Bscroll from 'better-scroll'
-import {getFindAllProvince,findCitysByRroId,getCarModelListBySeries,defaultAppList,postBuyCarPredrive,appList} from '@/api/changeCar/index';
+import {getFindAllProvince,findCitysByRroId,getCarModelListBySeries,defaultAppList,postBuyCarPredrive,appList,postBySeriesId} from '@/api/changeCar/index';
 export default {
   data() {
     return {
@@ -80,13 +80,17 @@ export default {
     }
   },
   created() {
-     defaultAppList({
+     postBySeriesId({
         data:{
+           pageNo: 1,
+           pageSize: 10,
+           seriesCode: 51,
           // carModelId: modelId,
       }}).then((res) => {
-        if(res.data[0]&&res.data[1]){
-          this.dealerData=res.data[0].records
-          this.dealerOne=res.data[1].records
+        console.log(res)
+        if(res.data.result[0]&&res.data.result[1]){
+          this.dealerData=res.data.result[0].dealerInfoOfferList
+          this.dealerOne=res.data.result[1].dealerInfoOfferList
           this.toScroll();
         }else{
         }
@@ -125,7 +129,7 @@ export default {
       this.cityJudge=false;
       this.$refs.mychildTwo.modalHide();
       this.cityData='';
-      appList({data:{cityId:this.cityCode,shopType:this.selected=="composite"?1:0}}).then((res)=>{
+      postBySeriesId({data:{cityId:this.cityCode,shopType:this.selected=="composite"?1:0, pageNo: 1,pageSize: 10}}).then((res)=>{
         this.dealerData=res.data.records
       })
     },
@@ -161,10 +165,11 @@ export default {
                 let data = {
                   "pageNo": this.page,
                   "pageSize": 15,
+                  seriesCode:50,
                   cityId:this.provideCity=='地点不限'?null:this.cityCode,
                   shopType:this.selected=="composite"?1:0,
                 }
-                appList({data}).then((res) => {
+                postBySeriesId({data}).then((res) => {
                   if(res.data.records && res.data.records.length > 0){
                     that.dealerData = that.dealerData.concat(res.data.records);
                     that.toScroll();
