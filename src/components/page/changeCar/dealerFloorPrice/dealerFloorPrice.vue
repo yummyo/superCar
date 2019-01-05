@@ -90,9 +90,6 @@ export default {
       this.floorPriceList.declareId=this.$route.query.id;
       this.floorPriceList.declareName=this.$route.query.dealerName;
       this.floorPriceList.seriesCode=this.$route.query.seriesCode;
-      console.log(this.$route.query.carModelName)
-      console.log(this.$route.query.regionName)
-      console.log(this.$route.query.carModelId)
   },
   methods: {
     chooseCarHide(modelName,seriesCode,brandCode,modelId){
@@ -102,23 +99,23 @@ export default {
       this.floorPriceList.modelId=modelId;
       this.$refs.mychildOne.modalHide();
        // 查询经销商
-      this.defaultSearch();
+      // this.defaultSearch();
     },
     // 默认查询经销商方法
-    defaultSearch(){
-         defaultAppList({
-          data:{
-            carModelId: this.floorPriceList.modelId ? this.floorPriceList.modelId:null,
-            cityId: this.cityCode ? this.cityCode:null
-        }}).then((res) => {
-          if(res.data[0]&&res.data[1]){
-            this.dealerData=res.data[0].records
-            this.dealerOne=res.data[1].records
-          }else{
+    // defaultSearch(){
+    //      defaultAppList({
+    //       data:{
+    //         carModelId: this.floorPriceList.modelId ? this.floorPriceList.modelId:null,
+    //         cityId: this.cityCode ? this.cityCode:null
+    //     }}).then((res) => {
+    //       if(res.data[0]&&res.data[1]){
+    //         this.dealerData=res.data[0].records
+    //         this.dealerOne=res.data[1].records
+    //       }else{
               
-          }
-        })
-    },
+    //       }
+    //     })
+    // },
     chooseCarShow(){
       // 查询车系
       getCarModelListBySeries({
