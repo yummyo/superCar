@@ -48,7 +48,7 @@ import {mapGetters} from 'vuex'
     computed:{
       ...mapGetters(['userInfo']),
       isLogin(){
-        if(Object.keys(this.userInfo).length > 0 || window.localStorage.getItem('userInfo') != ''){
+        if((this.userInfo && Object.keys(this.userInfo).length > 0 ) || window.localStorage.getItem('userInfo') != ''){
           this.$store.commit("SET_USERINFO",JSON.parse(window.localStorage.getItem('userInfo')))
           return true
         }else{

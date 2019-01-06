@@ -33,7 +33,9 @@ export default {
     this.$mui.plusReady( () =>{
       var backcount = 0;
       this.$mui.back = ()=> {
-        if(this.$route.path.split("/")[1] != 'index'){
+        if(this.iframeData.iframeState){
+          this.goBack()
+        }else if(this.$route.path.split("/")[1] != 'index'){
           this.$router.go(-1)
         }else{
             if (this.$mui.os.ios) return;
@@ -105,6 +107,7 @@ export default {
     text-align: center;
     color: #2c3e50;
     height:100%;
+    background: #fff;
     /* margin-bottom: 55px; */
   }
   .iframeShow{

@@ -4,7 +4,8 @@
       <scroll 
           @scrollToEnd="scrollUp"
           :pullup='true'
-          class="listview">
+          class="listview"
+          ref='scroll'>
         <div>
           <div class="item" v-for="(item,index) of collectList"  @click="()=>{clickList&&clickList(item)}">
             <label>
@@ -17,7 +18,7 @@
               </div>
               <div class="text">
                 <h3 class="name" v-if="item&&item.title">{{item.title}}</h3>
-                <p class="desc"v-if="item&&item.commentCount">{{item.createTime}}<span>评价:{{item.commentCount}}</span></p>
+                <p class="desc" v-if="item&&item.commentCount">{{item.createTime}}<span>评价:{{item.commentCount}}</span></p>
               </div>
             </label>
           </div>
@@ -60,6 +61,13 @@
     watch:{
       checkedList(){
         console.log(this.checkedList)
+      },
+      collectList(){
+        console.log(this.collectList)
+        console.log(this.$refs['scroll'])
+        setTimeout(() => {
+          this.$refs['scroll'].refresh()
+        }, this.refreshDelay)
       }
     },
     methods:{
@@ -140,6 +148,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus" rel="stylesheet/stylus">
 .listview
+  overflow hidden
   height calc(100% - 3rem)
 .list
   margin-bottom 3rem

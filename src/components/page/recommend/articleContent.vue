@@ -118,13 +118,16 @@
       }
     },
     created:function(){
-      this.tabType = this.$route.query.tabType || 1
-      this.nowFun = getadvert
+      if(this.$route.path.indexOf('recommend') > -1){
+        this.tabType = this.$route.query.tabType || 1
+        this.nowFun = getadvert
+      }
     },
     watch:{
       $route(){
-        console.log(this.$route)
-        this.tabType = this.$route.query.tabType || 1
+        if(this.$route.path.indexOf('recommend') > -1){
+          this.tabType = this.$route.query.tabType || 1
+        }
       },
       userSite(){
         if(this.userSite['province']){
