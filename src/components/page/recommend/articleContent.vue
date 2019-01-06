@@ -81,7 +81,7 @@
   import listAdvert from '@/common/view/listAdvert.vue';
   import contentHeader from '@/common/view/contentHeader.vue';
   import {getIndexLunbo,getadvert,getVideoList,getArticleList,findCityArticle} from '@/api/recommend/index';
-  import { mapGetters } from 'vuex'
+  import { mapGetters,mapMutations } from 'vuex'
   import Bscroll from 'better-scroll'
   export default {
     name: 'articleContent',
@@ -296,8 +296,11 @@
         })
       },
       toAdvert:function(data){
-        window.location.href = data.contentUrl
-      }
+        this.iframeData({iframeState:true,iframeSrc:data.contentUrl})
+      },
+       ...mapMutations({
+          iframeData:'SET_IFRAMEDATA'
+      })
     },
     components:{
       listContent,
