@@ -91,6 +91,9 @@
       this.touch = {}
       this.listHeight = []
     },
+     activated:function(){
+        this. refresh();
+     },
     methods: {
       selectItem(item) {
         this.$emit('select', item)
@@ -111,6 +114,7 @@
         this._scrollTo(anchorIndex)
       },
       refresh() {
+        console.log('aaa')
         this.$refs.listview.refresh()
       },
       scroll(pos) {
