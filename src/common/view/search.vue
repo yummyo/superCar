@@ -5,7 +5,7 @@
       <span class="iconfont icon-sousuo"></span>
       <!-- <input type="text" v-model="data" placeholder="搜车、搜人、搜内容"> -->
       <div class="searchDiv" @click="toSearch">搜车、搜人、搜内容</div>
-      <span class="iconfont icon-shuaxin"></span>
+      <span class="iconfont icon-shuaxin" @click="refreshPage"></span>
     </div>
   </div>
 </template>
@@ -19,6 +19,10 @@
       }
     },
     methods:{
+      refreshPage(){
+        // 刷新页面
+        this.$router.go(0)
+      },
       toSearch(){
         console.log(123)
         this.$router.push({

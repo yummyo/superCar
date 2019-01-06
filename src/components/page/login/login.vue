@@ -40,21 +40,19 @@ export default {
      
     };
   },
- 
   methods: {
     loginFn() {
       if (this.loginForm.userName && this.loginForm.password) {
         toLogin({data:this.loginForm}).then(res=>{
-          console.log(res)
-         if(res.code=='0'){
+        if(res.code=='0'){
           this.$toast('登录成功')
           window.localStorage.setItem('userInfo',JSON.stringify(res.data))
+          this.$store.commit("SET_USERINFO",res.data)
           this.$router.push({path: "/"});
-         }else{
+        }else{
           this.$toast('用户名或者密码错误')
-         }
+        }
         }).catch(err=>{
-          console.log(err,'err')
           this.$toast('用户名或者密码错误')
         })
       

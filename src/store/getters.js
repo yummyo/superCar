@@ -6,4 +6,6 @@ export const indexModalTopList = state=>state.indexModalTopList
 export const userLogin = state=>state.userLogin
 export const carDetailImg = state=>state.carDetailImg
 export const carImgList = state=>state.carImgList
+export const userSite = state=>state.userSite
+export const userInfo = state=>state.userInfo
 

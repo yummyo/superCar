@@ -21,9 +21,16 @@ const mutations={
   [types.SET_DETAILIMG](state,imgUrl){
     state.carDetailImg = imgUrl;
   },
+  // 用户定位信息
+  [types.SET_USERSIZE](state,data){
+    state.userSite = data;
+  },
   // 车辆图片列表
   [types.SET_CARIMGLIST](state,data){
     state.carImgList = data;
+  },
+  [types.SET_USERINFO](state,data){
+    state.userInfo = data;
   },
 }
 export default mutations

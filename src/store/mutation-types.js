@@ -9,3 +9,6 @@ export const CHANGE_PAGESHOW='CHANGE_PAGESHOW'
 export const SET_DETAILIMG='SET_DETAILIMG'
 // 车辆图片列表
 export const SET_CARIMGLIST='SET_CARIMGLIST'
+// 设置用户位置信息
+export const SET_USERSIZE='SET_USERSIZE'
+export const SET_USERINFO='SET_USERINFO'

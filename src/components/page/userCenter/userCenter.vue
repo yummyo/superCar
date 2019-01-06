@@ -6,7 +6,7 @@
       <div v-if='isLogin' class="login">
         <div>
           <img :src="'./static/index/notLogin.png'" alt="">
-          <span>{{userInfo['nickName']}}</span>
+          <span>{{userInfo ? userInfo['nickName'] : '' }}</span>
         </div>
       </div>
       <!-- 未登录 -->
@@ -36,23 +36,25 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
   export default {
     name: 'changeCar',
     data () {
       return {
-        userInfo: window.localStorage.getItem('userInfo') ? JSON.parse(window.localStorage.getItem('userInfo')) : {},
         myAttention:'',
         myCollect:''
       }
     },
     computed:{
+      ...mapGetters(['userInfo']),
       isLogin(){
-        if(this.userInfo && Object.keys(this.userInfo).length > 0){
+        if(Object.keys(this.userInfo).length > 0 || window.localStorage.getItem('userInfo') != ''){
+          this.$store.commit("SET_USERINFO",JSON.parse(window.localStorage.getItem('userInfo')))
           return true
         }else{
           return false
         }
-      }
+      },
     },
     methods:{
       funAttention : function(){

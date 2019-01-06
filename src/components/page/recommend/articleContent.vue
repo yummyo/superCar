@@ -81,6 +81,7 @@
   import listAdvert from '@/common/view/listAdvert.vue';
   import contentHeader from '@/common/view/contentHeader.vue';
   import {getIndexLunbo,getadvert,getVideoList,getArticleList,findCityArticle} from '@/api/recommend/index';
+  import { mapGetters } from 'vuex'
   import Bscroll from 'better-scroll'
   export default {
     name: 'articleContent',
@@ -109,7 +110,11 @@
         nowFunType : {},
         aspect : 2,
         state : 6,
-        tabType: ''
+        tabType: '',
+        cityInfo: {
+          adcode : '310107',
+          city : '上海'
+        }
       }
     },
     created:function(){
@@ -118,7 +123,21 @@
     },
     watch:{
       $route(){
+        console.log(this.$route)
         this.tabType = this.$route.query.tabType || 1
+      },
+      userSite(){
+        if(this.userSite['province']){
+          this.cityInfo = {
+            adcode : this.userSite['adcode'],
+            city : this.userSite['province']
+          }
+        }else{
+          this.cityInfo = {
+            adcode : '310107',
+            city : '上海'
+          }
+        }
       },
       tabType:function(id){
         this.nowPageIndex = 1;
@@ -170,19 +189,8 @@
         });
       }
     },
-    mounted:function(){
-    },
     computed:{
-      cityInfo(){
-        if(window.localStorage.getItem('userLocation')){
-          return JSON.parse(window.localStorage.getItem('userLocation'))
-        }else{
-          return {
-            adcode : '021',
-            city : '上海'
-          }
-        }
-      }
+      ...mapGetters(['userSite'])
     },
     methods:{
       toDetail : function(data,type){

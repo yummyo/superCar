@@ -217,7 +217,7 @@ const router = new Router({
           component:userCenter,
           meta: {
             auth: true,
-            keepAlive: true
+            keepAlive: false
           }
         },
       ]
