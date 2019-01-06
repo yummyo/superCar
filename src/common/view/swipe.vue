@@ -8,6 +8,7 @@
   </template>
   
   <script>
+    import {mapMutations} from 'vuex'
     import { Swipe, SwipeItem } from 'mint-ui';
     import 'mint-ui/lib/style.css'
     export default {
@@ -38,9 +39,14 @@
               }
             })
           }else{
-            window.location.href = url
+            // window.location.href = url
+            this.iframeData({iframeState:true,iframeSrc:url})
+            console.log(this.$store.getters)
           }
-        }
+        },
+        ...mapMutations({
+          iframeData:'SET_IFRAMEDATA'
+      })
       },
       components:{
         'mt-swipe': Swipe,

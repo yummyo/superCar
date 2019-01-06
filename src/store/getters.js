@@ -8,4 +8,5 @@ export const carDetailImg = state=>state.carDetailImg
 export const carImgList = state=>state.carImgList
 export const userSite = state=>state.userSite
 export const userInfo = state=>state.userInfo
+export const iframeData = state=>state.iframeData
 
