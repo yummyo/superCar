@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <div class="iframeShow"  v-show="iframeData.iframeState">
+      <iframe class="iframeStyle"  frameborder=0  scrolling=auto :src="iframeData.iframeSrc"></iframe>
+      <div class="goBack"  @click="goBack">返回订车宝</div>
+    </div>
     <keep-alive>
       <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
@@ -9,12 +13,16 @@
 </template>
 
 <script>
+import {mapGetters,mapMutations} from 'vuex'
 export default {
   name: 'App',
   data(){
     return {
-      map: null
+      map: null,
     }
+  },
+  computed:{
+      ...mapGetters(['iframeData']),
   },
   created(){
     // 定位相关
@@ -77,7 +85,14 @@ export default {
           this.$store.commit("SET_USERSIZE",res.addressComponent)
         })
       })
-    }
+    },
+    // 用iframe控制第三方广告隐藏
+    goBack(){
+        this.hideIframe({iframeState:false,iframeSrc:''})
+    },
+    ...mapMutations({
+      hideIframe:'SET_IFRAMEDATA'
+    })
   }
 }
 </script>
@@ -91,6 +106,31 @@ export default {
     color: #2c3e50;
     height:100%;
     /* margin-bottom: 55px; */
+  }
+  .iframeShow{
+    width:100%;
+    height:100%;
+    position:fixed;
+    background:#fff;
+    top:0;
+    left:0;
+    z-index:1000;
+  }
+  .iframeStyle{
+    width:100%;
+    height:100%;
+  }
+  .goBack{
+    position:absolute;
+    top:50%;
+    left:0;
+    background:#000;
+    display:inline-block;
+    border-radius:15px;
+    padding:0.1rem 0.6rem;
+    color:#fff;
+    opacity:0.8;
+
   }
   body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td,img,u,i {list-style:none;padding:0;margin:0;}
 </style>

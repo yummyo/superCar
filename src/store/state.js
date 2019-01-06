@@ -13,6 +13,8 @@ const state={
   carImgList:{},
   // 用户定位信息
   userSite:{},
+  //iframe显示
+  iframeData:{iframeState:false,iframeSrc:''},
   //下方按钮列表
   tobarList:[
     {

@@ -12,3 +12,4 @@ export const SET_CARIMGLIST='SET_CARIMGLIST'
 // 设置用户位置信息
 export const SET_USERSIZE='SET_USERSIZE'
 export const SET_USERINFO='SET_USERINFO'
+export const SET_IFRAMEDATA='SET_IFRAMEDATA'

@@ -32,5 +32,9 @@ const mutations={
   [types.SET_USERINFO](state,data){
     state.userInfo = data;
   },
+  //控制iframe状态
+  [types.SET_IFRAMEDATA](state,data){
+    state.iframeData = data;
+  },
 }
 export default mutations
