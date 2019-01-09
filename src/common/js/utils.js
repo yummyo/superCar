@@ -31,4 +31,12 @@ function validForm(that){
   }
   return true
 }
-export { detectorLogin,validForm }
+// 判断lodding是否开启
+function loddingOpen(url){
+  if(url.indexOf("app/keep/removeKeep")==-1&&url.indexOf("app/keep/keepSource")==-1){
+    return true
+  }else{
+    return false
+  }
+}
+export { detectorLogin,validForm,loddingOpen}

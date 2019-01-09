@@ -29,21 +29,31 @@
       <!-- 我的收藏 -->
       <div class="collect" @click="funCollect()">
         <span>我的收藏：</span>
-        <span>0</span>
+        <span>{{myCollectNums}}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {myCollectNum} from '@/api/userCenter/index';
 import {mapGetters} from 'vuex'
   export default {
     name: 'changeCar',
     data () {
       return {
         myAttention:'',
-        myCollect:''
+        myCollect:'',
+        myCollectNums:'',
       }
+    },
+    created() {
+       var loginId=JSON.parse(window.localStorage.getItem('userInfo'))
+       this.myCollectId=loginId.id
+       myCollectNum({data:{userId:this.myCollectId}}).then((res) => {
+          this.myCollectNums=res.data
+        }).catch(res=>{
+      });
     },
     computed:{
       ...mapGetters(['userInfo']),

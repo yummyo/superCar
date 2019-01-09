@@ -305,6 +305,8 @@
           display inline-block
           width 2rem
           height 2rem
+        span.icon-shoucang
+          color red
     // 回复input
     .commentInput
       position fixed
