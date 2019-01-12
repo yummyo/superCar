@@ -25,6 +25,14 @@ export  function myCollectNum(config){
   }
   return axiosConfig(Object.assign({},Obj,config))
 }
+//删除收藏数量
+export  function deleteMyCollectNum(config){
+  let Obj = {
+      'url':URLROUTER+'/app/keep/removeBatch',
+      'method':"delete"
+  }
+  return axiosConfig(Object.assign({},Obj,config))
+}
 
 
 

@@ -49,8 +49,8 @@ import {mapGetters} from 'vuex'
     },
     created() {
        var loginId=JSON.parse(window.localStorage.getItem('userInfo'))
-       this.myCollectId=loginId.id
-       myCollectNum({data:{userId:this.myCollectId}}).then((res) => {
+      //  this.myCollectId=loginId.id
+       myCollectNum().then((res) => {
           this.myCollectNums=res.data
         }).catch(res=>{
       });

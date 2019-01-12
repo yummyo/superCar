@@ -32,7 +32,7 @@
       <div>
         <mt-tab-container v-model="selected">
           <mt-tab-container-item id="stores">
-            <div class="compositeStores" v-for="item of dealerOne">
+            <div class="compositeStores" v-for="item of dealerOne" v-if="dealerOne&&dealerOne.length>0">
               <div> {{item.dealerName}}</div>
               <div>报价:<span>{{item.minCarOffer}}万元</span></div>
               <div>{{item.companyDesc}}</div>
@@ -41,9 +41,10 @@
                 <div class="flexTwo" @click="clickRouter(item.id,item.dealerName,item.seriesCode,item.carModelId,item.regionName,item.carModelName)">询底价</div>
               </div>
             </div>
+            <div>暂无</div>
           </mt-tab-container-item>
           <mt-tab-container-item id="composite">
-            <div class="compositeStores" v-for="item of dealerData">
+            <div class="compositeStores" v-for="item of dealerData" v-if="dealerData&&dealerData.length>0">
               <div> {{item.dealerName}}</div>
               <div>报价:<span>{{item.minCarOffer}}万元</span></div>
               <div>{{item.companyDesc}}</div>
@@ -52,6 +53,7 @@
                 <div class="flexTwo" @click="clickRouter(item.id,item.dealerName,item.seriesCode,item.carModelId,item.regionName,item.carModelName)">询底价</div>
               </div>
             </div>
+            <div>暂无</div>
           </mt-tab-container-item>
         </mt-tab-container>
       </div>
@@ -70,7 +72,7 @@ export default {
       selected:'stores',
       provideJudge:true,
       cityJudge:false,
-      provideCity:'地点不限',
+      provideCity:'选择地区',
       provideData:'',
       cityData:'',
       dealerData:'',
@@ -84,7 +86,7 @@ export default {
         data:{
            pageNo: 1,
            pageSize: 10,
-           seriesCode: 51,
+           seriesCode: this.$route.query.seriesCode,
           // carModelId: modelId,
       }}).then((res) => {
         console.log(res)
@@ -129,7 +131,7 @@ export default {
       this.cityJudge=false;
       this.$refs.mychildTwo.modalHide();
       this.cityData='';
-      postBySeriesId({data:{cityId:this.cityCode,shopType:this.selected=="composite"?1:0, pageNo: 1,pageSize: 10}}).then((res)=>{
+      postBySeriesId({data:{cityId:this.cityCode,shopType:this.selected=="composite"?1:0, pageNo: 1,pageSize: 10,seriesCode:this.$route.query.seriesCode}}).then((res)=>{
         this.dealerData=res.data.records
       })
     },
