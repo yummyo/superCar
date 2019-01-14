@@ -266,7 +266,7 @@
     .articleTitle
       font-size 2rem
       text-align left
-      padding .5rem
+      padding 0.2rem 1rem
   // 文章标题
    .descTitle
     padding 1rem

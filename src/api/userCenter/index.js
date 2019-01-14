@@ -17,6 +17,22 @@ export  function myCollect(config){
   }
   return axiosConfig(Object.assign({},Obj,config))
 }
+//收藏数量
+export  function myCollectNum(config){
+  let Obj = {
+      'url':URLROUTER+'/app/keep/findKeepNum',
+      'method':"get"
+  }
+  return axiosConfig(Object.assign({},Obj,config))
+}
+//删除收藏数量
+export  function deleteMyCollectNum(config){
+  let Obj = {
+      'url':URLROUTER+'/app/keep/removeBatch',
+      'method':"delete"
+  }
+  return axiosConfig(Object.assign({},Obj,config))
+}
 
 
 

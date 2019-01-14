@@ -3,42 +3,42 @@
     <contentHeader  :listdata="{'content':'车主点评'}"></contentHeader>
       <div class="commentList">综合评分:<span>{{seachComment.compositeScore}}</span>分</div>
       <div class="commentListTitle">
-        <div>同系排名:<span>{{seachComment.ranking}}</span>名</div>
+        <div>同系排名:<span class="redNum">{{seachComment.ranking}}</span>名</div>
         <div>网友油耗:<span>{{seachComment.minUseOil}}-{{seachComment.maxUseOil}}</span></div>
       </div>
       <div class="commentTable">
         <table>
         　　<tr>
         　　　　<td align="center">空间</td>
-        　　　　<td align="center">{{seachComment.space}}</td>
+        　　　　<td align="center">{{toFixed(seachComment.space)}}</td>
         　　</tr>
         　　<tr>
         　　　　<td align="center">动力</td>
-        　　　　<td align="center">{{seachComment.power}}</td>
+        　　　　<td align="center">{{toFixed(seachComment.power)}}</td>
         　　</tr>
         　　<tr>
         　　　　<td align="center">操控</td>
-        　　　　<td align="center">{{seachComment.manipulation}}</td>
+        　　　　<td align="center">{{toFixed(seachComment.manipulation)}}</td>
         　　</tr>
         　　<tr>
         　　　　<td align="center">油耗</td>
-        　　　　<td align="center">{{seachComment.oli}}</td>
+        　　　　<td align="center">{{toFixed(seachComment.oli)}}</td>
         　　</tr>
         　　<tr>
         　　　　<td align="center">舒适性</td>
-        　　　　<td align="center">{{seachComment.comfortable}}</td>
+        　　　　<td align="center">{{toFixed(seachComment.comfortable)}}</td>
         　　</tr>
         　　<tr>
         　　　　<td align="center">外观</td>
-        　　　　<td align="center">{{seachComment.appearance}}</td>
+        　　　　<td align="center">{{toFixed(seachComment.appearance)}}</td>
         　　</tr>
         　　<tr>
         　　　　<td align="center">内饰</td>
-        　　　　<td align="center">{{seachComment.trim}}</td>
+        　　　　<td align="center">{{toFixed(seachComment.trim)}}</td>
         　　</tr>
         　　<tr>
         　　　　<td align="center">性价比</td>
-        　　　　<td align="center">{{seachComment.costPerformance}}</td>
+        　　　　<td align="center">{{toFixed(seachComment.costPerformance)}}</td>
         　　</tr>
         </table>
       </div>
@@ -51,7 +51,7 @@
                 <img :src="'./static/index/notLogin.png'"/>
               </div>
               <div class="issueTime">
-                <div>{{item.createUserName}}</div>
+                <div class="userNameColor">{{item.createUserName}}</div>
                 <div>{{item.createTime}}</div>
               </div>
             </div>
@@ -96,6 +96,9 @@ export default {
       });
   },
   methods: {
+    toFixed(num){
+      return num?(num*1).toFixed(1):''
+    }
     
   },
   components: {
@@ -115,6 +118,8 @@ export default {
     justify-content space-between
     padding 0 1rem 0.5rem 1rem
     font-size 1.2rem
+    .redNum
+       color red
   .emptyStyle
     height 1.2rem
     background #EDEEF0
@@ -149,6 +154,10 @@ export default {
         justify-content: space-between;
         text-align left
         padding-left 1rem
+        .userNameColor
+          color #3B5997
+          font-size 1.2rem
+          font-weight bold
     .issueListStyle .overflowStyle
           flex 1
           overflow hidden

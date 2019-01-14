@@ -39,7 +39,7 @@
 
 <script>
   import contentHeader from '@/common/view/contentHeader';
-  import {myCollect} from '@/api/userCenter/index';
+  import {myCollect,deleteMyCollectNum} from '@/api/userCenter/index';
   // import Bscroll from 'better-scroll'
   import Scroll from '@/common/scroll/scroll'
   import Vue from 'vue' 
@@ -100,11 +100,17 @@
           this.getList();
         },
         deleteRow(){
+          let id=''
           this.checkedList.map(v=>{
             if(this.collectList[v]) {
               // this.$set(this.collectList,v,null)
               Vue.delete(this.collectList,v);
+              id+=this.collectList[v]
             }
+          })
+          console.log(id)
+          myCollect({data:{ids:id}}).then(res=>{
+
           })
 
         },

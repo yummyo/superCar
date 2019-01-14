@@ -1,7 +1,7 @@
 import axios from 'axios'
 import router from '../router'
 import { Indicator } from 'mint-ui'
-
+import {loddingOpen} from '@/common/js/utils.js'
 
 
 // export const URLROUTER="http://192.168.1.41:8001"
@@ -23,7 +23,7 @@ axios.interceptors.request.use(function (config) {
   if(!config['url']) config['url'] = '';
   // 在发送请求之前做些什么
   ajaxNum++;
-  if(ajaxNum == 1){
+  if(ajaxNum == 1&&loddingOpen(config.url)){
     Indicator.open();
   }
   return config;
