@@ -88,21 +88,26 @@
         that.commentData = res.data.result
       })
       // 判断是否已经收藏过
-      isKeeped({
-        data:{
-          sourceId: this.$route.query.id,
-          keepType: this.$route.query.pageType
+      if(this.$route.query.collectId){
+        that.isCollect = {
+          id: this.$route.query.collectId
         }
-      }).then(res => {
-        console.log(res)
-        if(res.data){
-          that.isCollect = {
-            id: res.data
+      }else{
+        isKeeped({
+          data:{
+            sourceId: this.$route.query.id,
+            keepType: this.$route.query.pageType
           }
-        }else{
-          that.isCollect = null
-        }
-      })
+        }).then(res => {
+          if(res.data){
+            that.isCollect = {
+              id: res.data
+            }
+          }else{
+            that.isCollect = null
+          }
+        })
+      }
     },
     components:{
       contentHeader,commentPublish,isKeeped
@@ -128,15 +133,13 @@
               keepType: this.$route.query.pageType
             }
           }).then(res => {
-            that.collectNum++
-            that.isCollect = {
-              id: res.data
+            if(res.data){
+              that.collectNum++
+              that.isCollect = {id: res.data}
+              that.$toast({message: '收藏成功',position: 'bottom',duration: 2000});
+            }else{
+              that.$toast({message: '收藏失败',position: 'bottom',duration: 2000});
             }
-            that.$toast({
-              message: '收藏成功',
-              position: 'bottom',
-              duration: 2000
-            });
           })
         }else{
           // 取消收藏

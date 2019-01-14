@@ -5,7 +5,7 @@
       <!-- 已登录 -->
       <div v-if='isLogin' class="login">
         <div>
-          <img :src="'./static/index/notLogin.png'" alt="">
+          <img :src=" userInfo ? userInfo['headimgurl'] : './static/index/notLogin.png'" alt="">
           <span>{{userInfo ? userInfo['nickName'] : '' }}</span>
         </div>
       </div>
@@ -20,6 +20,7 @@
         </div>
       </div>
     </div>
+    <button @click="authLogout">退出</button>
     <div class="setting">
       <!-- 我的关注 -->
       <div class="attention" @click="funAttention()">
@@ -42,13 +43,29 @@ import {mapGetters} from 'vuex'
     data () {
       return {
         myAttention:'',
-        myCollect:''
+        myCollect:'',
+        auths: null
       }
+    },
+    mounted(){
+      let that = this
+      console.log("初始化完成")
+      console.log(plus)
+      this.$mui.plusReady(function() {  
+        plus.oauth.getServices(function(services) {
+            console.log(services)
+            that.auths = services;
+        }, function(e) {
+            alert("获取登录服务列表失败：" + e.message + " - " + e.code);
+        });
+      })
     },
     computed:{
       ...mapGetters(['userInfo']),
       isLogin(){
-        if((this.userInfo && Object.keys(this.userInfo).length > 0 ) || window.localStorage.getItem('userInfo') != ''){
+        console.log('ceshi' )
+        console.log(this.userInfo['nickname'] )
+        if((this.userInfo && Object.keys(this.userInfo).length > 0 ) || window.localStorage.getItem('userInfo')){
           this.$store.commit("SET_USERINFO",JSON.parse(window.localStorage.getItem('userInfo')))
           return true
         }else{
@@ -69,7 +86,21 @@ import {mapGetters} from 'vuex'
       },
       login : function(){
         this.$router.push({path: "/login"})
-      }
+      },
+      //注销
+      authLogout() {
+        let that = this
+        for (var i in that.auths) {
+            var s = that.auths[i];
+            if (s.authResult) {
+                s.logout(function(e) {
+                    console.log("注销登录认证成功！");
+                }, function(e) {
+                    console.log("注销登录认证失败！");
+                });
+            }
+        }
+      },
     },
   }
 </script>
@@ -92,6 +123,7 @@ import {mapGetters} from 'vuex'
           img
             width 5rem
             height 5rem
+            border-radius 50%
           span
             margin-left 1rem
         .toLogin
