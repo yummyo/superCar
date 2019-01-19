@@ -1,6 +1,6 @@
 <template>
   <div>
-    <contentHeader ref='head' :listdata="{'content':$route.query.seriesName+'文章'}" ></contentHeader>
+    <contentHeader ref='head' :listdata="{'content':$route.query.seriesName.substring(0,8)+'文章'}" ></contentHeader>
     <!-- 资讯页面
     <div class="tab" ref='tab'>
       <div v-for="item of testData" :class="{active : tabType==item.type,tab_item : true}" @click="changeActive(item.class,item.type)" :key="item.name">
