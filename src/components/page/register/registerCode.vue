@@ -16,6 +16,8 @@
   </div>
 </template>
 <script>
+import { verifyCodeCheck,loginRegister } from '@/api/login/index.js'
+import {mapGetters,mapMutations} from 'vuex'
 export default {
   data() {
     return {
@@ -34,29 +36,37 @@ export default {
       }
     };
   },
+  computed:{
+    ...mapGetters(['weChatUserInfo'])
+  },
   watch: {
     "codeForm.code1": function code1Fun() {
-      if (this.codeForm.code1.length == 1) {
+      if (this.codeForm.code1.length >= 1) {
+        this.codeForm.code1 = this.codeForm.code1.slice(0,1)
         this.$refs["input2"].focus();
       }
     },
     "codeForm.code2": function code1Fun() {
-      if (this.codeForm.code2.length == 1) {
+      if (this.codeForm.code2.length >= 1) {
+        this.codeForm.code2 = this.codeForm.code2.slice(0,1)
         this.$refs["input3"].focus();
       }
     },
     "codeForm.code3": function code1Fun() {
       if (this.codeForm.code3.length == 1) {
+        this.codeForm.code3 = this.codeForm.code3.slice(0,1)
         this.$refs["input4"].focus();
       }
     },
     "codeForm.code4": function code1Fun() {
       if (this.codeForm.code4.length == 1) {
+        this.codeForm.code4 = this.codeForm.code4.slice(0,1)
         this.$refs["input5"].focus();
       }
     },
     "codeForm.code5": function code1Fun() {
       if (this.codeForm.code5.length == 1) {
+        this.codeForm.code5 = this.codeForm.code5.slice(0,1)
         this.$refs["input6"].focus();
       }
       this.registerForm.code = parseInt(
@@ -64,10 +74,15 @@ export default {
       );
     },
     "codeForm.code6": function code1Fun() {
+      this.codeForm.code6 = this.codeForm.code6.slice(0,1)
       this.registerForm.code = parseInt(
-         this.codeForm.code1 + this.codeForm.code2 + this.codeForm.code3 + this.codeForm.code4+this.codeForm.code5 + this.codeForm.code6
+        this.codeForm.code1 + this.codeForm.code2 + this.codeForm.code3 + this.codeForm.code4+this.codeForm.code5 + this.codeForm.code6
       );
-      console.log(this.registerForm.code)
+      console.log((this.registerForm.code+"").length >= 6)
+      if((this.registerForm.code+"").length >= 6){
+        console.log(this.registerForm.code)
+        this.validCode()
+      }
     }
   },
   methods: {
@@ -77,6 +92,34 @@ export default {
       }else{
         return
       }
+    },
+    validCode(){
+      verifyCodeCheck({
+        data:{
+          phoneNum: this.$route.query.phoneNum,
+          verifyCode: this.registerForm.code,
+          type: 'LOGIN' 
+        }
+      }).then(res => {
+        console.log(res)
+        if(res.data){
+          this.loginRegister({
+            data:{
+              "authType": "WEIXIN",
+              "headImgUrl": this.weChatUserInfo.uuid,
+              "nickName": this.weChatUserInfo.uuid,
+              "phone": this.$route.query.phoneNum,
+              "uuid": this.weChatUserInfo.uuid
+            }
+          }).then(res =>{
+            console.log(res)
+            this.$toast({message: '注册成功',position: 'bottom',duration: 2000});
+            window.localStorage.setItem('userInfo',JSON.stringify(res.data))
+            this.$store.commit("SET_USERINFO",res.data)
+            this.$router.push({path: "/"});
+          })
+        }
+      })
     }
   }
 };

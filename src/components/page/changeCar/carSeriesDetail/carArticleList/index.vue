@@ -32,6 +32,8 @@ export default {
       ],
       tabListHeight:'0px',
       tabType: '1',
+      pageNo: 1,
+      pageSize: 10,
       boxData:[]
     }
   },
@@ -40,10 +42,13 @@ export default {
     // console.log(this.tabListHeight)
     getBySearchLike({
       data:{
-        seriesName: this.$route.query.seriesName
+        seriesName: '',
+        name: this.$route.query.seriesName,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
       }
     }).then(res => {
-      this.boxData = res.data
+      this.boxData = res.data.articleSearchVOList[0].articleList
     })
   },
   methods:{

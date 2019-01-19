@@ -1,11 +1,10 @@
-import axios from './config'
+import _axios from './config'
 import { URLROUTER } from './config'
 
 export function axiosConfig(config){
   let Obj = {
     method: config.method.toUpperCase() || 'POST',
     url: config.url ,
-    headers : config.headers || '',
   }
   // 区别get请求和其他请求 get请求传参数需要用params
   switch(Obj.method){
@@ -20,7 +19,7 @@ export function axiosConfig(config){
       Obj['data'] = config.data || '';
       break;
   }
-  return axios(Obj).then((res)=>{
+  return _axios(Obj).then((res)=>{
     return Promise.resolve(res.data)
   }).catch((error)=>{
     return Promise.reject(error)
@@ -28,5 +27,5 @@ export function axiosConfig(config){
 }
  // 多并发axios请求
 export function axiosAll(funs){
-  return axios.all(funs)
+  return _axios.all(funs)
 }

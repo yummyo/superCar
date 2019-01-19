@@ -1,4 +1,5 @@
 <template>
+  <div>
    <div class="star-phone" @click.stop="clickRating">
       <div
         v-for="(item, index) in starNum"

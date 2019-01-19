@@ -3,11 +3,11 @@
     <contentHeader class="header" blackBg noBorder :listdata="{'content':'车型图片'}"></contentHeader>
     <!-- 图片综合 -->
     <div class="tobar">
-      <div>外观</div>
-      <div>细节</div>
-      <div>中控</div>
-      <div>座椅</div>
-      <div>其他</div>
+      <div @click="search('appearance')">外观</div>
+      <div @click="search('centralControl')">中控</div>
+      <div @click="search('details')">细节</div>
+      <div @click="search('chair')">座椅</div>
+      <div @click="search('other')">其他</div>
     </div>
     <!-- 图片 -->
     <div class="box">
@@ -27,15 +27,16 @@
         <span>指导价:</span>
         <span>{{nowImgData['guide']}}万</span>
       </div>
-      <button class="spuerCar_btn">询底价</button>
+      <button class="spuerCar_btn" @click="toFloorPrice">询底价</button>
     </div>
   </div>
 </template>
 
 <script>
 import contentHeader from '@/common/view/contentHeader';
+import {getModelImgBySeries} from '@/api/changeCar/index'
 import BScroll from 'better-scroll'
-import { mapGetters } from 'vuex'
+import { mapGetters,mapMutations } from 'vuex'
 
 export default {
   data(){
@@ -50,6 +51,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.carImgList)
     this.imgList = this.carImgList
     setTimeout(() => {
       this.init()
@@ -60,6 +62,30 @@ export default {
     ...mapGetters(['carImgList'])
   },
   methods:{
+    search(key){
+      getModelImgBySeries({
+        data:{
+          "brandCode":this.$route.query.brandCode,
+          "seriesCode":this.$route.query.seriesCode,
+          "imgType":key,
+          "imgColor":''
+          }
+      }).then((res) => {
+        if(res.data && res.data.modelImgList.length > 0){
+          this.setCarImgList(res.data.modelImgList)
+          this.imgList = res.data.modelImgList
+        }
+      });
+    },
+    toFloorPrice(){
+      this.$router.push({
+        path:'/floorPrice',
+        query:{
+          brandCode : this.$route.query.brandCode,
+          seriesCode : this.$route.query.seriesCode
+        }
+      })
+    },
     init(){
       let that = this
       this.scroll = new BScroll(this.$refs.wrapper, {
@@ -82,6 +108,9 @@ export default {
     refresh() {
       this.scroll && this.scroll.refresh()
     },
+    ...mapMutations({
+      'setCarImgList':'SET_CARIMGLIST'
+    })
   },
   watch: {
     imgList() {

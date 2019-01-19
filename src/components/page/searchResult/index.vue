@@ -26,7 +26,7 @@
               <span class="iconfont icon-fanhui"></span>
             </li>
           </ul>
-          <p class="text-center">
+          <p class="text-center" @click="deleteHistory">
             <span class="clearHistory">清除历史记录</span>
           </p>
         </div>
@@ -56,7 +56,7 @@
 import searchList from '@/common/view/searchList';
 import { getBySeriesNameLike } from '@/api/changeCar/index';
 import { getBySearchLike } from '@/api/recommend/index';
-import { mapMutations } from 'vuex'
+import { mapMutations,mapGetters } from 'vuex'
 export default {
   data(){
     return {
@@ -69,39 +69,51 @@ export default {
         {'name':'冠道'},
         {'name':'本田'},
       ],
-      historySearchData:[
-        {'content':'腾'},
-        {'content':'迈腾'},
-        {'content':'111111'}
-      ],
       articleData:[],
       resultList:[],
-      timer: null
+      timer: null,
+      isEnter: 0
     }
   },
   components:{
     searchList
   },
+  computed:{
+    ...mapGetters(['historySearchData'])
+  },
   methods: {
+    setStorage(val){
+      // 设置搜索记录
+      let history = JSON.parse(JSON.stringify(this.historySearchData))
+      if(history.length > 10){
+        history.pop(val)
+      }
+      history.unshift({
+        content:val
+      })
+      window.localStorage.setItem("historySearchData",JSON.stringify(history))
+      this.setHistory(history)
+    },
+    deleteHistory(){
+      this.setHistory([])
+    },
     backFun(){
       this.$router.go(-1)
     },
     toSearchList(e,key){
-      // this.$router.push({
-      //   path:'/carArticleList',
-      //   query:{
-      //     seriesName: key || this.searchText
-      //   }
-      // })
+      this.isEnter = 1
+      this.searchText = key
+      this.setStorage(key)
       getBySearchLike({
         data:{
-          "groupName": "string",
-          "name": this.searchText,
+          "groupName": "",
+          "name": key || '',
           "pageNo": this.pageNo,
           "pageSize": this.pageSize
         }
       }).then(res => {
-        this.articleData = res.articleSearchVOList
+        this.isEnter = 0
+        this.articleData = res.articleSearchVOList || []
         this.resultList = []
       })
     },
@@ -117,22 +129,30 @@ export default {
       })
     },
     ...mapMutations({
-      'setImg':'SET_DETAILIMG'
+      'setImg':'SET_DETAILIMG',
+      'setHistory':'SET_HISTORY',
     })
   },
   watch:{
-    searchText(){
-      clearTimeout(this.timer)
-      this.timer = setTimeout(()=>{
-        getBySeriesNameLike({
-          data:{
-            "seriesName": this.searchText,
-          }
-        }).then(res => {
-          this.resultList = res.data
+    searchText(val){
+      if(this.isEnter == 0){
+        if(val == ''){
           this.articleData = []
-        })
-      },500)
+          this.resultList = []
+        }else{
+          clearTimeout(this.timer)
+          this.timer = setTimeout(()=>{
+            getBySeriesNameLike({
+              data:{
+                "seriesName": this.searchText,
+              }
+            }).then(res => {
+                this.resultList = res.data || []
+                this.articleData = []
+            })
+          },500)
+        }
+      }
     }
   }
 }

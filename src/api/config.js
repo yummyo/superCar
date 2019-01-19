@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from '../router'
-import { Indicator } from 'mint-ui'
+import { Indicator,Toast  } from 'mint-ui'
 import {loddingOpen} from '@/common/js/utils.js'
 
 
@@ -14,14 +14,24 @@ export const AMOUNT=10
 export const options = {
   param: 'jsonpCallback'
 }
-axios.defaults.withCredentials=true
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+let _axios = axios.create({
+  timeout: 1000,
+  withCredentials:true,
+  headers: {
+    'Content-Type': 'application/json;charset=UTF-8'
+  }
+});
 
 let ajaxNum = 0,loadinginstace;
 // 添加请求拦截器
-axios.interceptors.request.use(function (config) {
+_axios.interceptors.request.use(function (config) {
   if(!config['url']) config['url'] = '';
   // 在发送请求之前做些什么
+  // if(!config.headers) config.headers = {}
+  // config.headers['test'] = "token=12312312312312312"
+  console.log(config)
+
   ajaxNum++;
   if(ajaxNum == 1&&loddingOpen(config.url)){
     Indicator.open();
@@ -33,7 +43,17 @@ axios.interceptors.request.use(function (config) {
 }); 
 
 // 添加响应拦截器
-axios.interceptors.response.use(function (response) {
+_axios.interceptors.response.use(function (response) {
+  // console.log(response)
+  if(response.data.code != '0'){
+    Toast({
+      message: response.data.message || "网络异常",
+      position: 'bottom',
+      duration: 2000
+    })
+    Indicator.close();
+    return Promise.reject(response.data);
+  }
   // 对响应数据做点什么
   ajaxNum--;
   if(ajaxNum == 0){
@@ -46,4 +66,4 @@ axios.interceptors.response.use(function (response) {
   console.log(error)
   return Promise.reject(error);
 });
-export default axios
+export default _axios
