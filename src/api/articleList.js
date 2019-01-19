@@ -1,4 +1,4 @@
-import _axios from './config'
+import axios from './config'
 import { URLROUTER } from './config'
 
 export function axiosConfig(config){
@@ -19,7 +19,7 @@ export function axiosConfig(config){
       Obj['data'] = config.data || '';
       break;
   }
-  return _axios(Obj).then((res)=>{
+  return axios(Obj).then((res)=>{
     return Promise.resolve(res.data)
   }).catch((error)=>{
     return Promise.reject(error)
@@ -27,5 +27,5 @@ export function axiosConfig(config){
 }
  // 多并发axios请求
 export function axiosAll(funs){
-  return _axios.all(funs)
+  return axios.all(funs)
 }
