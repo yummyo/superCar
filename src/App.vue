@@ -61,9 +61,11 @@ export default {
       this.map.plugin('AMap.Geolocation', () => {
         let geolocation = new AMap.Geolocation({
           // 是否使用高精度定位，默认：true
-          enableHighAccuracy: true,
+          enableHighAccuracy: false,
+          useNative: true,
           // 设置定位超时时间，默认：无穷大
-          timeout: 10000,
+          noIpLocate: 10,
+          timeout: 100000,
           GeoLocationFirst:true
         })
         this.map.addControl(geolocation)

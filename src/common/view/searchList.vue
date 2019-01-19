@@ -7,8 +7,13 @@
       </div>
     </div>
     <div class="bodyBox">
-      <div v-for="(item,index) of listdata" :key="index" @click="toDetail(item)">
-        <listContent :listdata='item'></listContent>
+      <div v-if="listdata.length > 0">
+        <div v-for="(item,index) of listdata" :key="index" @click="toDetail(item)">
+          <listContent :listdata='item'></listContent>
+        </div>
+      </div>
+      <div v-else>
+        暂无数据
       </div>
     </div>
   </div>

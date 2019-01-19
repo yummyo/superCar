@@ -1,6 +1,6 @@
 <template>
     <div>
-        <contentHeader :listdata="{'content':'车型图片'}"></contentHeader>
+        <contentHeader :listdata="{'content':'图库'}"></contentHeader>
         <mt-navbar v-model="selected">
           <mt-tab-item id="appearance">外观</mt-tab-item>
           <mt-tab-item id="centralControl">中控</mt-tab-item>
@@ -81,7 +81,9 @@
         this.$router.push({
           path:'/pictureOption',
           query:{
-            imgIndex:index
+            imgIndex:index,
+            brandCode : this.$route.query.brandCode,
+            seriesCode : this.$route.query.seriesCode
           }
         })
       },

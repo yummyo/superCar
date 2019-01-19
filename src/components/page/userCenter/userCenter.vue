@@ -20,7 +20,6 @@
         </div>
       </div>
     </div>
-    <button @click="authLogout">退出</button>
     <div class="setting">
       <!-- 我的关注 -->
       <div class="attention" @click="funAttention()">
@@ -33,11 +32,16 @@
         <span>{{myCollectNums}}</span>
       </div>
     </div>
+    <div>
+      <!-- <button type="default" @click="authLogout">退出</button> -->
+      <mt-button type="primary" size='large' @click="authLogout">退出</mt-button>
+    </div>
   </div>
 </template>
 
 <script>
 import {myCollectNum} from '@/api/userCenter/index';
+import Cookies from 'js-cookie'
 import {mapGetters} from 'vuex'
   export default {
     name: 'changeCar',
@@ -75,8 +79,9 @@ import {mapGetters} from 'vuex'
       ...mapGetters(['userInfo']),
       isLogin(){
         console.log('ceshi' )
+        console.log(this.userInfo )
         console.log(this.userInfo['nickname'] )
-        if((this.userInfo && Object.keys(this.userInfo).length > 0 ) || window.localStorage.getItem('userInfo')){
+        if((this.userInfo && Object.keys(this.userInfo).length > 0 ) || window.localStorage.getItem('userInfo') != '{}'){
           this.$store.commit("SET_USERINFO",JSON.parse(window.localStorage.getItem('userInfo')))
           return true
         }else{
@@ -101,6 +106,9 @@ import {mapGetters} from 'vuex'
       //注销
       authLogout() {
         let that = this
+        window.localStorage.setItem("userInfo",'{}')
+        Cookies.remove('token')
+        this.$store.commit("SET_USERINFO",{})
         for (var i in that.auths) {
             var s = that.auths[i];
             if (s.authResult) {

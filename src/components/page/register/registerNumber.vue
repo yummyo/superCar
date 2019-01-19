@@ -3,15 +3,15 @@
     <h2 class="loginName">手机号注册/登录</h2>
     <div class="loginIpunt">
       <span>+86</span>
-      <input type="text" v-model="loginForm.userName" placeholder="请输入手机号">
+      <input type="text" v-model="loginForm.phoneNum" placeholder="请输入手机号">
     
     </div>
     <div class="loginButton">
-        <button @click="loginFn" :disabled=loginForm.userName&&loginForm.password?false:true :class={activeLogin:loginForm.userName&&loginForm.password}>发送验证码</button>
+        <button @click="loginFn" :disabled='loginForm.phoneNum?false:true' :class='{activeLogin:loginForm.phoneNum}'>发送验证码</button>
     </div>
     <div class="login-wrapper">
         <div class="links">
-          <router-link to="">用户名登录</router-link>
+          <router-link to="/login">用户名登录</router-link>
           <!-- <a href="" class="forget">忘记密码？</a> -->
         </div>
     </div>
@@ -22,47 +22,49 @@
     </div>
     <div class="otherLogin">
         <div><img :src="'./static/index/weixin.png'" alt=""></div>
-        <div><img :src="'./static/index/qq.png'" alt=""></div>
-        <div><img :src="'./static/index/weibo.png'" alt=""></div>
+        <!-- <div><img :src="'./static/index/qq.png'" alt=""></div>
+        <div><img :src="'./static/index/weibo.png'" alt=""></div> -->
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import {toLogin} from '@/api/login/index.js'
+import {getVerifyCode} from '@/api/login/index.js'
 export default {
   data() {
     return {
       pwdVisable: false,
       loginForm:{
-        userName: "",
-        password: ""
+        phoneNum: ""
       },
      
     };
   },
- 
   methods: {
     loginFn() {
-      if (this.loginForm.userName && this.loginForm.password) {
-        toLogin({data:this.loginForm}).then(res=>{
+      if(/^[1][3,4,5,7,8][0-9]{9}$/.test("15188390711")){
+        getVerifyCode({
+          data:{
+            phoneNum:this.loginForm.phoneNum,
+            type:'LOGIN',
+          }
+        }).then(res => {
           console.log(res)
-         if(res.code=='0'){
-          this.$toast('登录成功')
-          this.$router.push({path: "/"});
-         }else{
-          this.$toast('用户名或者密码错误')
-         }
-        }).catch(err=>{
-          console.log(err,'err')
-          this.$toast('用户名或者密码错误')
+          if(res.data){
+            this.$toast({message: '短信已发送，请注意查收！',position: 'bottom',duration: 2000});
+            this.$router.push({
+              path:'/registerCode',
+              query:{
+                phoneNum: this.loginForm.phoneNum
+              }
+            })
+          }
         })
-      
       }else{
-        this.$toast('请输入用户名或者密码')
+        this.$toast({message: '请输入正确的手机号',position: 'bottom',duration: 2000});
       }
-      } 
-    },
+    } 
+  },
   components: {
   }
 };
@@ -121,13 +123,13 @@ export default {
       border-top 2px solid #E9EAEC
   .otherLogin
     display flex
-    justify-content space-between
+    justify-content space-around
     margin-top 4rem
     div
       width 4rem
       height 4rem
       /* border 1px solid #ddd */
-      pdding 1rem
+      padding 1rem
       padding .3rem
       border-radius 50%
       /* img */

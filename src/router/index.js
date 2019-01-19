@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from '../store/index'
 import Router from 'vue-router'
 
 Vue.use(Router)
@@ -322,6 +323,10 @@ const router = new Router({
 })
 // 页面跳转之前校验
 router.beforeEach((to, from, next)=>{
+  // 从缓存中拿到搜索列表
+  if(store.getters.historySearchData.length == 0 && window.localStorage.getItem('historySearchData')){
+    store.commit('SET_HISTORY',JSON.parse(window.localStorage.getItem('historySearchData')))
+  }
   next();
 })
 export default router;

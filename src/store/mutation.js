@@ -36,5 +36,13 @@ const mutations={
   [types.SET_IFRAMEDATA](state,data){
     state.iframeData = data;
   },
+  //设置搜索历史记录
+  [types.SET_HISTORY](state,data){
+    state.historySearchData = data;
+  },
+  //设置搜索历史记录
+  [types.SET_WECHATUSERINGO](state,data){
+    state.weChatUserInfo = data;
+  },
 }
 export default mutations
