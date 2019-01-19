@@ -17,11 +17,11 @@ export const options = {
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 let _axios = axios.create({
   timeout: 1000,
-  withCredentials:true,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8'
   }
 });
+_axios.defaults.withCredentials = true
 
 let ajaxNum = 0,loadinginstace;
 // 添加请求拦截器
