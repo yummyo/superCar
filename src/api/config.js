@@ -25,7 +25,7 @@ _axios.defaults.withCredentials = true
 
 let ajaxNum = 0,loadinginstace;
 // 添加请求拦截器
-_axios.interceptors.request.use(function (config) {
+axios.interceptors.request.use(function (config) {
   if(!config['url']) config['url'] = '';
   // 在发送请求之前做些什么
   // if(!config.headers) config.headers = {}
@@ -43,7 +43,7 @@ _axios.interceptors.request.use(function (config) {
 }); 
 
 // 添加响应拦截器
-_axios.interceptors.response.use(function (response) {
+axios.interceptors.response.use(function (response) {
   // console.log(response)
   if(response.data.code != '0'){
     Toast({
@@ -66,4 +66,4 @@ _axios.interceptors.response.use(function (response) {
   console.log(error)
   return Promise.reject(error);
 });
-export default _axios
+export default axios
