@@ -32,28 +32,36 @@
       <div>
         <mt-tab-container v-model="selected">
           <mt-tab-container-item id="stores">
-            <div class="compositeStores" v-for="item of dealerOne" v-if="dealerOne&&dealerOne.length>0">
-              <div> {{item.dealerName}}</div>
-              <div>报价:<span>{{item.minCarOffer}}万元</span></div>
-              <div>{{item.companyDesc}}</div>
-              <div class="flexStart">
-                <div class="flexOne">{{item.salerTel}}</div>
-                <div class="flexTwo" @click="clickRouter(item.id,item.dealerName,item.seriesCode,item.carModelId,item.regionName,item.carModelName)">询底价</div>
+            <div v-if="dealerOne&&dealerOne.length>0">
+              <div class="compositeStores" v-for="item of dealerOne">
+                <div> {{item.dealerName}}</div>
+                <div>报价:<span v-if="item.carOffer&&item.carOffer!=''">{{item.carOffer}}万元</span>
+                  <span v-else>暂无</span>
+                </div>
+                <div>{{item.companyDesc}}</div>
+                <div class="flexStart">
+                  <div class="flexOne">{{item.salerTel}}</div>
+                  <div class="flexTwo" @click="clickRouter(item.id,item.dealerName,item.seriesCode,item.carModelId,item.regionName,item.carModelName)">询底价</div>
+                </div>
               </div>
             </div>
-            <div>暂无</div>
+            <div v-else >暂无</div>
           </mt-tab-container-item>
           <mt-tab-container-item id="composite">
-            <div class="compositeStores" v-for="item of dealerData" v-if="dealerData&&dealerData.length>0">
-              <div> {{item.dealerName}}</div>
-              <div>报价:<span>{{item.minCarOffer}}万元</span></div>
-              <div>{{item.companyDesc}}</div>
-              <div class="flexStart">
-                <div class="flexOne">{{item.salerTel}}</div>
-                <div class="flexTwo" @click="clickRouter(item.id,item.dealerName,item.seriesCode,item.carModelId,item.regionName,item.carModelName)">询底价</div>
+            <div v-if="dealerData&&dealerData.length>0">
+              <div class="compositeStores" v-for="item of dealerData">
+                <div> {{item.dealerName}}</div>
+                <div>报价:<span v-if="item.carOffer&&item.carOffer!=''">{{item.carOffer}}万元</span>
+                    <span v-else>暂无</span>
+                </div>
+                <div>{{item.companyDesc}}</div>
+                <div class="flexStart">
+                  <div class="flexOne">{{item.salerTel}}</div>
+                  <div class="flexTwo" @click="clickRouter(item.id,item.dealerName,item.seriesCode,item.carModelId,item.regionName,item.carModelName)">询底价</div>
+                </div>
               </div>
             </div>
-            <div>暂无</div>
+            <div v-else>暂无</div>
           </mt-tab-container-item>
         </mt-tab-container>
       </div>
@@ -79,6 +87,7 @@ export default {
       dealerOne:'',
       page:0,
       cityCode:'',
+      
     }
   },
   created() {
@@ -94,6 +103,16 @@ export default {
           this.dealerData=res.data.result[0].dealerInfoOfferList
           this.dealerOne=res.data.result[1].dealerInfoOfferList
           this.toScroll();
+          if(this.dealerData.length>0){
+            console.log('qqq')
+          }else{
+            console.log(111)
+          }
+          if(this.dealerOne.length>0){
+            console.log('aaa')
+          }else{
+            console.log(222)
+          }
         }else{
         }
       })
