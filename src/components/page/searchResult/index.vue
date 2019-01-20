@@ -3,7 +3,7 @@
     <div class="content">
       <div>
         <span class="iconfont icon-sousuo"></span>
-        <input type="text" v-model="searchText" @keydown.enter="toSearchList" placeholder="搜车、搜人、搜内容">
+        <input type="text" v-model="searchText" @keydown.enter="toSearchList(null,searchText)" placeholder="搜车、搜人、搜内容">
       </div>
       <span class="close" @click="backFun">取消</span>
     </div>
@@ -91,11 +91,13 @@ export default {
       history.unshift({
         content:val
       })
+      console.log(history)
       window.localStorage.setItem("historySearchData",JSON.stringify(history))
       this.setHistory(history)
     },
     deleteHistory(){
       this.setHistory([])
+      window.localStorage.setItem("historySearchData",[])
     },
     backFun(){
       this.$router.go(-1)
@@ -113,8 +115,11 @@ export default {
         }
       }).then(res => {
         this.isEnter = 0
-        this.articleData = res.articleSearchVOList || []
+        this.articleData = res.data.articleSearchVOList[0]['articleList'] || []
         this.resultList = []
+        console.log('res')
+        console.log(res)
+        console.log(this.articleData)
       })
     },
     todetail(data){

@@ -56,7 +56,7 @@ import {mapGetters} from 'vuex'
     mounted(){
       let that = this
       console.log("初始化完成")
-      console.log(plus)
+      // console.log(plus)
       this.$mui.plusReady(function() {  
         plus.oauth.getServices(function(services) {
             console.log(services)

@@ -28,7 +28,11 @@
       <mt-tab-item id="stores">4S店</mt-tab-item>
       <mt-tab-item id="composite">综合</mt-tab-item>
     </mt-navbar>
-    <div ref="wrapper" class="wrapperHeight">
+    <scroll 
+        @scrollToEnd="scrollUp"
+        :pullup='true'
+        class="wrapperHeight"
+        ref='scroll'>
       <div>
         <mt-tab-container v-model="selected">
           <mt-tab-container-item id="stores">
@@ -65,14 +69,14 @@
           </mt-tab-container-item>
         </mt-tab-container>
       </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import contentHeader from '@/common/view/contentHeader';
 import modal from '@/common/view/modal';
-import Bscroll from 'better-scroll'
+import Scroll from '@/common/scroll/scroll';
 import {getFindAllProvince,findCitysByRroId,getCarModelListBySeries,defaultAppList,postBuyCarPredrive,appList,postBySeriesId} from '@/api/changeCar/index';
 export default {
   data() {
@@ -85,7 +89,8 @@ export default {
       cityData:'',
       dealerData:'',
       dealerOne:'',
-      page:0,
+      pageTwo:1,
+      pageOne:1,
       cityCode:'',
       
     }
@@ -102,21 +107,23 @@ export default {
         if(res.data.result[0]&&res.data.result[1]){
           this.dealerData=res.data.result[0].dealerInfoOfferList
           this.dealerOne=res.data.result[1].dealerInfoOfferList
-          this.toScroll();
-          if(this.dealerData.length>0){
-            console.log('qqq')
-          }else{
-            console.log(111)
-          }
-          if(this.dealerOne.length>0){
-            console.log('aaa')
-          }else{
-            console.log(222)
-          }
+          // this.toScroll();
         }else{
         }
       })
   },
+  watch:{
+      dealerData(){
+        setTimeout(() => {
+          this.$refs['scroll'].refresh()
+        }, this.refreshDelay)
+      },
+      dealerOne(){
+        setTimeout(() => {
+          this.$refs['scroll'].refresh()
+        }, this.refreshDelay)
+      }
+    },
   methods: {
     // 点击跳转到询底价页面
     clickRouter(id,dealerName,seriesCode,carModelId,regionName,carModelName){
@@ -167,52 +174,34 @@ export default {
     returnTop(){
       this.$router.go(-1)
     },
-    toScroll:function(){
-        let that = this;
-        this.$nextTick(() => {
-          if (!this.scroll) {
-            this.scroll = new Bscroll(this.$refs.wrapper, {
-              probeType:1,
-              click: true
-            })
-            this.scroll.on('touchEnd', (pos) => {
-              // 下拉动作
-              if (pos.y > 50) {
-                console.log("下拉刷新")
-              }
-              if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
-                console.log("上拉加载更多")
-                this.page+=1
-                let data = {
-                  "pageNo": this.page,
-                  "pageSize": 15,
-                  seriesCode:50,
-                  cityId:this.provideCity=='地点不限'?null:this.cityCode,
-                  shopType:this.selected=="composite"?1:0,
-                }
-                postBySeriesId({data}).then((res) => {
-                  if(res.data.records && res.data.records.length > 0){
-                    that.dealerData = that.dealerData.concat(res.data.records);
-                    that.toScroll();
-                  }else{
-                    that.$toast({
-                      message: '暂无新数据！',
-                      position: 'bottom',
-                      duration: 2000
-                    });
-                  }
-                });
-              }
-            })
+    scrollUp(){
+      let that = this;
+      var page=this.selected=="composite"?this.pageTwo+=1:this.pageOne+=1     
+        let data = {
+          "pageNo": page,
+          "pageSize": 15,
+          seriesCode:50,
+          cityId:this.provideCity=='地点不限'?null:this.cityCode,
+          shopType:this.selected=="composite"?1:0,
+        }
+        postBySeriesId({data}).then((res) => {
+          if(res.data.records && res.data.records.length > 0){
+            that.dealerData = that.dealerData.concat(res.data.records);
+            that.toScroll();
           }else{
-             this.scroll.refresh()
+            that.$toast({
+              message: '暂无新数据！',
+              position: 'bottom',
+              duration: 2000
+            });
           }
-        })
-      },
+        });
+    },
   },
   components: {
     contentHeader,
-    modal
+    modal,
+    Scroll
   }
 };
 </script>
