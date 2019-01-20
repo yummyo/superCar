@@ -56,7 +56,7 @@ import {mapGetters} from 'vuex'
     mounted(){
       let that = this
       console.log("初始化完成")
-      console.log(plus)
+      // console.log(plus)
       this.$mui.plusReady(function() {  
         plus.oauth.getServices(function(services) {
             console.log(services)
@@ -80,7 +80,7 @@ import {mapGetters} from 'vuex'
       isLogin(){
         console.log('ceshi' )
         console.log(this.userInfo )
-        console.log(this.userInfo['nickname'] )
+        // console.log(this.userInfo['nickname'] )
         if((this.userInfo && Object.keys(this.userInfo).length > 0 ) || window.localStorage.getItem('userInfo') != '{}'){
           this.$store.commit("SET_USERINFO",JSON.parse(window.localStorage.getItem('userInfo')))
           return true
