@@ -32,7 +32,7 @@
         <span>{{myCollectNums}}</span>
       </div>
     </div>
-    <div>
+    <div class="loginOut" v-show="isLogin">
       <!-- <button type="default" @click="authLogout">退出</button> -->
       <mt-button type="primary" size='large' @click="authLogout">退出</mt-button>
     </div>
@@ -78,9 +78,6 @@ import {mapGetters} from 'vuex'
     computed:{
       ...mapGetters(['userInfo']),
       isLogin(){
-        console.log('ceshi' )
-        console.log(this.userInfo )
-        console.log(this.userInfo['nickname'] )
         if((this.userInfo && Object.keys(this.userInfo).length > 0 ) || window.localStorage.getItem('userInfo') != '{}'){
           this.$store.commit("SET_USERINFO",JSON.parse(window.localStorage.getItem('userInfo')))
           return true
@@ -157,4 +154,6 @@ import {mapGetters} from 'vuex'
         justify-content space-between
         padding 2rem 3rem
         border-bottom 1px solid #ddd
+    .loginOut
+      padding 1rem
 </style>

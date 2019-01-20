@@ -4,7 +4,7 @@ import {URLROUTER} from '../config'
 //登录
 export  function toLogin(config){
   let Obj = {
-      'url':URLROUTER+'/login/validate',
+      'url':URLROUTER+'/app/login/validate',
       'method':"get"
   }
   return axiosConfig(Object.assign({},Obj,config))
@@ -27,7 +27,7 @@ export  function getHomepageAds(config){
 // 用户登录鉴权
 export  function loginAuth(config){
   let Obj = {
-      'url':URLROUTER+`/login/auth`,
+      'url':URLROUTER+`/app/login/auth`,
       'method':"get"
   }
   return axiosConfig(Object.assign({},Obj,config))
@@ -35,7 +35,7 @@ export  function loginAuth(config){
 // 用户校验是否已注册
 export  function userCheck(config){
   let Obj = {
-      'url':URLROUTER+`/login/userCheck`,
+      'url':URLROUTER+`/app/login/userCheck`,
       'method':"get"
   }
   return axiosConfig(Object.assign({},Obj,config))
@@ -43,7 +43,7 @@ export  function userCheck(config){
 // 用户注册
 export  function loginRegister(config){
   let Obj = {
-      'url':URLROUTER+`/login/register`,
+      'url':URLROUTER+`/app/login/register`,
       'method':"post"
   }
   return axiosConfig(Object.assign({},Obj,config))

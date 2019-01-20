@@ -78,7 +78,6 @@ export default {
       this.registerForm.code = parseInt(
         this.codeForm.code1 + this.codeForm.code2 + this.codeForm.code3 + this.codeForm.code4+this.codeForm.code5 + this.codeForm.code6
       );
-      console.log((this.registerForm.code+"").length >= 6)
       if((this.registerForm.code+"").length >= 6){
         console.log(this.registerForm.code)
         this.validCode()
@@ -103,16 +102,15 @@ export default {
       }).then(res => {
         console.log(res)
         if(res.data){
-          this.loginRegister({
+          loginRegister({
             data:{
               "authType": "WEIXIN",
-              "headImgUrl": this.weChatUserInfo.uuid,
-              "nickName": this.weChatUserInfo.uuid,
+              "headImgUrl": this.weChatUserInfo ? this.weChatUserInfo.userInfo.headimgurl : '',
+              "nickName": this.weChatUserInfo ? this.weChatUserInfo.userInfo.nickname : '',
               "phone": this.$route.query.phoneNum,
-              "uuid": this.weChatUserInfo.uuid
+              "uuid": this.weChatUserInfo ? this.weChatUserInfo.authResult.openid : this.$route.query.phoneNum
             }
           }).then(res =>{
-            console.log(res)
             this.$toast({message: '注册成功',position: 'bottom',duration: 2000});
             window.localStorage.setItem('userInfo',JSON.stringify(res.data))
             this.$store.commit("SET_USERINFO",res.data)

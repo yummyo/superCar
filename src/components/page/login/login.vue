@@ -43,8 +43,6 @@ export default {
   },
   mounted(){
     let that = this
-    console.log("初始化完成")
-    console.log(plus)
     this.$mui.plusReady(function() {  
       plus.oauth.AuthService(res => {
         console.log('AuthService')
@@ -91,30 +89,35 @@ export default {
         // })
         s.login(function(e,data) {
               that.$mui.toast("登录认证成功！");
-              console.log('登录认证成功')
-              console.log(e,data)
-              console.log(JSON.stringify(e))
-              window.localStorage.setItem('weiChatInfo',JSON.stringify(e))
+              window.localStorage.setItem('weiChatInfo',JSON.stringify(e.target))
+              that.$store.commit('SET_WECHATUSERINGO',e.target)
               loginAuth({
                 data:{
-                  code:'',
                   token: e.target.authResult.access_token,
                   uuid: e.target.authResult.openid,
                   authType:'WEIXIN'
                 }
               }).then(res => {
                 console.log("fanhuizhi ")
-                console.log(res)
-                userCheck({
-                  data:{
-                    uuid: e.target.authResult.openid,
-                    authType:''
-                  }
-                }).then(ress => {
-                  console.log(ress)
-                })
+                if(res.data){
+                  userCheck({
+                    data:{
+                      uuid: e.target.authResult.openid,
+                      authType:'WEIXIN'
+                    }
+                  }).then(ress => {
+                    if(ress.data){
+                      that.setUserInfo(ress)
+                       this.$router.push({path: "/"});
+                    }else{
+                      that.$router.push({
+                        path:"/registerNumber",
+                      })
+                    }
+                  })
+                }
               })
-              that.authUserInfo(type);
+              // that.authUserInfo(type);
           }, function(e) {
               that.$mui.toast("登录认证失败！");
           });
@@ -138,45 +141,40 @@ export default {
       }
     },
     // 微信登录认证信息
-    authUserInfo(type) {
-      let that = this
-      var s;
-      for (var i = 0; i < that.auths.length; i++) {
-          if (that.auths[i].id == type) {
-              s = that.auths[i];
-              break;
-          }
-      }
-      if (!s.authResult) {
-          that.$mui.toast("未授权登录！");
-      } else {
-          s.getUserInfo(function(e) {
-              var josnStr = JSON.stringify(s.userInfo);
-              var jsonObj = s.userInfo;
-              jsonObj['nickName'] = jsonObj['nickname']
-              jsonObj['loginType'] = '1'
-              delete jsonObj['nickname']
-              console.log("获取用户信息成功：" + josnStr);
-              console.log(e);
-              console.log(jsonObj);
-              that.$toast('登录成功')
-              window.localStorage.setItem('userInfo',JSON.stringify(jsonObj))
-              that.$store.commit("SET_USERINFO",jsonObj)
-              that.$router.push({path: "/"});
-              that.authLogout();
-          }, function(e) {
-              alert("获取用户信息失败：" + e.message + " - " + e.code);
-          });
-      }
-    },
+    // authUserInfo(type) {
+    //   let that = this
+    //   var s;
+    //   for (var i = 0; i < that.auths.length; i++) {
+    //       if (that.auths[i].id == type) {
+    //           s = that.auths[i];
+    //           break;
+    //       }
+    //   }
+    //   if (!s.authResult) {
+    //       that.$mui.toast("未授权登录！");
+    //   } else {
+    //       s.getUserInfo(function(e) {
+    //           var josnStr = JSON.stringify(s.userInfo);
+    //           var jsonObj = s.userInfo;
+    //           jsonObj['nickName'] = jsonObj['nickname']
+    //           jsonObj['loginType'] = '1'
+    //           delete jsonObj['nickname']
+    //           console.log("获取用户信息成功：" + josnStr);
+    //           console.log(e);
+    //           console.log(jsonObj);
+    //           that.$toast('登录成功')
+    //           window.localStorage.setItem('userInfo',JSON.stringify(jsonObj))
+    //       }, function(e) {
+    //           alert("获取用户信息失败：" + e.message + " - " + e.code);
+    //       });
+    //   }
+    // },
     loginFn() {
       if (this.loginForm.userName && this.loginForm.password) {
         toLogin({data:this.loginForm}).then(res=>{
           if(res.code=='0'){
             this.$toast('登录成功')
-            Cookies.set('token', res.data.token)
-            window.localStorage.setItem('userInfo',JSON.stringify(res.data))
-            this.$store.commit("SET_USERINFO",res.data)
+            this.setUserInfo(res)
             this.$router.push({path: "/"});
           }else{
             this.$toast('用户名或者密码错误')
@@ -187,6 +185,11 @@ export default {
       }else{
         this.$toast('请输入用户名或者密码')
       }
+    },
+    setUserInfo(res){
+      Cookies.set('token', res.data.token)
+      window.localStorage.setItem('userInfo',JSON.stringify(res.data))
+      this.$store.commit("SET_USERINFO",res.data)
     }
   },
   components: {

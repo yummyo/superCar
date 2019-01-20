@@ -5,7 +5,7 @@ import {loddingOpen} from '@/common/js/utils.js'
 
 
 // export const URLROUTER="http://192.168.1.41:8001"
-export const URLROUTER="http://47.101.182.194:8001" //线上
+export const URLROUTER="http://47.101.182.194:80" //线上
 // export const URLROUTER="http://192.168.1.125:8001" // 陈宇浩
 // export const DEVURLROUTER="http://meluyouxia.w3.luyouxia.net"
 export const ERROK="0"
@@ -28,8 +28,6 @@ let ajaxNum = 0,loadinginstace;
 axios.interceptors.request.use(function (config) {
   if(!config['url']) config['url'] = '';
   // 在发送请求之前做些什么
-  // if(!config.headers) config.headers = {}
-  // config.headers['test'] = "token=12312312312312312"
   console.log(config)
 
   ajaxNum++;

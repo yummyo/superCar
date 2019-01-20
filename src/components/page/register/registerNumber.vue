@@ -15,21 +15,24 @@
           <!-- <a href="" class="forget">忘记密码？</a> -->
         </div>
     </div>
-    <div class="other">
-        <div class="line"></div>
-        <div class="txt">其他登录</div>
-        <div class="line"></div>
-    </div>
-    <div class="otherLogin">
-        <div><img :src="'./static/index/weixin.png'" alt=""></div>
-        <!-- <div><img :src="'./static/index/qq.png'" alt=""></div>
-        <div><img :src="'./static/index/weibo.png'" alt=""></div> -->
+    <div v-show='otherVisible'>
+      <div class="other">
+          <div class="line"></div>
+          <div class="txt">其他登录</div>
+          <div class="line"></div>
+      </div>
+      <div class="otherLogin">
+          <div><img :src="'./static/index/weixin.png'" alt=""></div>
+          <!-- <div><img :src="'./static/index/qq.png'" alt=""></div>
+          <div><img :src="'./static/index/weibo.png'" alt=""></div> -->
+      </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import {getVerifyCode} from '@/api/login/index.js'
+import {mapGetters,mapMutations} from 'vuex'
 export default {
   data() {
     return {
@@ -37,8 +40,21 @@ export default {
       loginForm:{
         phoneNum: ""
       },
-     
     };
+  },
+  computed:{
+    otherVisible(){
+      if(this.weChatUserInfo && JSON.stringify(this.weChatUserInfo) != '{}'){
+        return false
+      }
+      return true
+    },  
+    ...mapGetters(['weChatUserInfo'])
+  },
+  created(){
+    if(this.$route.query.phoneNum){
+      this.$set(this.loginForm,'phoneNum',this.$route.query.phoneNum) 
+    }
   },
   methods: {
     loginFn() {
