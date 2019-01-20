@@ -97,6 +97,7 @@ export default {
     },
     deleteHistory(){
       this.setHistory([])
+      window.localStorage.setItem("historySearchData",[])
     },
     backFun(){
       this.$router.go(-1)
