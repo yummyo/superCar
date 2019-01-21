@@ -22,10 +22,10 @@
     </div>
     <div class="setting">
       <!-- 我的关注 -->
-      <div class="attention" @click="funAttention()">
+      <!-- <div class="attention" @click="funAttention()">
         <span>我的关注：</span>
         <span>0</span>
-      </div>
+      </div> -->
       <!-- 我的收藏 -->
       <div class="collect" @click="funCollect()">
         <span>我的收藏：</span>
