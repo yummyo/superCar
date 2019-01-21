@@ -42,23 +42,13 @@
     },
     methods:{
         changeState : function(id){
-          console.log(id)
-          if(id==1){
-            this.choose=false;
-          }
+       
         },
         deleteRow : function(){
-          var inp =document.getElementsByTagName("input");
-          for(var i=0;i<inp.length;i++){
-            if(inp[i].checked==true){
-            }
-          }
+          
         },
         chooseAll : function(){
-           var inp =document.getElementsByTagName("input");
-            for(var i=0;i<inp.length;i++){
-              inp[i].checked=true
-            }
+           
         },
         isOk : function(){
           this.choose=true

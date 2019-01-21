@@ -100,16 +100,16 @@
           this.getList();
         },
         deleteRow(){
-          let id=''
+          let id=[]
           this.checkedList.map(v=>{
             if(this.collectList[v]) {
               // this.$set(this.collectList,v,null)
               Vue.delete(this.collectList,v);
-              id+=this.collectList[v]
+              id.push(this.collectList[v])
             }
           })
           console.log(id)
-          myCollect({data:{ids:id}}).then(res=>{
+          myCollect({data:{ids:id.toString()}}).then(res=>{
 
           })
 
