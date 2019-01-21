@@ -12,7 +12,11 @@
     </div>
     <articleContent class="articleList" :tabType='tabType'></articleContent>
     <div class="ads" v-if='adsVisible'>
-      <canvas ref="canvas" width="48" height='48' @click="closeAds"></canvas>
+      <img class="adsBg" :src="'./static/index/iPhone750.png'" alt="">
+      <div>
+        <img :src="adsImgShowUrl" alt="" @click="showAds">
+        <canvas ref="canvas" width="48" height='48' @click="closeAds"></canvas>
+      </div>
     </div>
   </div>
 </template>
@@ -22,7 +26,7 @@
   import {getIndexLunbo} from '@/api/articleList';
   import {getHomepageAds} from '@/api/login';
   import articleContent from './articleContent.vue';
-  import {mapGetters} from 'vuex';
+  import { mapGetters,mapMutations } from 'vuex'
   export default {
     name: 'recommend',
     data () {
@@ -36,6 +40,8 @@
         },
         tabType:1,
         map: null,
+        adsImgShowUrl: '',
+        adsImgToUrl: '',
         countDown: 3,
         countDownTimer: null,
         // 广告页面展示
@@ -52,7 +58,6 @@
         this.tabType = this.$route.query.tabType || 1
       },
       userSite(){
-        console.log(this.userSite)
         this.tobarData = {
           "tobar_1":{'name':"最新",class:'recommend',type:"1",'titleType':"ALL"},
           "tobar_2":{'name':"视频",class:'city',type:"2"},
@@ -66,8 +71,10 @@
       ...mapGetters(['userSite'])
     },
     methods:{
+      showAds(){
+        this.iframeData({iframeState:true,iframeSrc:this.adsImgToUrl})
+      },
       closeAds(){
-        console.log(123)
         clearInterval(this.countDownTimer)
         this.adsVisible = false
       },
@@ -79,12 +86,15 @@
             this.drawProcess(4)
           })
           getHomepageAds().then(res => {
-            console.log(res)
+            if(res.data[0]){
+              let adsData = res.data[0]
+              this.adsImgShowUrl = adsData['thumbnailResource'].length > 0 ? adsData['thumbnailResource'][0]['thumbnailUrl'] : ''
+              this.adsImgToUrl = adsData.contentUrl 
+            }
           })
         }
       },
       drawProcess(num) {
-
           var process = num * 1000;
           var nowTime = num * 1000;
           var text = num;
@@ -154,7 +164,10 @@
             tabType:type
           }
         })
-      }
+      },
+       ...mapMutations({
+          iframeData:'SET_IFRAMEDATA'
+      })
     },
     components:{
       CommonSearch,
@@ -172,8 +185,28 @@
     z-index 1000
     top 0
     left 0
-    background url('/static/index/iPhone750.png')
-    background-size 100% 100%
+    background #fff
+    .adsBg{
+      position absolute
+      height 100%
+      width 100%
+      top 0 
+      left 0
+    }
+    >div{
+      height 100%
+      width 100%
+      // background url('./static/index/iPhone750.png')
+      background-size 100% 100%
+      img{
+        width 90%
+        height 70%
+        position absolute
+        top 10%
+        left 50%
+        transform translate(-50%,0)
+      }
+    }
     canvas{
       position absolute
       top 1rem
