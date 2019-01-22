@@ -10,20 +10,19 @@
     </div>
     <div class="login-wrapper">
         <div class="links">
-          <span class="register" @click="register">立即注册</span>
+          <span class="register" @click="register">手机号登录</span>
           <span class="forget" @click="register">忘记密码？</span>
         </div>
     </div>
-    <div class="other">
+    <!-- 微信登录部分 -->
+    <!-- <div class="other">
         <div class="line"></div>
         <div class="txt">其他登录</div>
         <div class="line"></div>
     </div>
     <div class="otherLogin">
-        <div @click="authLogin('weixin')"><img :src="'./static/index/weixin.png'" alt=""></div>
-        <!-- <div><img :src="'./static/index/qq.png'" alt=""></div>
-        <div><img :src="'./static/index/weibo.png'" alt=""></div> -->
-    </div>
+        <div @click="authLogin('weixin')"><img :src="'./static/index/weixin.png'" alt=""></div> -->
+    <!-- </div> -->
   </div>
 </template>
 
@@ -44,10 +43,6 @@ export default {
   mounted(){
     let that = this
     this.$mui.plusReady(function() {  
-      plus.oauth.AuthService(res => {
-        console.log('AuthService')
-        console.log(res)
-      })
       plus.oauth.getServices(function(services) {
         console.log('getServices')
           console.log(services)
@@ -108,7 +103,7 @@ export default {
                   }).then(ress => {
                     if(ress.data){
                       that.setUserInfo(ress)
-                       this.$router.push({path: "/"});
+                      that.$router.push({path: "/"});
                     }else{
                       that.$router.push({
                         path:"/registerNumber",
@@ -119,6 +114,8 @@ export default {
               })
               // that.authUserInfo(type);
           }, function(e) {
+              console.log(e)
+              alert(JSON.stringify(e))
               that.$mui.toast("登录认证失败！");
           });
       } else {

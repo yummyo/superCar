@@ -102,14 +102,14 @@ import {mapGetters} from 'vuex'
       //注销
       authLogout() {
         let that = this
+        window.localStorage.setItem("userInfo",'{}')
+        Cookies.remove('token')
+        this.$store.commit("SET_USERINFO",{})
         for (var i in that.auths) {
             var s = that.auths[i];
             if (s.authResult) {
                 s.logout(function(e) {
                     console.log("注销登录认证成功！");
-                    window.localStorage.setItem("userInfo",'{}')
-                    Cookies.remove('token')
-                    this.$store.commit("SET_USERINFO",{})
                 }, function(e) {
                     console.log("注销登录认证失败！");
                 });

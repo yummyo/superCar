@@ -1,6 +1,6 @@
 <template>
   <div class="registerWrapper">
-    <h2 class="loginName">手机号注册/登录</h2>
+    <h2 class="loginName">手机号登录</h2>
     <div class="loginIpunt">
       <span>+86</span>
       <input type="text" v-model="loginForm.phoneNum" placeholder="请输入手机号">
@@ -15,7 +15,8 @@
           <!-- <a href="" class="forget">忘记密码？</a> -->
         </div>
     </div>
-    <div v-show='otherVisible'>
+    <!-- 微信登录部分 -->
+    <!-- <div v-show='otherVisible'>
       <div class="other">
           <div class="line"></div>
           <div class="txt">其他登录</div>
@@ -23,10 +24,8 @@
       </div>
       <div class="otherLogin">
           <div><img :src="'./static/index/weixin.png'" alt=""></div>
-          <!-- <div><img :src="'./static/index/qq.png'" alt=""></div>
-          <div><img :src="'./static/index/weibo.png'" alt=""></div> -->
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

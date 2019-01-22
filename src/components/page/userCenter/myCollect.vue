@@ -105,7 +105,7 @@
             if(this.collectList[v]) {
               // this.$set(this.collectList,v,null)
               Vue.delete(this.collectList,v);
-              id.push(this.collectList[v])
+              id.push(v)
             }
           })
           console.log(id)

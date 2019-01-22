@@ -1,7 +1,7 @@
 <template>
   <div class="codeWrapper">
     <h3>请输入短信验证码</h3>
-    <p>短信验证码已发送至+86189***89600</p>
+    <p>短信验证码已发送至+86{{$route.query.phoneNum}}</p>
     <div class="inputWrapper">
       <input @keyup.delete="deleteCode(1)"  ref="input1"  name='code[]' class='now' maxlength="1" type="number" v-model="codeForm.code1"/>
       <input @keyup.delete="deleteCode(2)"  ref="input2"  name='code[]' class='now' maxlength="1" type="number" v-model="codeForm.code2"/>
@@ -10,9 +10,9 @@
       <input @keyup.delete="deleteCode(5)"  ref="input5"  name='code[]' class='now' maxlength="1" type="number" v-model="codeForm.code5"/>
       <input @keyup.delete="deleteCode(6)"  ref="input6"  name='code[]' class='now' maxlength="1" type="number" v-model="codeForm.code6"/>
     </div>
-    <div class="timeWrapper">
+    <!-- <div class="timeWrapper">
       <b>56</b><span>秒后重新获取</span>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -105,13 +105,13 @@ export default {
           loginRegister({
             data:{
               "authType": "WEIXIN",
-              "headImgUrl": this.weChatUserInfo ? this.weChatUserInfo.userInfo.headimgurl : '',
-              "nickName": this.weChatUserInfo ? this.weChatUserInfo.userInfo.nickname : '',
+              "headImgUrl": this.weChatUserInfo.userInfo ? this.weChatUserInfo.userInfo.headimgurl : '',
+              "nickName": this.weChatUserInfo.userInfo ? this.weChatUserInfo.userInfo.nickname : '',
               "phone": this.$route.query.phoneNum,
-              "uuid": this.weChatUserInfo ? this.weChatUserInfo.authResult.openid : this.$route.query.phoneNum
+              "uuid": this.weChatUserInfo.userInfo ? this.weChatUserInfo.authResult.openid : this.$route.query.phoneNum
             }
           }).then(res =>{
-            this.$toast({message: '注册成功',position: 'bottom',duration: 2000});
+            this.$toast({message: '登录成功',position: 'bottom',duration: 2000});
             window.localStorage.setItem('userInfo',JSON.stringify(res.data))
             this.$store.commit("SET_USERINFO",res.data)
             this.$router.push({path: "/"});

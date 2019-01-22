@@ -119,7 +119,7 @@ export default {
     background:#fff;
     top:0;
     left:0;
-    z-index:1000;
+    z-index:1100;
   }
   .iframeStyle{
     width:100%;
